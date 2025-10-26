@@ -741,27 +741,27 @@ def main():
     # NOTE: tune these lists to manage total number of combinations.
     search_space = {
         # Architecture
-        'lookback': [100],            # Longer temporal context
-        'hidden_size': [384],         # Higher capacity for complex dependencies
-        'num_layers': [3],            # Deeper temporal hierarchy without instability
-        'dropout': [0.2],             # Balanced regularization
-        'bidirectional': [True],      # Better context capture
-        'use_gru': [True],            # GRU for stability & efficiency
+        'lookback': [60],
+        'hidden_size': [192],
+        'num_layers': [3],
+        'dropout': [0.3],
+        'bidirectional': [True],
+        'use_gru': [True],
 
         # Output head
-        'fc_num_layers': [3],         # Richer non-linear mapping
-        'fc_hidden_dims': [256],      # Sufficient width for expressive power
-        'fc_activation': ['gelu'],    # Smoother gradients than ReLU
-        'fc_dropout': [0.2],          # Light regularization
-        'use_batch_norm': [True],     # Normalized activations for stability
+        'fc_num_layers': [3],
+        'fc_hidden_dims': [256],
+        'fc_activation': ['gelu'],
+        'fc_dropout': [0.3],
+        'use_batch_norm': [True],
 
         # Training
-        'batch_size': [128],          # Balanced between gradient noise & stability
-        'lr': [1e-4],                 # Slightly higher for faster convergence
-        'weight_decay': [5e-4],       # Mild regularization, less than 1e-3
-        'grad_clip': [1.0],           # Prevent exploding gradients
-        'optimizer': ['adamw'],       # Best balance of generalization and stability
-        'lr_patience': [3],           # Early LR scheduling trigger
+        'batch_size': [128],
+        'lr': [1e-4],
+        'weight_decay': [0.01],
+        'grad_clip': [0.5],
+        'optimizer': ['adamw'],
+        'lr_patience': [3],
     }
 
     keys = list(search_space.keys())

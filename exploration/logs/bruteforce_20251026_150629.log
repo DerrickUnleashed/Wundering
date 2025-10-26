@@ -1,0 +1,250 @@
+[2025-10-26 15:06:29] ======================================================================
+[2025-10-26 15:06:29] GRU+ATTENTION HYPERPARAMETER SEARCH WITH AUTO-SUBMISSION
+[2025-10-26 15:06:29] ======================================================================
+[2025-10-26 15:06:29] Started at: 2025-10-26 15:06:29
+[2025-10-26 15:06:29] Mode: FULL (100%)
+[2025-10-26 15:06:29] Base: Best GRU config (Val R² = 0.356600)
+[2025-10-26 15:06:29] Tuning: attention_heads [2, 4, 8] × attention_dropout [0.0, 0.1, 0.2, 0.3]
+[2025-10-26 15:06:29] Target: Beat baseline R² > 0.356600
+[2025-10-26 15:06:29] Log file: logs/bruteforce_20251026_150629.log
+[2025-10-26 15:06:29] 
+[2025-10-26 15:06:29] Device Detection:
+[2025-10-26 15:06:29]   PyTorch version: 2.7.1
+[2025-10-26 15:06:29]   Requested: auto
+[2025-10-26 15:06:29]   MPS available: ✓
+[2025-10-26 15:06:29]   CUDA available: ✗
+[2025-10-26 15:06:29]   Using: MPS
+[2025-10-26 15:06:29] 
+[2025-10-26 15:06:29] Loading data...
+[2025-10-26 15:06:29] Train: 413,000 rows, 413 sequences
+[2025-10-26 15:06:29] Val:   104,000 rows, 104 sequences
+[2025-10-26 15:06:29] Features: 32
+[2025-10-26 15:06:29] Configurations to test: 16
+[2025-10-26 15:06:29] Max epochs per config: 40
+[2025-10-26 15:06:29] 
+[2025-10-26 15:06:29] Starting brute force search...
+[2025-10-26 15:06:29] 
+[2025-10-26 15:06:29] 
+======================================================================
+[2025-10-26 15:06:29] Config 1/16 - Starting Training:
+[2025-10-26 15:06:29]   Architecture:
+[2025-10-26 15:06:29]     Lookback: 50, Hidden: 64, Layers: 1, Dropout: 0.3
+[2025-10-26 15:06:29]     Bidirectional: True, GRU: True
+[2025-10-26 15:06:29]   Output Head:
+[2025-10-26 15:06:29]     FC Layers: 2, FC Hidden: 256, Activation: relu
+[2025-10-26 15:06:29]     FC Dropout: 0.0, Batch Norm: True
+[2025-10-26 15:06:29]   Training:
+[2025-10-26 15:06:29]     Batch Size: 256, LR: [0.0001, 0.0005], Weight Decay: 0
+[2025-10-26 15:06:29]     Optimizer: adam, Grad Clip: 0.5, LR Patience: 3
+[2025-10-26 15:06:30] 
+ERROR in config 1: '<=' not supported between instances of 'float' and 'list'
+[2025-10-26 15:06:30] 
+======================================================================
+[2025-10-26 15:06:30] Config 2/16 - Starting Training:
+[2025-10-26 15:06:30]   Architecture:
+[2025-10-26 15:06:30]     Lookback: 20, Hidden: 192, Layers: 1, Dropout: 0.3
+[2025-10-26 15:06:30]     Bidirectional: True, GRU: True
+[2025-10-26 15:06:30]   Output Head:
+[2025-10-26 15:06:30]     FC Layers: 2, FC Hidden: 256, Activation: relu
+[2025-10-26 15:06:30]     FC Dropout: 0.0, Batch Norm: True
+[2025-10-26 15:06:30]   Training:
+[2025-10-26 15:06:30]     Batch Size: 256, LR: [0.0001, 0.0005], Weight Decay: 0
+[2025-10-26 15:06:30]     Optimizer: adam, Grad Clip: 0.5, LR Patience: 3
+[2025-10-26 15:06:31] 
+ERROR in config 2: '<=' not supported between instances of 'float' and 'list'
+[2025-10-26 15:06:31] 
+======================================================================
+[2025-10-26 15:06:31] Config 3/16 - Starting Training:
+[2025-10-26 15:06:31]   Architecture:
+[2025-10-26 15:06:31]     Lookback: 20, Hidden: 64, Layers: 1, Dropout: 0.1
+[2025-10-26 15:06:31]     Bidirectional: True, GRU: True
+[2025-10-26 15:06:31]   Output Head:
+[2025-10-26 15:06:31]     FC Layers: 2, FC Hidden: 256, Activation: relu
+[2025-10-26 15:06:31]     FC Dropout: 0.0, Batch Norm: True
+[2025-10-26 15:06:31]   Training:
+[2025-10-26 15:06:31]     Batch Size: 256, LR: [0.0001, 0.0005], Weight Decay: 0
+[2025-10-26 15:06:31]     Optimizer: adam, Grad Clip: 0.5, LR Patience: 3
+[2025-10-26 15:06:32] 
+ERROR in config 3: '<=' not supported between instances of 'float' and 'list'
+[2025-10-26 15:06:32] 
+======================================================================
+[2025-10-26 15:06:32] Config 4/16 - Starting Training:
+[2025-10-26 15:06:32]   Architecture:
+[2025-10-26 15:06:32]     Lookback: 20, Hidden: 192, Layers: 1, Dropout: 0.3
+[2025-10-26 15:06:32]     Bidirectional: True, GRU: True
+[2025-10-26 15:06:32]   Output Head:
+[2025-10-26 15:06:32]     FC Layers: 2, FC Hidden: 256, Activation: relu
+[2025-10-26 15:06:32]     FC Dropout: 0.0, Batch Norm: True
+[2025-10-26 15:06:32]   Training:
+[2025-10-26 15:06:32]     Batch Size: 256, LR: [0.0001, 0.0005], Weight Decay: 0
+[2025-10-26 15:06:32]     Optimizer: adam, Grad Clip: 0.5, LR Patience: 3
+[2025-10-26 15:06:33] 
+ERROR in config 4: '<=' not supported between instances of 'float' and 'list'
+[2025-10-26 15:06:33] 
+======================================================================
+[2025-10-26 15:06:33] Config 5/16 - Starting Training:
+[2025-10-26 15:06:33]   Architecture:
+[2025-10-26 15:06:33]     Lookback: 50, Hidden: 128, Layers: 1, Dropout: 0.1
+[2025-10-26 15:06:33]     Bidirectional: True, GRU: True
+[2025-10-26 15:06:33]   Output Head:
+[2025-10-26 15:06:33]     FC Layers: 2, FC Hidden: 256, Activation: relu
+[2025-10-26 15:06:33]     FC Dropout: 0.0, Batch Norm: True
+[2025-10-26 15:06:33]   Training:
+[2025-10-26 15:06:33]     Batch Size: 256, LR: [0.0001, 0.0005], Weight Decay: 0
+[2025-10-26 15:06:33]     Optimizer: adam, Grad Clip: 0.5, LR Patience: 3
+[2025-10-26 15:06:35] 
+ERROR in config 5: '<=' not supported between instances of 'float' and 'list'
+[2025-10-26 15:06:35] 
+======================================================================
+[2025-10-26 15:06:35] Config 6/16 - Starting Training:
+[2025-10-26 15:06:35]   Architecture:
+[2025-10-26 15:06:35]     Lookback: 20, Hidden: 64, Layers: 2, Dropout: 0.1
+[2025-10-26 15:06:35]     Bidirectional: True, GRU: True
+[2025-10-26 15:06:35]   Output Head:
+[2025-10-26 15:06:35]     FC Layers: 2, FC Hidden: 256, Activation: relu
+[2025-10-26 15:06:35]     FC Dropout: 0.0, Batch Norm: True
+[2025-10-26 15:06:35]   Training:
+[2025-10-26 15:06:35]     Batch Size: 256, LR: [0.0001, 0.0005], Weight Decay: 0
+[2025-10-26 15:06:35]     Optimizer: adam, Grad Clip: 0.5, LR Patience: 3
+[2025-10-26 15:06:35] 
+ERROR in config 6: '<=' not supported between instances of 'float' and 'list'
+[2025-10-26 15:06:36] 
+======================================================================
+[2025-10-26 15:06:36] Config 7/16 - Starting Training:
+[2025-10-26 15:06:36]   Architecture:
+[2025-10-26 15:06:36]     Lookback: 30, Hidden: 128, Layers: 4, Dropout: 0.2
+[2025-10-26 15:06:36]     Bidirectional: True, GRU: True
+[2025-10-26 15:06:36]   Output Head:
+[2025-10-26 15:06:36]     FC Layers: 2, FC Hidden: 256, Activation: relu
+[2025-10-26 15:06:36]     FC Dropout: 0.0, Batch Norm: True
+[2025-10-26 15:06:36]   Training:
+[2025-10-26 15:06:36]     Batch Size: 256, LR: [0.0001, 0.0005], Weight Decay: 0
+[2025-10-26 15:06:36]     Optimizer: adam, Grad Clip: 0.5, LR Patience: 3
+[2025-10-26 15:06:37] 
+ERROR in config 7: '<=' not supported between instances of 'float' and 'list'
+[2025-10-26 15:06:37] 
+======================================================================
+[2025-10-26 15:06:37] Config 8/16 - Starting Training:
+[2025-10-26 15:06:37]   Architecture:
+[2025-10-26 15:06:37]     Lookback: 50, Hidden: 64, Layers: 2, Dropout: 0.1
+[2025-10-26 15:06:37]     Bidirectional: True, GRU: True
+[2025-10-26 15:06:37]   Output Head:
+[2025-10-26 15:06:37]     FC Layers: 2, FC Hidden: 256, Activation: relu
+[2025-10-26 15:06:37]     FC Dropout: 0.0, Batch Norm: True
+[2025-10-26 15:06:37]   Training:
+[2025-10-26 15:06:37]     Batch Size: 256, LR: [0.0001, 0.0005], Weight Decay: 0
+[2025-10-26 15:06:37]     Optimizer: adam, Grad Clip: 0.5, LR Patience: 3
+[2025-10-26 15:06:38] 
+ERROR in config 8: '<=' not supported between instances of 'float' and 'list'
+[2025-10-26 15:06:38] 
+======================================================================
+[2025-10-26 15:06:38] Config 9/16 - Starting Training:
+[2025-10-26 15:06:38]   Architecture:
+[2025-10-26 15:06:38]     Lookback: 30, Hidden: 192, Layers: 1, Dropout: 0.3
+[2025-10-26 15:06:38]     Bidirectional: True, GRU: True
+[2025-10-26 15:06:38]   Output Head:
+[2025-10-26 15:06:38]     FC Layers: 2, FC Hidden: 256, Activation: relu
+[2025-10-26 15:06:38]     FC Dropout: 0.0, Batch Norm: True
+[2025-10-26 15:06:38]   Training:
+[2025-10-26 15:06:38]     Batch Size: 256, LR: [0.0001, 0.0005], Weight Decay: 0
+[2025-10-26 15:06:38]     Optimizer: adam, Grad Clip: 0.5, LR Patience: 3
+[2025-10-26 15:06:39] 
+ERROR in config 9: '<=' not supported between instances of 'float' and 'list'
+[2025-10-26 15:06:39] 
+======================================================================
+[2025-10-26 15:06:39] Config 10/16 - Starting Training:
+[2025-10-26 15:06:39]   Architecture:
+[2025-10-26 15:06:39]     Lookback: 20, Hidden: 128, Layers: 1, Dropout: 0.1
+[2025-10-26 15:06:39]     Bidirectional: True, GRU: True
+[2025-10-26 15:06:39]   Output Head:
+[2025-10-26 15:06:39]     FC Layers: 2, FC Hidden: 256, Activation: relu
+[2025-10-26 15:06:39]     FC Dropout: 0.0, Batch Norm: True
+[2025-10-26 15:06:39]   Training:
+[2025-10-26 15:06:39]     Batch Size: 256, LR: [0.0001, 0.0005], Weight Decay: 0
+[2025-10-26 15:06:39]     Optimizer: adam, Grad Clip: 0.5, LR Patience: 3
+[2025-10-26 15:06:40] 
+ERROR in config 10: '<=' not supported between instances of 'float' and 'list'
+[2025-10-26 15:06:40] 
+======================================================================
+[2025-10-26 15:06:40] Config 11/16 - Starting Training:
+[2025-10-26 15:06:40]   Architecture:
+[2025-10-26 15:06:40]     Lookback: 30, Hidden: 192, Layers: 2, Dropout: 0.1
+[2025-10-26 15:06:40]     Bidirectional: True, GRU: True
+[2025-10-26 15:06:40]   Output Head:
+[2025-10-26 15:06:40]     FC Layers: 2, FC Hidden: 256, Activation: relu
+[2025-10-26 15:06:40]     FC Dropout: 0.0, Batch Norm: True
+[2025-10-26 15:06:40]   Training:
+[2025-10-26 15:06:40]     Batch Size: 256, LR: [0.0001, 0.0005], Weight Decay: 0
+[2025-10-26 15:06:40]     Optimizer: adam, Grad Clip: 0.5, LR Patience: 3
+[2025-10-26 15:06:41] 
+ERROR in config 11: '<=' not supported between instances of 'float' and 'list'
+[2025-10-26 15:06:41] 
+======================================================================
+[2025-10-26 15:06:41] Config 12/16 - Starting Training:
+[2025-10-26 15:06:41]   Architecture:
+[2025-10-26 15:06:41]     Lookback: 50, Hidden: 128, Layers: 4, Dropout: 0.3
+[2025-10-26 15:06:41]     Bidirectional: True, GRU: True
+[2025-10-26 15:06:41]   Output Head:
+[2025-10-26 15:06:41]     FC Layers: 2, FC Hidden: 256, Activation: relu
+[2025-10-26 15:06:41]     FC Dropout: 0.0, Batch Norm: True
+[2025-10-26 15:06:41]   Training:
+[2025-10-26 15:06:41]     Batch Size: 256, LR: [0.0001, 0.0005], Weight Decay: 0
+[2025-10-26 15:06:41]     Optimizer: adam, Grad Clip: 0.5, LR Patience: 3
+[2025-10-26 15:06:42] 
+ERROR in config 12: '<=' not supported between instances of 'float' and 'list'
+[2025-10-26 15:06:42] 
+======================================================================
+[2025-10-26 15:06:42] Config 13/16 - Starting Training:
+[2025-10-26 15:06:42]   Architecture:
+[2025-10-26 15:06:42]     Lookback: 20, Hidden: 192, Layers: 4, Dropout: 0.1
+[2025-10-26 15:06:42]     Bidirectional: True, GRU: True
+[2025-10-26 15:06:42]   Output Head:
+[2025-10-26 15:06:42]     FC Layers: 2, FC Hidden: 256, Activation: relu
+[2025-10-26 15:06:42]     FC Dropout: 0.0, Batch Norm: True
+[2025-10-26 15:06:42]   Training:
+[2025-10-26 15:06:42]     Batch Size: 256, LR: [0.0001, 0.0005], Weight Decay: 0
+[2025-10-26 15:06:42]     Optimizer: adam, Grad Clip: 0.5, LR Patience: 3
+[2025-10-26 15:06:43] 
+ERROR in config 13: '<=' not supported between instances of 'float' and 'list'
+[2025-10-26 15:06:43] 
+======================================================================
+[2025-10-26 15:06:43] Config 14/16 - Starting Training:
+[2025-10-26 15:06:43]   Architecture:
+[2025-10-26 15:06:43]     Lookback: 30, Hidden: 192, Layers: 4, Dropout: 0.3
+[2025-10-26 15:06:43]     Bidirectional: True, GRU: True
+[2025-10-26 15:06:43]   Output Head:
+[2025-10-26 15:06:43]     FC Layers: 2, FC Hidden: 256, Activation: relu
+[2025-10-26 15:06:43]     FC Dropout: 0.0, Batch Norm: True
+[2025-10-26 15:06:43]   Training:
+[2025-10-26 15:06:43]     Batch Size: 256, LR: [0.0001, 0.0005], Weight Decay: 0
+[2025-10-26 15:06:43]     Optimizer: adam, Grad Clip: 0.5, LR Patience: 3
+[2025-10-26 15:06:45] 
+ERROR in config 14: '<=' not supported between instances of 'float' and 'list'
+[2025-10-26 15:06:45] 
+======================================================================
+[2025-10-26 15:06:45] Config 15/16 - Starting Training:
+[2025-10-26 15:06:45]   Architecture:
+[2025-10-26 15:06:45]     Lookback: 20, Hidden: 64, Layers: 1, Dropout: 0.2
+[2025-10-26 15:06:45]     Bidirectional: True, GRU: True
+[2025-10-26 15:06:45]   Output Head:
+[2025-10-26 15:06:45]     FC Layers: 2, FC Hidden: 256, Activation: relu
+[2025-10-26 15:06:45]     FC Dropout: 0.0, Batch Norm: True
+[2025-10-26 15:06:45]   Training:
+[2025-10-26 15:06:45]     Batch Size: 256, LR: [0.0001, 0.0005], Weight Decay: 0
+[2025-10-26 15:06:45]     Optimizer: adam, Grad Clip: 0.5, LR Patience: 3
+[2025-10-26 15:06:45] 
+ERROR in config 15: '<=' not supported between instances of 'float' and 'list'
+[2025-10-26 15:06:45] 
+======================================================================
+[2025-10-26 15:06:45] Config 16/16 - Starting Training:
+[2025-10-26 15:06:45]   Architecture:
+[2025-10-26 15:06:45]     Lookback: 20, Hidden: 192, Layers: 4, Dropout: 0.2
+[2025-10-26 15:06:45]     Bidirectional: True, GRU: True
+[2025-10-26 15:06:45]   Output Head:
+[2025-10-26 15:06:45]     FC Layers: 2, FC Hidden: 256, Activation: relu
+[2025-10-26 15:06:45]     FC Dropout: 0.0, Batch Norm: True
+[2025-10-26 15:06:45]   Training:
+[2025-10-26 15:06:45]     Batch Size: 256, LR: [0.0001, 0.0005], Weight Decay: 0
+[2025-10-26 15:06:45]     Optimizer: adam, Grad Clip: 0.5, LR Patience: 3
+[2025-10-26 15:06:46] 
+ERROR in config 16: '<=' not supported between instances of 'float' and 'list'

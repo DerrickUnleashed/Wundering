@@ -198,35 +198,30 @@ def sample_hyperparameters():
     Returns:
         Dictionary of hyperparameters
     """
-    config = {
-        # Architecture - FROZEN (from best GRU model)
-        'lookback': random.choice([20, 30, 50]),
-        'hidden_size': random.choice([64, 128, 192]),
-        'num_layers': random.choice([1, 2, 4]),
-        'dropout': random.choice([0.1, 0.2, 0.3]),
-        'bidirectional': random.choice([True]),
-        'use_gru': True,
+    search_space = {
+            # Architecture
+            'lookback': [20, 30, 50],
+            'hidden_size': [64, 128, 192],
+            'num_layers': [1, 2, 4],
+            'dropout': [0.1, 0.2, 0.3],
+            'bidirectional': [False, True],
+            'use_gru': [True, False],
 
-        # Attention - TUNING (only these vary)
-        'use_attention': True,  # Always True for this search
-        'attention_heads': random.choice([2, 4, 8]),
-        'attention_dropout': random.choice([0.0, 0.2, 0.3]),
+            # Output head
+            'fc_num_layers': [2, 3],
+            'fc_hidden_dims': [64, 128, 256],
+            'fc_activation': ['relu', 'tanh', 'gelu'],
+            'fc_dropout': [0.0, 0.2, 0.3],
+            'use_batch_norm': [True, False],
 
-        # Output head - FROZEN (from best GRU model)
-        'fc_num_layers': 2,
-        'fc_hidden_dims': 256,
-        'fc_activation': 'relu',
-        'fc_dropout': 0.0,
-        'use_batch_norm': True,
-
-        # Training - FROZEN (from best GRU model)
-        'batch_size': 256,
-        'lr': [0.0001, 0.0005],
-        'weight_decay': 0,
-        'grad_clip': 0.5,
-        'optimizer': 'adam',
-        'lr_patience': 3
-    }
+            # Training
+            'batch_size': [128, 256],
+            'lr': [1e-4, 5e-4, 1e-3],
+            'weight_decay': [0.0, 1e-4, 1e-3],
+            'grad_clip': [None, 0.5, 1.0],
+            'optimizer': ['adam', 'adamw'],
+            'lr_patience': [3],
+        }
 
     return config
 
