@@ -653,7 +653,7 @@ def main():
     parser = argparse.ArgumentParser(description='Brute force hyperparameter search with auto-submission')
     parser.add_argument('--test', action='store_true', help='Test mode (tiny data, 3 configs)')
     parser.add_argument('--n_configs', type=int, default=100, help='Number of configurations to test (cap for exhaustive mode)')
-    parser.add_argument('--max_epochs', type=int, default=22, help='Max epochs per config')
+    parser.add_argument('--max_epochs', type=int, default=19, help='Max epochs per config')
     parser.add_argument('--patience', type=int, default=7, help='Early stopping patience')
     parser.add_argument('--device', type=str, default='auto',
                        choices=['cpu', 'mps', 'cuda', 'auto'],
