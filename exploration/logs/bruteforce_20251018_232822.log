@@ -1,0 +1,261 @@
+[2025-10-18 23:28:22] ======================================================================
+[2025-10-18 23:28:22] K-FOLD BRUTE FORCE HYPERPARAMETER SEARCH WITH AUTO-SUBMISSION
+[2025-10-18 23:28:22] ======================================================================
+[2025-10-18 23:28:22] Started at: 2025-10-18 23:28:22
+[2025-10-18 23:28:22] Mode: FULL
+[2025-10-18 23:28:22] Best R² to beat: 0.340000
+[2025-10-18 23:28:22] Log file: logs/bruteforce_20251018_232822.log
+[2025-10-18 23:28:22] 
+[2025-10-18 23:28:22] Device Detection:
+[2025-10-18 23:28:22]   PyTorch version: 2.9.0
+[2025-10-18 23:28:22]   Requested: mps
+[2025-10-18 23:28:22]   MPS available: ✓
+[2025-10-18 23:28:22]   CUDA available: ✗
+[2025-10-18 23:28:22]   Using: MPS
+[2025-10-18 23:28:22] 
+[2025-10-18 23:28:22] Loading data...
+[2025-10-18 23:28:22] Total sequences: 517
+[2025-10-18 23:28:22] K-Fold sample: 51 sequences (10%)
+[2025-10-18 23:28:22] Full train sequences (80%): 413
+[2025-10-18 23:28:22] Final train: 103 sequences (25%), 103,000 rows
+[2025-10-18 23:28:22] Final val: 104 sequences, 104,000 rows
+[2025-10-18 23:28:22] Features: 32
+[2025-10-18 23:28:22] Configurations to test: 100
+[2025-10-18 23:28:22] K-Fold: 3 folds, max 20 epochs
+[2025-10-18 23:28:22] Final: max 30 epochs
+[2025-10-18 23:28:22] 
+[2025-10-18 23:28:22] Starting brute force search...
+[2025-10-18 23:28:22] Batch size: Evaluate 20 configs, then train best from batch
+[2025-10-18 23:28:22] 
+[2025-10-18 23:28:22] 
+======================================================================
+[2025-10-18 23:28:22] Config 1/100 - Starting Training:
+[2025-10-18 23:28:22]   Architecture:
+[2025-10-18 23:28:22]     Lookback: 50, Hidden: 32, Layers: 1, Dropout: 0.3
+[2025-10-18 23:28:22]     Bidirectional: False, GRU: False
+[2025-10-18 23:28:22]   Output Head:
+[2025-10-18 23:28:22]     FC Layers: 1, FC Hidden: 256, Activation: relu
+[2025-10-18 23:28:22]     FC Dropout: 0.0, Batch Norm: True
+[2025-10-18 23:28:22]   Training:
+[2025-10-18 23:28:22]     Batch Size: 32, LR: 0.0001, Weight Decay: 0
+[2025-10-18 23:28:22]     Optimizer: adam, Grad Clip: 0.5, LR Patience: 3
+[2025-10-18 23:28:22] 
+  Stage 1: Running 3-Fold CV on 10% sampled data...
+[2025-10-18 23:28:22]   K-Fold CV: 3 folds on 51 sequences
+[2025-10-18 23:30:44]     Fold 1/3: Val R²=0.3231 Train R²=0.3465 (141.7s)
+[2025-10-18 23:33:07]     Fold 2/3: Val R²=0.2558 Train R²=0.3670 (142.8s)
+[2025-10-18 23:35:28]     Fold 3/3: Val R²=0.3175 Train R²=0.3673 (141.3s)
+[2025-10-18 23:35:28]   K-Fold Results: mean=0.298792 ± 0.030497 (min=0.255784, max=0.323089)
+[2025-10-18 23:35:28] 
+======================================================================
+[2025-10-18 23:35:28] Config 1/100 - K-Fold Complete:
+[2025-10-18 23:35:28]   Mean Val R²: 0.298792 ± 0.030497
+[2025-10-18 23:35:28]   Range: [0.255784, 0.323089]
+[2025-10-18 23:35:28]   Best Global Mean R²: 0.340000
+[2025-10-18 23:35:28]   Parameters: 9,504
+[2025-10-18 23:35:28]   K-Fold mean R² not better than global best (0.340000)
+[2025-10-18 23:35:28]   Skipping.
+[2025-10-18 23:35:28]   Results saved to models/bruteforce_kfold_results_20251018_232822.csv
+[2025-10-18 23:35:28] 
+======================================================================
+[2025-10-18 23:35:28] Config 2/100 - Starting Training:
+[2025-10-18 23:35:28]   Architecture:
+[2025-10-18 23:35:28]     Lookback: 30, Hidden: 64, Layers: 4, Dropout: 0.2
+[2025-10-18 23:35:28]     Bidirectional: True, GRU: True
+[2025-10-18 23:35:28]   Output Head:
+[2025-10-18 23:35:28]     FC Layers: 1, FC Hidden: 64, Activation: gelu
+[2025-10-18 23:35:28]     FC Dropout: 0.4, Batch Norm: True
+[2025-10-18 23:35:28]   Training:
+[2025-10-18 23:35:28]     Batch Size: 128, LR: 0.0005, Weight Decay: 0.0001
+[2025-10-18 23:35:28]     Optimizer: adam, Grad Clip: 1.0, LR Patience: 3
+[2025-10-18 23:35:28] 
+  Stage 1: Running 3-Fold CV on 10% sampled data...
+[2025-10-18 23:35:28]   K-Fold CV: 3 folds on 51 sequences
+[2025-10-18 23:45:51] 
+ERROR in config 2: 'NoneType' object has no attribute 'info'
+[2025-10-18 23:45:51] 
+======================================================================
+[2025-10-18 23:45:51] Config 3/100 - Starting Training:
+[2025-10-18 23:45:51]   Architecture:
+[2025-10-18 23:45:51]     Lookback: 20, Hidden: 32, Layers: 3, Dropout: 0.3
+[2025-10-18 23:45:51]     Bidirectional: True, GRU: False
+[2025-10-18 23:45:51]   Output Head:
+[2025-10-18 23:45:51]     FC Layers: 3, FC Hidden: 128, Activation: gelu
+[2025-10-18 23:45:51]     FC Dropout: 0.0, Batch Norm: True
+[2025-10-18 23:45:51]   Training:
+[2025-10-18 23:45:51]     Batch Size: 32, LR: 0.005, Weight Decay: 0.001
+[2025-10-18 23:45:51]     Optimizer: adam, Grad Clip: 1.0, LR Patience: 3
+[2025-10-18 23:45:51] 
+  Stage 1: Running 3-Fold CV on 10% sampled data...
+[2025-10-18 23:45:51]   K-Fold CV: 3 folds on 51 sequences
+[2025-10-18 23:52:17] 
+ERROR in config 3: 'NoneType' object has no attribute 'info'
+[2025-10-18 23:52:17] 
+======================================================================
+[2025-10-18 23:52:17] Config 4/100 - Starting Training:
+[2025-10-18 23:52:17]   Architecture:
+[2025-10-18 23:52:17]     Lookback: 5, Hidden: 256, Layers: 2, Dropout: 0.3
+[2025-10-18 23:52:17]     Bidirectional: False, GRU: False
+[2025-10-18 23:52:17]   Output Head:
+[2025-10-18 23:52:17]     FC Layers: 1, FC Hidden: 128, Activation: tanh
+[2025-10-18 23:52:17]     FC Dropout: 0.4, Batch Norm: True
+[2025-10-18 23:52:17]   Training:
+[2025-10-18 23:52:17]     Batch Size: 64, LR: 0.001, Weight Decay: 0.001
+[2025-10-18 23:52:17]     Optimizer: adamw, Grad Clip: 0.5, LR Patience: 3
+[2025-10-18 23:52:17] 
+  Stage 1: Running 3-Fold CV on 10% sampled data...
+[2025-10-18 23:52:17]   K-Fold CV: 3 folds on 51 sequences
+[2025-10-18 23:53:13] 
+ERROR in config 4: 'NoneType' object has no attribute 'info'
+[2025-10-18 23:53:13] 
+======================================================================
+[2025-10-18 23:53:13] Config 5/100 - Starting Training:
+[2025-10-18 23:53:13]   Architecture:
+[2025-10-18 23:53:13]     Lookback: 30, Hidden: 256, Layers: 2, Dropout: 0.5
+[2025-10-18 23:53:13]     Bidirectional: False, GRU: False
+[2025-10-18 23:53:13]   Output Head:
+[2025-10-18 23:53:13]     FC Layers: 2, FC Hidden: 128, Activation: tanh
+[2025-10-18 23:53:13]     FC Dropout: 0.2, Batch Norm: True
+[2025-10-18 23:53:13]   Training:
+[2025-10-18 23:53:13]     Batch Size: 32, LR: 0.0005, Weight Decay: 0
+[2025-10-18 23:53:13]     Optimizer: adamw, Grad Clip: 1.0, LR Patience: 7
+[2025-10-18 23:53:13] 
+  Stage 1: Running 3-Fold CV on 10% sampled data...
+[2025-10-18 23:53:13]   K-Fold CV: 3 folds on 51 sequences
+[2025-10-18 23:55:42] 
+ERROR in config 5: 'NoneType' object has no attribute 'info'
+[2025-10-18 23:55:42] 
+======================================================================
+[2025-10-18 23:55:42] Config 6/100 - Starting Training:
+[2025-10-18 23:55:42]   Architecture:
+[2025-10-18 23:55:42]     Lookback: 5, Hidden: 64, Layers: 3, Dropout: 0.2
+[2025-10-18 23:55:42]     Bidirectional: True, GRU: True
+[2025-10-18 23:55:42]   Output Head:
+[2025-10-18 23:55:42]     FC Layers: 3, FC Hidden: 128, Activation: relu
+[2025-10-18 23:55:42]     FC Dropout: 0.3, Batch Norm: False
+[2025-10-18 23:55:42]   Training:
+[2025-10-18 23:55:42]     Batch Size: 64, LR: 0.005, Weight Decay: 0.001
+[2025-10-18 23:55:42]     Optimizer: adamw, Grad Clip: 5.0, LR Patience: 7
+[2025-10-18 23:55:42] 
+  Stage 1: Running 3-Fold CV on 10% sampled data...
+[2025-10-18 23:55:42]   K-Fold CV: 3 folds on 51 sequences
+[2025-10-18 23:58:13] 
+ERROR in config 6: 'NoneType' object has no attribute 'info'
+[2025-10-18 23:58:13] 
+======================================================================
+[2025-10-18 23:58:13] Config 7/100 - Starting Training:
+[2025-10-18 23:58:13]   Architecture:
+[2025-10-18 23:58:13]     Lookback: 10, Hidden: 64, Layers: 4, Dropout: 0.1
+[2025-10-18 23:58:13]     Bidirectional: False, GRU: False
+[2025-10-18 23:58:13]   Output Head:
+[2025-10-18 23:58:13]     FC Layers: 1, FC Hidden: 256, Activation: relu
+[2025-10-18 23:58:13]     FC Dropout: 0.4, Batch Norm: False
+[2025-10-18 23:58:13]   Training:
+[2025-10-18 23:58:13]     Batch Size: 256, LR: 0.002, Weight Decay: 0.01
+[2025-10-18 23:58:13]     Optimizer: adam, Grad Clip: 1.0, LR Patience: 3
+[2025-10-18 23:58:13] 
+  Stage 1: Running 3-Fold CV on 10% sampled data...
+[2025-10-18 23:58:13]   K-Fold CV: 3 folds on 51 sequences
+[2025-10-18 23:58:26] 
+ERROR in config 7: 'NoneType' object has no attribute 'info'
+[2025-10-18 23:58:26] 
+======================================================================
+[2025-10-18 23:58:26] Config 8/100 - Starting Training:
+[2025-10-18 23:58:26]   Architecture:
+[2025-10-18 23:58:26]     Lookback: 50, Hidden: 192, Layers: 3, Dropout: 0.3
+[2025-10-18 23:58:26]     Bidirectional: False, GRU: True
+[2025-10-18 23:58:26]   Output Head:
+[2025-10-18 23:58:26]     FC Layers: 2, FC Hidden: 64, Activation: tanh
+[2025-10-18 23:58:26]     FC Dropout: 0.0, Batch Norm: True
+[2025-10-18 23:58:26]   Training:
+[2025-10-18 23:58:26]     Batch Size: 64, LR: 0.005, Weight Decay: 0
+[2025-10-18 23:58:26]     Optimizer: adam, Grad Clip: 1.0, LR Patience: 5
+[2025-10-18 23:58:26] 
+  Stage 1: Running 3-Fold CV on 10% sampled data...
+[2025-10-18 23:58:26]   K-Fold CV: 3 folds on 51 sequences
+[2025-10-19 00:07:48] 
+ERROR in config 8: 'NoneType' object has no attribute 'info'
+[2025-10-19 00:07:48] 
+======================================================================
+[2025-10-19 00:07:48] Config 9/100 - Starting Training:
+[2025-10-19 00:07:48]   Architecture:
+[2025-10-19 00:07:48]     Lookback: 15, Hidden: 64, Layers: 1, Dropout: 0.5
+[2025-10-19 00:07:48]     Bidirectional: True, GRU: True
+[2025-10-19 00:07:48]   Output Head:
+[2025-10-19 00:07:48]     FC Layers: 1, FC Hidden: 64, Activation: tanh
+[2025-10-19 00:07:48]     FC Dropout: 0.3, Batch Norm: False
+[2025-10-19 00:07:48]   Training:
+[2025-10-19 00:07:48]     Batch Size: 32, LR: 0.0005, Weight Decay: 0
+[2025-10-19 00:07:48]     Optimizer: adamw, Grad Clip: None, LR Patience: 3
+[2025-10-19 00:07:48] 
+  Stage 1: Running 3-Fold CV on 10% sampled data...
+[2025-10-19 00:07:48]   K-Fold CV: 3 folds on 51 sequences
+[2025-10-19 00:12:51] 
+ERROR in config 9: 'NoneType' object has no attribute 'info'
+[2025-10-19 00:12:51] 
+======================================================================
+[2025-10-19 00:12:51] Config 10/100 - Starting Training:
+[2025-10-19 00:12:51]   Architecture:
+[2025-10-19 00:12:51]     Lookback: 30, Hidden: 64, Layers: 2, Dropout: 0.4
+[2025-10-19 00:12:51]     Bidirectional: False, GRU: True
+[2025-10-19 00:12:51]   Output Head:
+[2025-10-19 00:12:51]     FC Layers: 3, FC Hidden: 256, Activation: tanh
+[2025-10-19 00:12:51]     FC Dropout: 0.2, Batch Norm: False
+[2025-10-19 00:12:51]   Training:
+[2025-10-19 00:12:51]     Batch Size: 128, LR: 0.002, Weight Decay: 0.001
+[2025-10-19 00:12:51]     Optimizer: adamw, Grad Clip: 5.0, LR Patience: 3
+[2025-10-19 00:12:51] 
+  Stage 1: Running 3-Fold CV on 10% sampled data...
+[2025-10-19 00:12:51]   K-Fold CV: 3 folds on 51 sequences
+[2025-10-19 00:16:57]     Fold 1/3: Val R²=0.3477 Train R²=0.3904 (246.4s)
+[2025-10-19 00:20:42] 
+ERROR in config 10: 'NoneType' object has no attribute 'info'
+[2025-10-19 00:20:42] 
+======================================================================
+[2025-10-19 00:20:42] Config 11/100 - Starting Training:
+[2025-10-19 00:20:42]   Architecture:
+[2025-10-19 00:20:42]     Lookback: 10, Hidden: 64, Layers: 1, Dropout: 0.3
+[2025-10-19 00:20:42]     Bidirectional: False, GRU: False
+[2025-10-19 00:20:42]   Output Head:
+[2025-10-19 00:20:42]     FC Layers: 3, FC Hidden: 64, Activation: relu
+[2025-10-19 00:20:42]     FC Dropout: 0.0, Batch Norm: False
+[2025-10-19 00:20:42]   Training:
+[2025-10-19 00:20:42]     Batch Size: 64, LR: 0.0001, Weight Decay: 0
+[2025-10-19 00:20:42]     Optimizer: adam, Grad Clip: 1.0, LR Patience: 5
+[2025-10-19 00:20:42] 
+  Stage 1: Running 3-Fold CV on 10% sampled data...
+[2025-10-19 00:20:42]   K-Fold CV: 3 folds on 51 sequences
+[2025-10-19 00:21:45] 
+ERROR in config 11: 'NoneType' object has no attribute 'info'
+[2025-10-19 00:21:45] 
+======================================================================
+[2025-10-19 00:21:45] Config 12/100 - Starting Training:
+[2025-10-19 00:21:45]   Architecture:
+[2025-10-19 00:21:45]     Lookback: 15, Hidden: 256, Layers: 4, Dropout: 0.2
+[2025-10-19 00:21:45]     Bidirectional: False, GRU: True
+[2025-10-19 00:21:45]   Output Head:
+[2025-10-19 00:21:45]     FC Layers: 1, FC Hidden: 128, Activation: tanh
+[2025-10-19 00:21:45]     FC Dropout: 0.2, Batch Norm: False
+[2025-10-19 00:21:45]   Training:
+[2025-10-19 00:21:45]     Batch Size: 32, LR: 0.002, Weight Decay: 0.001
+[2025-10-19 00:21:45]     Optimizer: adamw, Grad Clip: 5.0, LR Patience: 10
+[2025-10-19 00:21:45] 
+  Stage 1: Running 3-Fold CV on 10% sampled data...
+[2025-10-19 00:21:45]   K-Fold CV: 3 folds on 51 sequences
+[2025-10-19 00:27:46] 
+ERROR in config 12: 'NoneType' object has no attribute 'info'
+[2025-10-19 00:27:47] 
+======================================================================
+[2025-10-19 00:27:47] Config 13/100 - Starting Training:
+[2025-10-19 00:27:47]   Architecture:
+[2025-10-19 00:27:47]     Lookback: 50, Hidden: 32, Layers: 1, Dropout: 0.1
+[2025-10-19 00:27:47]     Bidirectional: True, GRU: True
+[2025-10-19 00:27:47]   Output Head:
+[2025-10-19 00:27:47]     FC Layers: 1, FC Hidden: 64, Activation: relu
+[2025-10-19 00:27:47]     FC Dropout: 0.2, Batch Norm: True
+[2025-10-19 00:27:47]   Training:
+[2025-10-19 00:27:47]     Batch Size: 64, LR: 0.002, Weight Decay: 0.0001
+[2025-10-19 00:27:47]     Optimizer: adamw, Grad Clip: 1.0, LR Patience: 5
+[2025-10-19 00:27:47] 
+  Stage 1: Running 3-Fold CV on 10% sampled data...
+[2025-10-19 00:27:47]   K-Fold CV: 3 folds on 51 sequences

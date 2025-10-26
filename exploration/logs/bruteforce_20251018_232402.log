@@ -1,0 +1,44 @@
+[2025-10-18 23:24:02] ======================================================================
+[2025-10-18 23:24:02] K-FOLD BRUTE FORCE HYPERPARAMETER SEARCH WITH AUTO-SUBMISSION
+[2025-10-18 23:24:02] ======================================================================
+[2025-10-18 23:24:02] Started at: 2025-10-18 23:24:02
+[2025-10-18 23:24:02] Mode: FULL
+[2025-10-18 23:24:02] Best R² to beat: 0.340000
+[2025-10-18 23:24:02] Log file: logs/bruteforce_20251018_232402.log
+[2025-10-18 23:24:02] 
+[2025-10-18 23:24:02] Device Detection:
+[2025-10-18 23:24:02]   PyTorch version: 2.9.0
+[2025-10-18 23:24:02]   Requested: mps
+[2025-10-18 23:24:02]   MPS available: ✓
+[2025-10-18 23:24:02]   CUDA available: ✗
+[2025-10-18 23:24:02]   Using: MPS
+[2025-10-18 23:24:02] 
+[2025-10-18 23:24:02] Loading data...
+[2025-10-18 23:24:03] Total sequences: 517
+[2025-10-18 23:24:03] K-Fold sample: 129 sequences (25%)
+[2025-10-18 23:24:03] Full train sequences (80%): 413
+[2025-10-18 23:24:03] Final train: 206 sequences (50%), 206,000 rows
+[2025-10-18 23:24:03] Final val: 104 sequences, 104,000 rows
+[2025-10-18 23:24:03] Features: 32
+[2025-10-18 23:24:03] Configurations to test: 50
+[2025-10-18 23:24:03] K-Fold: 5 folds, max 20 epochs
+[2025-10-18 23:24:03] Final: max 30 epochs
+[2025-10-18 23:24:03] 
+[2025-10-18 23:24:03] Starting brute force search...
+[2025-10-18 23:24:03] Batch size: Evaluate 10 configs, then train best from batch
+[2025-10-18 23:24:03] 
+[2025-10-18 23:24:03] 
+======================================================================
+[2025-10-18 23:24:03] Config 1/50 - Starting Training:
+[2025-10-18 23:24:03]   Architecture:
+[2025-10-18 23:24:03]     Lookback: 50, Hidden: 32, Layers: 1, Dropout: 0.3
+[2025-10-18 23:24:03]     Bidirectional: False, GRU: False
+[2025-10-18 23:24:03]   Output Head:
+[2025-10-18 23:24:03]     FC Layers: 1, FC Hidden: 256, Activation: relu
+[2025-10-18 23:24:03]     FC Dropout: 0.0, Batch Norm: True
+[2025-10-18 23:24:03]   Training:
+[2025-10-18 23:24:03]     Batch Size: 32, LR: 0.0001, Weight Decay: 0
+[2025-10-18 23:24:03]     Optimizer: adam, Grad Clip: 0.5, LR Patience: 3
+[2025-10-18 23:24:03] 
+  Stage 1: Running 5-Fold CV on 25% sampled data...
+[2025-10-18 23:24:03]   K-Fold CV: 5 folds on 129 sequences

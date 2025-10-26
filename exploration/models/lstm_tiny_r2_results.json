@@ -1,0 +1,24 @@
+{
+  "config": {
+    "lookback": 20,
+    "hidden_size": 128,
+    "num_layers": 2,
+    "dropout": 0.2,
+    "batch_size": 32,
+    "lr": 0.001,
+    "epochs": 10,
+    "early_stopping_patience": 3,
+    "lr_scheduler_patience": 2,
+    "device": "cpu",
+    "random_seed": 42,
+    "test_mode": true
+  },
+  "best_val_r2": 0.13323720172047615,
+  "best_val_loss": 0.7337192897835085,
+  "total_epochs": 10,
+  "training_time_minutes": 0.7925424536069234,
+  "n_parameters": 219168,
+  "n_train_examples": 7840,
+  "n_val_examples": 1960,
+  "completed_at": "2025-10-17 22:33:37"
+}

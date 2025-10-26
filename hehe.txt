@@ -1,0 +1,24 @@
+search_space = {
+        # Architecture
+        'lookback': [20, 30, 50],
+        'hidden_size': [64, 128, 192],
+        'num_layers': [1, 2, 4],
+        'dropout': [0.1, 0.2, 0.3],
+        'bidirectional': [False, True],
+        'use_gru': [True, False],
+
+        # Output head
+        'fc_num_layers': [2, 3],
+        'fc_hidden_dims': [64, 128, 256],
+        'fc_activation': ['relu', 'tanh', 'gelu'],
+        'fc_dropout': [0.0, 0.2, 0.3],
+        'use_batch_norm': [True, False],
+
+        # Training
+        'batch_size': [128, 256],
+        'lr': [1e-4, 5e-4, 1e-3],
+        'weight_decay': [0.0, 1e-4, 1e-3],
+        'grad_clip': [None, 0.5, 1.0],
+        'optimizer': ['adam', 'adamw'],
+        'lr_patience': [3],
+    }

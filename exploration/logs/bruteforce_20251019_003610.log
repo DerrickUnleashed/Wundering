@@ -1,0 +1,151 @@
+[2025-10-19 00:36:10] ======================================================================
+[2025-10-19 00:36:10] K-FOLD BRUTE FORCE HYPERPARAMETER SEARCH WITH AUTO-SUBMISSION
+[2025-10-19 00:36:10] ======================================================================
+[2025-10-19 00:36:10] Started at: 2025-10-19 00:36:10
+[2025-10-19 00:36:10] Mode: FULL
+[2025-10-19 00:36:10] Best R² to beat: 0.340000
+[2025-10-19 00:36:10] Log file: logs/bruteforce_20251019_003610.log
+[2025-10-19 00:36:10] 
+[2025-10-19 00:36:10] Device Detection:
+[2025-10-19 00:36:10]   PyTorch version: 2.9.0
+[2025-10-19 00:36:10]   Requested: mps
+[2025-10-19 00:36:10]   MPS available: ✓
+[2025-10-19 00:36:10]   CUDA available: ✗
+[2025-10-19 00:36:10]   Using: MPS
+[2025-10-19 00:36:10] 
+[2025-10-19 00:36:10] Loading data...
+[2025-10-19 00:36:10] Total sequences: 517
+[2025-10-19 00:36:10] K-Fold sample: 25 sequences (5%)
+[2025-10-19 00:36:10] Full train sequences (80%): 413
+[2025-10-19 00:36:10] Final train: 20 sequences (5%), 20,000 rows
+[2025-10-19 00:36:10] Final val: 104 sequences, 104,000 rows
+[2025-10-19 00:36:10] Features: 32
+[2025-10-19 00:36:10] Configurations to test: 3
+[2025-10-19 00:36:10] K-Fold: 2 folds, max 3 epochs
+[2025-10-19 00:36:10] Final: max 3 epochs
+[2025-10-19 00:36:10] 
+[2025-10-19 00:36:10] Starting brute force search...
+[2025-10-19 00:36:10] Batch size: Evaluate 3 configs, then train best from batch
+[2025-10-19 00:36:10] 
+[2025-10-19 00:36:10] 
+======================================================================
+[2025-10-19 00:36:10] Config 1/3 - Starting Training:
+[2025-10-19 00:36:10]   Architecture:
+[2025-10-19 00:36:10]     Lookback: 50, Hidden: 32, Layers: 1, Dropout: 0.3
+[2025-10-19 00:36:10]     Bidirectional: False, GRU: False
+[2025-10-19 00:36:10]   Output Head:
+[2025-10-19 00:36:10]     FC Layers: 1, FC Hidden: 256, Activation: relu
+[2025-10-19 00:36:10]     FC Dropout: 0.0, Batch Norm: True
+[2025-10-19 00:36:10]   Training:
+[2025-10-19 00:36:10]     Batch Size: 32, LR: 0.0001, Weight Decay: 0
+[2025-10-19 00:36:10]     Optimizer: adam, Grad Clip: 0.5, LR Patience: 3
+[2025-10-19 00:36:10] 
+  Stage 1: Running 2-Fold CV on 5% sampled data...
+[2025-10-19 00:36:10]   K-Fold CV: 2 folds on 25 sequences
+[2025-10-19 00:36:17]     Epoch  1/3: Val R²=0.1458 Train R²=0.0648 Gap=-0.0810 ✓
+[2025-10-19 00:36:23]     Epoch  2/3: Val R²=0.2098 Train R²=0.2060 Gap=-0.0038 ✓
+[2025-10-19 00:36:28]     Epoch  3/3: Val R²=0.2338 Train R²=0.2477 Gap=0.0139 ✓
+[2025-10-19 00:36:28]     Fold 1/2: Val R²=0.2338 Train R²=0.2477 (18.1s)
+[2025-10-19 00:36:35]     Epoch  1/3: Val R²=0.1125 Train R²=0.0725 Gap=-0.0400 ✓
+[2025-10-19 00:36:40]     Epoch  2/3: Val R²=0.2041 Train R²=0.2308 Gap=0.0267 ✓
+[2025-10-19 00:36:45]     Epoch  3/3: Val R²=0.2322 Train R²=0.2830 Gap=0.0508 ✓
+[2025-10-19 00:36:45]     Fold 2/2: Val R²=0.2322 Train R²=0.2830 (16.7s)
+[2025-10-19 00:36:45]   K-Fold Results: mean=0.233000 ± 0.000820 (min=0.232180, max=0.233820)
+[2025-10-19 00:36:45] 
+======================================================================
+[2025-10-19 00:36:45] Config 1/3 - K-Fold Complete:
+[2025-10-19 00:36:45]   Mean Val R²: 0.233000 ± 0.000820
+[2025-10-19 00:36:45]   Range: [0.232180, 0.233820]
+[2025-10-19 00:36:45]   Best Global Mean R²: 0.340000
+[2025-10-19 00:36:45]   Parameters: 9,504
+[2025-10-19 00:36:45]   K-Fold mean R² not better than global best (0.340000)
+[2025-10-19 00:36:45]   Skipping.
+[2025-10-19 00:36:45]   Results saved to models/bruteforce_kfold_results_20251019_003610.csv
+[2025-10-19 00:36:45] 
+======================================================================
+[2025-10-19 00:36:45] Config 2/3 - Starting Training:
+[2025-10-19 00:36:45]   Architecture:
+[2025-10-19 00:36:45]     Lookback: 30, Hidden: 64, Layers: 4, Dropout: 0.2
+[2025-10-19 00:36:45]     Bidirectional: True, GRU: True
+[2025-10-19 00:36:45]   Output Head:
+[2025-10-19 00:36:45]     FC Layers: 1, FC Hidden: 64, Activation: gelu
+[2025-10-19 00:36:45]     FC Dropout: 0.4, Batch Norm: True
+[2025-10-19 00:36:45]   Training:
+[2025-10-19 00:36:45]     Batch Size: 128, LR: 0.0005, Weight Decay: 0.0001
+[2025-10-19 00:36:45]     Optimizer: adam, Grad Clip: 1.0, LR Patience: 3
+[2025-10-19 00:36:45] 
+  Stage 1: Running 2-Fold CV on 5% sampled data...
+[2025-10-19 00:36:45]   K-Fold CV: 2 folds on 25 sequences
+[2025-10-19 00:37:08]     Epoch  1/3: Val R²=0.2649 Train R²=0.1999 Gap=-0.0650 ✓
+[2025-10-19 00:37:31]     Epoch  2/3: Val R²=0.2857 Train R²=0.2724 Gap=-0.0132 ✓
+[2025-10-19 00:37:54]     Epoch  3/3: Val R²=0.2914 Train R²=0.2933 Gap=0.0019 ✓
+[2025-10-19 00:37:54]     Fold 1/2: Val R²=0.2914 Train R²=0.2933 (69.4s)
+[2025-10-19 00:38:18]     Epoch  1/3: Val R²=0.2412 Train R²=0.2435 Gap=0.0023 ✓
+[2025-10-19 00:38:43]     Epoch  2/3: Val R²=0.2689 Train R²=0.3078 Gap=0.0388 ✓
+[2025-10-19 00:39:06]     Epoch  3/3: Val R²=0.2709 Train R²=0.3206 Gap=0.0497 ✓
+[2025-10-19 00:39:06]     Fold 2/2: Val R²=0.2709 Train R²=0.3206 (71.7s)
+[2025-10-19 00:39:06]   K-Fold Results: mean=0.281163 ± 0.010227 (min=0.270936, max=0.291390)
+[2025-10-19 00:39:06] 
+======================================================================
+[2025-10-19 00:39:06] Config 2/3 - K-Fold Complete:
+[2025-10-19 00:39:06]   Mean Val R²: 0.281163 ± 0.010227
+[2025-10-19 00:39:06]   Range: [0.270936, 0.291390]
+[2025-10-19 00:39:06]   Best Global Mean R²: 0.340000
+[2025-10-19 00:39:06]   Parameters: 265,248
+[2025-10-19 00:39:06]   K-Fold mean R² not better than global best (0.340000)
+[2025-10-19 00:39:06]   Skipping.
+[2025-10-19 00:39:06]   Results saved to models/bruteforce_kfold_results_20251019_003610.csv
+[2025-10-19 00:39:06] 
+======================================================================
+[2025-10-19 00:39:06] Config 3/3 - Starting Training:
+[2025-10-19 00:39:06]   Architecture:
+[2025-10-19 00:39:06]     Lookback: 20, Hidden: 32, Layers: 3, Dropout: 0.3
+[2025-10-19 00:39:06]     Bidirectional: True, GRU: False
+[2025-10-19 00:39:06]   Output Head:
+[2025-10-19 00:39:06]     FC Layers: 3, FC Hidden: 128, Activation: gelu
+[2025-10-19 00:39:06]     FC Dropout: 0.0, Batch Norm: True
+[2025-10-19 00:39:06]   Training:
+[2025-10-19 00:39:06]     Batch Size: 32, LR: 0.005, Weight Decay: 0.001
+[2025-10-19 00:39:06]     Optimizer: adam, Grad Clip: 1.0, LR Patience: 3
+[2025-10-19 00:39:06] 
+  Stage 1: Running 2-Fold CV on 5% sampled data...
+[2025-10-19 00:39:06]   K-Fold CV: 2 folds on 25 sequences
+[2025-10-19 00:39:17]     Epoch  1/3: Val R²=0.1906 Train R²=0.2132 Gap=0.0226 ✓
+[2025-10-19 00:39:28]     Epoch  2/3: Val R²=0.1924 Train R²=0.2251 Gap=0.0328 ✓
+[2025-10-19 00:39:40]     Epoch  3/3: Val R²=0.1930 Train R²=0.2271 Gap=0.0341 ✓
+[2025-10-19 00:39:40]     Fold 1/2: Val R²=0.1930 Train R²=0.2271 (33.8s)
+[2025-10-19 00:39:51]     Epoch  1/3: Val R²=0.1410 Train R²=0.2446 Gap=0.1036 ✓
+[2025-10-19 00:40:03]     Epoch  2/3: Val R²=0.1915 Train R²=0.2575 Gap=0.0660 ✓
+[2025-10-19 00:40:13]     Epoch  3/3: Val R²=0.1958 Train R²=0.2606 Gap=0.0649 ✓
+[2025-10-19 00:40:13]     Fold 2/2: Val R²=0.1958 Train R²=0.2606 (33.4s)
+[2025-10-19 00:40:13]   K-Fold Results: mean=0.194383 ± 0.001377 (min=0.193007, max=0.195760)
+[2025-10-19 00:40:13] 
+======================================================================
+[2025-10-19 00:40:13] Config 3/3 - K-Fold Complete:
+[2025-10-19 00:40:13]   Mean Val R²: 0.194383 ± 0.001377
+[2025-10-19 00:40:13]   Range: [0.193007, 0.195760]
+[2025-10-19 00:40:13]   Best Global Mean R²: 0.340000
+[2025-10-19 00:40:13]   Parameters: 96,544
+[2025-10-19 00:40:13]   K-Fold mean R² not better than global best (0.340000)
+[2025-10-19 00:40:13]   Skipping.
+[2025-10-19 00:40:13]   Results saved to models/bruteforce_kfold_results_20251019_003610.csv
+[2025-10-19 00:40:13] 
+======================================================================
+[2025-10-19 00:40:13] BATCH COMPLETE: No candidates beat global best (0.340000)
+[2025-10-19 00:40:13] ======================================================================
+[2025-10-19 00:40:13] 
+======================================================================
+[2025-10-19 00:40:13] SEARCH COMPLETE
+[2025-10-19 00:40:13] ======================================================================
+[2025-10-19 00:40:13] Total time: 4.1 minutes
+[2025-10-19 00:40:13] Successful configs: 3/3
+[2025-10-19 00:40:13] Final best mean K-Fold R²: 0.340000
+[2025-10-19 00:40:13] Submissions created: 0
+[2025-10-19 00:40:13] Results saved: models/bruteforce_kfold_results_20251019_003610.csv
+[2025-10-19 00:40:13] 
+[2025-10-19 00:40:13] Top 5 configurations:
+[2025-10-19 00:40:13] 
+ config_id  mean_val_r2  std_val_r2 final_val_r2  lookback  hidden_size  num_layers  dropout  bidirectional  use_gru  fc_num_layers  fc_hidden_dims fc_activation  fc_dropout  use_batch_norm  batch_size     lr  weight_decay  grad_clip optimizer  lr_patience  n_parameters
+         2     0.281163    0.010227         None        30           64           4      0.2           True     True              1              64          gelu         0.4            True         128 0.0005        0.0001        1.0      adam            3        265248
+         1     0.233000    0.000820         None        50           32           1      0.3          False    False              1             256          relu         0.0            True          32 0.0001        0.0000        0.5      adam            3          9504
+         3     0.194383    0.001377         None        20           32           3      0.3           True    False              3             128          gelu         0.0            True          32 0.0050        0.0010        1.0      adam            3         96544

@@ -1,0 +1,2 @@
+config_id,mean_val_r2_kfold,std_val_r2_kfold,final_val_r2,improvement,submission_dir,timestamp
+2,0.2811631131917238,0.010226922109723091,0.26300174556672573,0.28106311319172383,../submissions/bruteforce_r2_02630_20251019_005307_cfg2,2025-10-19 00:59:35

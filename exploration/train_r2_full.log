@@ -1,0 +1,71 @@
+======================================================================
+LSTM TRAINING WITH R² METRIC
+======================================================================
+Started at: 2025-10-17 22:34:38
+Mode: FULL
+Version: 20251017_223438
+
+Configuration:
+  lookback: 20
+  hidden_size: 128
+  num_layers: 2
+  dropout: 0.2
+  batch_size: 64
+  lr: 0.001
+  epochs: 50
+  early_stopping_patience: 10
+  lr_scheduler_patience: 5
+  device: cpu
+  random_seed: 42
+  test_mode: False
+  timestamp: 20251017_223438
+
+Using device: cpu
+
+Loading data...
+Train: 413,000 rows, 413 sequences
+Val:   104,000 rows, 104 sequences
+Features: 32
+
+Creating dataset with lookback=20...
+Created 404,740 examples
+Creating dataset with lookback=20...
+Created 101,920 examples
+Train batches: 6325
+Val batches: 1593
+
+Creating model...
+Total parameters: 219,168
+
+Training for up to 50 epochs...
+Note: Early stopping and LR scheduling based on val R²
+
+Epoch   1/50 | Loss: T=0.631153 V=0.665322 | R²: T=0.358748 V=0.336465 | LR=0.001000 ✓ New best!
+Epoch   2/50 | Loss: T=0.608235 V=0.657159 | R²: T=0.382014 V=0.344614 | LR=0.001000 ✓ New best!
+Epoch   3/50 | Loss: T=0.601983 V=0.655577 | R²: T=0.388375 V=0.346192 | LR=0.001000 ✓ New best!
+Epoch   4/50 | Loss: T=0.597333 V=0.653197 | R²: T=0.393073 V=0.348564 | LR=0.001000 ✓ New best!
+Epoch   5/50 | Loss: T=0.593345 V=0.651489 | R²: T=0.397111 V=0.350288 | LR=0.001000 ✓ New best!
+Epoch   6/50 | Loss: T=0.589876 V=0.654458 | R²: T=0.400722 V=0.347294 | LR=0.001000
+Epoch   7/50 | Loss: T=0.586616 V=0.653669 | R²: T=0.404026 V=0.348085 | LR=0.001000
+Epoch   8/50 | Loss: T=0.583320 V=0.653323 | R²: T=0.407338 V=0.348425 | LR=0.001000
+Epoch   9/50 | Loss: T=0.580564 V=0.655098 | R²: T=0.410180 V=0.346659 | LR=0.001000
+Epoch  10/50 | Loss: T=0.577026 V=0.656824 | R²: T=0.413785 V=0.344957 | LR=0.001000
+Epoch  11/50 | Loss: T=0.573882 V=0.658709 | R²: T=0.416903 V=0.343081 | LR=0.000500
+Epoch  12/50 | Loss: T=0.562845 V=0.660956 | R²: T=0.428373 V=0.340843 | LR=0.000500
+Epoch  13/50 | Loss: T=0.557230 V=0.665021 | R²: T=0.433874 V=0.336781 | LR=0.000500
+Epoch  14/50 | Loss: T=0.553151 V=0.667706 | R²: T=0.438057 V=0.334103 | LR=0.000500
+Epoch  15/50 | Loss: T=0.549652 V=0.668336 | R²: T=0.441611 V=0.333485 | LR=0.000500
+
+Early stopping at epoch 15 (no R² improvement for 10 epochs)
+
+Training completed in 43.7 minutes
+Best validation R²: 0.350288
+
+History saved: models/lstm_full_r2_20251017_223438_history.csv
+Results saved: models/lstm_full_r2_20251017_223438_results.json
+Model saved: models/lstm_full_r2_20251017_223438_best.pt
+
+======================================================================
+TRAINING COMPLETE
+======================================================================
+Best R²: 0.350288

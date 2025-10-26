@@ -1,0 +1,606 @@
+[2025-10-18 23:28:22] ======================================================================
+[2025-10-18 23:28:22] K-FOLD BRUTE FORCE HYPERPARAMETER SEARCH WITH AUTO-SUBMISSION
+[2025-10-18 23:28:22] ======================================================================
+[2025-10-18 23:28:22] Started at: 2025-10-18 23:28:22
+[2025-10-18 23:28:22] Mode: FULL
+[2025-10-18 23:28:22] Best R² to beat: 0.340000
+[2025-10-18 23:28:22] Log file: logs/bruteforce_20251018_232822.log
+[2025-10-18 23:28:22] 
+[2025-10-18 23:28:22] Device Detection:
+[2025-10-18 23:28:22]   PyTorch version: 2.9.0
+[2025-10-18 23:28:22]   Requested: mps
+[2025-10-18 23:28:22]   MPS available: ✓
+[2025-10-18 23:28:22]   CUDA available: ✗
+[2025-10-18 23:28:22]   Using: MPS
+[2025-10-18 23:28:22] 
+[2025-10-18 23:28:22] Loading data...
+[2025-10-18 23:28:22] Total sequences: 517
+[2025-10-18 23:28:22] K-Fold sample: 51 sequences (10%)
+[2025-10-18 23:28:22] Full train sequences (80%): 413
+[2025-10-18 23:28:22] Final train: 103 sequences (25%), 103,000 rows
+[2025-10-18 23:28:22] Final val: 104 sequences, 104,000 rows
+[2025-10-18 23:28:22] Features: 32
+[2025-10-18 23:28:22] Configurations to test: 100
+[2025-10-18 23:28:22] K-Fold: 3 folds, max 20 epochs
+[2025-10-18 23:28:22] Final: max 30 epochs
+[2025-10-18 23:28:22] 
+[2025-10-18 23:28:22] Starting brute force search...
+[2025-10-18 23:28:22] Batch size: Evaluate 20 configs, then train best from batch
+[2025-10-18 23:28:22] 
+Searching:   0%|          | 0/100 [00:00<?, ?it/s][2025-10-18 23:28:22] 
+======================================================================
+[2025-10-18 23:28:22] Config 1/100 - Starting Training:
+[2025-10-18 23:28:22]   Architecture:
+[2025-10-18 23:28:22]     Lookback: 50, Hidden: 32, Layers: 1, Dropout: 0.3
+[2025-10-18 23:28:22]     Bidirectional: False, GRU: False
+[2025-10-18 23:28:22]   Output Head:
+[2025-10-18 23:28:22]     FC Layers: 1, FC Hidden: 256, Activation: relu
+[2025-10-18 23:28:22]     FC Dropout: 0.0, Batch Norm: True
+[2025-10-18 23:28:22]   Training:
+[2025-10-18 23:28:22]     Batch Size: 32, LR: 0.0001, Weight Decay: 0
+[2025-10-18 23:28:22]     Optimizer: adam, Grad Clip: 0.5, LR Patience: 3
+[2025-10-18 23:28:22] 
+  Stage 1: Running 3-Fold CV on 10% sampled data...
+[2025-10-18 23:28:22]   K-Fold CV: 3 folds on 51 sequences
+    Epoch  1/20: Val R²=0.2555 Train R²=0.1234 Gap=-0.1321 ✓
+    Epoch  2/20: Val R²=0.2816 Train R²=0.2364 Gap=-0.0451 ✓
+    Epoch  3/20: Val R²=0.2938 Train R²=0.2732 Gap=-0.0205 ✓
+    Epoch  4/20: Val R²=0.3004 Train R²=0.2943 Gap=-0.0060 ✓
+    Epoch  5/20: Val R²=0.3046 Train R²=0.3066 Gap=0.0020 ✓
+    Epoch  6/20: Val R²=0.3070 Train R²=0.3146 Gap=0.0076 ✓
+    Epoch  7/20: Val R²=0.3096 Train R²=0.3205 Gap=0.0109 ✓
+    Epoch  8/20: Val R²=0.3117 Train R²=0.3253 Gap=0.0136 ✓
+    Epoch  9/20: Val R²=0.3136 Train R²=0.3294 Gap=0.0158 ✓
+    Epoch 10/20: Val R²=0.3149 Train R²=0.3329 Gap=0.0180 ✓
+    Epoch 11/20: Val R²=0.3164 Train R²=0.3356 Gap=0.0192 ✓
+    Epoch 12/20: Val R²=0.3187 Train R²=0.3382 Gap=0.0195 ✓
+    Epoch 13/20: Val R²=0.3186 Train R²=0.3404 Gap=0.0218  
+    Epoch 14/20: Val R²=0.3196 Train R²=0.3419 Gap=0.0223 ✓
+    Epoch 15/20: Val R²=0.3207 Train R²=0.3436 Gap=0.0229 ✓
+    Epoch 16/20: Val R²=0.3189 Train R²=0.3451 Gap=0.0262  
+    Epoch 17/20: Val R²=0.3231 Train R²=0.3465 Gap=0.0234 ✓
+    Epoch 18/20: Val R²=0.3227 Train R²=0.3476 Gap=0.0249  
+    Epoch 19/20: Val R²=0.3218 Train R²=0.3487 Gap=0.0270  
+    Epoch 20/20: Val R²=0.3219 Train R²=0.3500 Gap=0.0280  
+[2025-10-18 23:30:44]     Fold 1/3: Val R²=0.3231 Train R²=0.3465 (141.7s)
+    Epoch  1/20: Val R²=0.1269 Train R²=0.1850 Gap=0.0581 ✓
+    Epoch  2/20: Val R²=0.1565 Train R²=0.2997 Gap=0.1432 ✓
+    Epoch  3/20: Val R²=0.1750 Train R²=0.3158 Gap=0.1408 ✓
+    Epoch  4/20: Val R²=0.1906 Train R²=0.3259 Gap=0.1353 ✓
+    Epoch  5/20: Val R²=0.2022 Train R²=0.3334 Gap=0.1312 ✓
+    Epoch  6/20: Val R²=0.2103 Train R²=0.3388 Gap=0.1286 ✓
+    Epoch  7/20: Val R²=0.2155 Train R²=0.3428 Gap=0.1273 ✓
+    Epoch  8/20: Val R²=0.2198 Train R²=0.3461 Gap=0.1262 ✓
+    Epoch  9/20: Val R²=0.2241 Train R²=0.3489 Gap=0.1248 ✓
+    Epoch 10/20: Val R²=0.2269 Train R²=0.3514 Gap=0.1246 ✓
+    Epoch 11/20: Val R²=0.2309 Train R²=0.3537 Gap=0.1227 ✓
+    Epoch 12/20: Val R²=0.2354 Train R²=0.3557 Gap=0.1204 ✓
+    Epoch 13/20: Val R²=0.2382 Train R²=0.3577 Gap=0.1195 ✓
+    Epoch 14/20: Val R²=0.2407 Train R²=0.3593 Gap=0.1186 ✓
+    Epoch 15/20: Val R²=0.2444 Train R²=0.3608 Gap=0.1164 ✓
+    Epoch 16/20: Val R²=0.2478 Train R²=0.3622 Gap=0.1145 ✓
+    Epoch 17/20: Val R²=0.2485 Train R²=0.3635 Gap=0.1149 ✓
+    Epoch 18/20: Val R²=0.2512 Train R²=0.3648 Gap=0.1135 ✓
+    Epoch 19/20: Val R²=0.2539 Train R²=0.3660 Gap=0.1121 ✓
+    Epoch 20/20: Val R²=0.2558 Train R²=0.3670 Gap=0.1112 ✓
+[2025-10-18 23:33:07]     Fold 2/3: Val R²=0.2558 Train R²=0.3670 (142.8s)
+    Epoch  1/20: Val R²=0.2628 Train R²=0.1405 Gap=-0.1223 ✓
+    Epoch  2/20: Val R²=0.2817 Train R²=0.2661 Gap=-0.0155 ✓
+    Epoch  3/20: Val R²=0.2861 Train R²=0.2996 Gap=0.0135 ✓
+    Epoch  4/20: Val R²=0.2900 Train R²=0.3152 Gap=0.0252 ✓
+    Epoch  5/20: Val R²=0.2929 Train R²=0.3243 Gap=0.0314 ✓
+    Epoch  6/20: Val R²=0.2986 Train R²=0.3310 Gap=0.0325 ✓
+    Epoch  7/20: Val R²=0.3012 Train R²=0.3366 Gap=0.0353 ✓
+    Epoch  8/20: Val R²=0.3041 Train R²=0.3414 Gap=0.0373 ✓
+    Epoch  9/20: Val R²=0.3079 Train R²=0.3457 Gap=0.0378 ✓
+    Epoch 10/20: Val R²=0.3091 Train R²=0.3495 Gap=0.0403 ✓
+    Epoch 11/20: Val R²=0.3118 Train R²=0.3527 Gap=0.0409 ✓
+    Epoch 12/20: Val R²=0.3128 Train R²=0.3555 Gap=0.0427 ✓
+    Epoch 13/20: Val R²=0.3125 Train R²=0.3578 Gap=0.0453  
+    Epoch 14/20: Val R²=0.3147 Train R²=0.3598 Gap=0.0452 ✓
+    Epoch 15/20: Val R²=0.3136 Train R²=0.3616 Gap=0.0479  
+    Epoch 16/20: Val R²=0.3162 Train R²=0.3631 Gap=0.0470 ✓
+    Epoch 17/20: Val R²=0.3150 Train R²=0.3646 Gap=0.0496  
+    Epoch 18/20: Val R²=0.3165 Train R²=0.3660 Gap=0.0494 ✓
+    Epoch 19/20: Val R²=0.3175 Train R²=0.3673 Gap=0.0498 ✓
+    Epoch 20/20: Val R²=0.3142 Train R²=0.3683 Gap=0.0541  
+[2025-10-18 23:35:28]     Fold 3/3: Val R²=0.3175 Train R²=0.3673 (141.3s)
+[2025-10-18 23:35:28]   K-Fold Results: mean=0.298792 ± 0.030497 (min=0.255784, max=0.323089)
+[2025-10-18 23:35:28] 
+======================================================================
+[2025-10-18 23:35:28] Config 1/100 - K-Fold Complete:
+[2025-10-18 23:35:28]   Mean Val R²: 0.298792 ± 0.030497
+[2025-10-18 23:35:28]   Range: [0.255784, 0.323089]
+[2025-10-18 23:35:28]   Best Global Mean R²: 0.340000
+[2025-10-18 23:35:28]   Parameters: 9,504
+[2025-10-18 23:35:28]   K-Fold mean R² not better than global best (0.340000)
+[2025-10-18 23:35:28]   Skipping.
+[2025-10-18 23:35:28]   Results saved to models/bruteforce_kfold_results_20251018_232822.csv
+Searching:   1%|          | 1/100 [07:05<11:42:37, 425.83s/it][2025-10-18 23:35:28] 
+======================================================================
+[2025-10-18 23:35:28] Config 2/100 - Starting Training:
+[2025-10-18 23:35:28]   Architecture:
+[2025-10-18 23:35:28]     Lookback: 30, Hidden: 64, Layers: 4, Dropout: 0.2
+[2025-10-18 23:35:28]     Bidirectional: True, GRU: True
+[2025-10-18 23:35:28]   Output Head:
+[2025-10-18 23:35:28]     FC Layers: 1, FC Hidden: 64, Activation: gelu
+[2025-10-18 23:35:28]     FC Dropout: 0.4, Batch Norm: True
+[2025-10-18 23:35:28]   Training:
+[2025-10-18 23:35:28]     Batch Size: 128, LR: 0.0005, Weight Decay: 0.0001
+[2025-10-18 23:35:28]     Optimizer: adam, Grad Clip: 1.0, LR Patience: 3
+[2025-10-18 23:35:28] 
+  Stage 1: Running 3-Fold CV on 10% sampled data...
+[2025-10-18 23:35:28]   K-Fold CV: 3 folds on 51 sequences
+    Epoch  1/20: Val R²=0.3050 Train R²=0.2485 Gap=-0.0564 ✓
+    Epoch  2/20: Val R²=0.3243 Train R²=0.3172 Gap=-0.0071 ✓
+    Epoch  3/20: Val R²=0.3303 Train R²=0.3289 Gap=-0.0013 ✓
+    Epoch  4/20: Val R²=0.3306 Train R²=0.3361 Gap=0.0055 ✓
+    Epoch  5/20: Val R²=0.3338 Train R²=0.3407 Gap=0.0068 ✓
+    Epoch  6/20: Val R²=0.3314 Train R²=0.3432 Gap=0.0118  
+    Epoch  7/20: Val R²=0.3364 Train R²=0.3449 Gap=0.0085 ✓
+    Epoch  8/20: Val R²=0.3346 Train R²=0.3480 Gap=0.0134  
+    Epoch  9/20: Val R²=0.3327 Train R²=0.3516 Gap=0.0189  
+    Epoch 10/20: Val R²=0.3411 Train R²=0.3532 Gap=0.0121 ✓
+    Epoch 11/20: Val R²=0.3327 Train R²=0.3551 Gap=0.0223  
+    Epoch 12/20: Val R²=0.3337 Train R²=0.3574 Gap=0.0237  
+    Epoch 13/20: Val R²=0.3395 Train R²=0.3592 Gap=0.0197  
+    Epoch 14/20: Val R²=0.3380 Train R²=0.3607 Gap=0.0227  
+    Epoch 15/20: Val R²=0.3392 Train R²=0.3665 Gap=0.0273  
+[2025-10-18 23:45:51] 
+ERROR in config 2: 'NoneType' object has no attribute 'info'
+Traceback (most recent call last):
+  File "/Users/polmolinas/Documents/nothing-to-see-here/wunderfund/exploration/tune_lstm_bruteforce_kfold.py", line 869, in main
+    kfold_result = train_model_kfold(
+                   ^^^^^^^^^^^^^^^^^^
+  File "/Users/polmolinas/Documents/nothing-to-see-here/wunderfund/exploration/tune_lstm_bruteforce_kfold.py", line 377, in train_model_kfold
+    result = train_model(
+             ^^^^^^^^^^^^
+  File "/Users/polmolinas/Documents/nothing-to-see-here/wunderfund/exploration/tune_lstm_bruteforce_kfold.py", line 317, in train_model
+    logger.info(f"    Early stopped at epoch {epoch+1}")
+    ^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'info'
+Searching:   2%|▏         | 2/100 [17:29<14:45:24, 542.08s/it][2025-10-18 23:45:51] 
+======================================================================
+[2025-10-18 23:45:51] Config 3/100 - Starting Training:
+[2025-10-18 23:45:51]   Architecture:
+[2025-10-18 23:45:51]     Lookback: 20, Hidden: 32, Layers: 3, Dropout: 0.3
+[2025-10-18 23:45:51]     Bidirectional: True, GRU: False
+[2025-10-18 23:45:51]   Output Head:
+[2025-10-18 23:45:51]     FC Layers: 3, FC Hidden: 128, Activation: gelu
+[2025-10-18 23:45:51]     FC Dropout: 0.0, Batch Norm: True
+[2025-10-18 23:45:51]   Training:
+[2025-10-18 23:45:51]     Batch Size: 32, LR: 0.005, Weight Decay: 0.001
+[2025-10-18 23:45:51]     Optimizer: adam, Grad Clip: 1.0, LR Patience: 3
+[2025-10-18 23:45:51] 
+  Stage 1: Running 3-Fold CV on 10% sampled data...
+[2025-10-18 23:45:51]   K-Fold CV: 3 folds on 51 sequences
+    Epoch  1/20: Val R²=0.2382 Train R²=0.2339 Gap=-0.0042 ✓
+    Epoch  2/20: Val R²=0.2312 Train R²=0.2488 Gap=0.0176  
+    Epoch  3/20: Val R²=0.2527 Train R²=0.2545 Gap=0.0017 ✓
+    Epoch  4/20: Val R²=0.2668 Train R²=0.2576 Gap=-0.0092 ✓
+    Epoch  5/20: Val R²=0.2758 Train R²=0.2613 Gap=-0.0144 ✓
+    Epoch  6/20: Val R²=0.2592 Train R²=0.2618 Gap=0.0025  
+    Epoch  7/20: Val R²=0.2698 Train R²=0.2624 Gap=-0.0074  
+    Epoch  8/20: Val R²=0.2513 Train R²=0.2641 Gap=0.0128  
+    Epoch  9/20: Val R²=0.2513 Train R²=0.2620 Gap=0.0107  
+    Epoch 10/20: Val R²=0.2760 Train R²=0.2756 Gap=-0.0004 ✓
+    Epoch 11/20: Val R²=0.2526 Train R²=0.2790 Gap=0.0264  
+    Epoch 12/20: Val R²=0.2643 Train R²=0.2805 Gap=0.0162  
+    Epoch 13/20: Val R²=0.2816 Train R²=0.2778 Gap=-0.0038 ✓
+    Epoch 14/20: Val R²=0.2770 Train R²=0.2770 Gap=0.0000  
+    Epoch 15/20: Val R²=0.2818 Train R²=0.2810 Gap=-0.0007 ✓
+    Epoch 16/20: Val R²=0.2513 Train R²=0.2785 Gap=0.0271  
+    Epoch 17/20: Val R²=0.2747 Train R²=0.2805 Gap=0.0058  
+    Epoch 18/20: Val R²=0.2732 Train R²=0.2793 Gap=0.0061  
+    Epoch 19/20: Val R²=0.2772 Train R²=0.2793 Gap=0.0021  
+    Epoch 20/20: Val R²=0.2802 Train R²=0.2876 Gap=0.0074  
+[2025-10-18 23:52:17] 
+ERROR in config 3: 'NoneType' object has no attribute 'info'
+Traceback (most recent call last):
+  File "/Users/polmolinas/Documents/nothing-to-see-here/wunderfund/exploration/tune_lstm_bruteforce_kfold.py", line 869, in main
+    kfold_result = train_model_kfold(
+                   ^^^^^^^^^^^^^^^^^^
+  File "/Users/polmolinas/Documents/nothing-to-see-here/wunderfund/exploration/tune_lstm_bruteforce_kfold.py", line 377, in train_model_kfold
+    result = train_model(
+             ^^^^^^^^^^^^
+  File "/Users/polmolinas/Documents/nothing-to-see-here/wunderfund/exploration/tune_lstm_bruteforce_kfold.py", line 317, in train_model
+    logger.info(f"    Early stopped at epoch {epoch+1}")
+    ^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'info'
+Searching:   3%|▎         | 3/100 [23:55<12:40:58, 470.70s/it][2025-10-18 23:52:17] 
+======================================================================
+[2025-10-18 23:52:17] Config 4/100 - Starting Training:
+[2025-10-18 23:52:17]   Architecture:
+[2025-10-18 23:52:17]     Lookback: 5, Hidden: 256, Layers: 2, Dropout: 0.3
+[2025-10-18 23:52:17]     Bidirectional: False, GRU: False
+[2025-10-18 23:52:17]   Output Head:
+[2025-10-18 23:52:17]     FC Layers: 1, FC Hidden: 128, Activation: tanh
+[2025-10-18 23:52:17]     FC Dropout: 0.4, Batch Norm: True
+[2025-10-18 23:52:17]   Training:
+[2025-10-18 23:52:17]     Batch Size: 64, LR: 0.001, Weight Decay: 0.001
+[2025-10-18 23:52:17]     Optimizer: adamw, Grad Clip: 0.5, LR Patience: 3
+[2025-10-18 23:52:17] 
+  Stage 1: Running 3-Fold CV on 10% sampled data...
+[2025-10-18 23:52:17]   K-Fold CV: 3 folds on 51 sequences
+    Epoch  1/20: Val R²=0.2936 Train R²=0.2909 Gap=-0.0027 ✓
+    Epoch  2/20: Val R²=0.3051 Train R²=0.3303 Gap=0.0252 ✓
+    Epoch  3/20: Val R²=0.3064 Train R²=0.3441 Gap=0.0377 ✓
+    Epoch  4/20: Val R²=0.3045 Train R²=0.3558 Gap=0.0513  
+    Epoch  5/20: Val R²=0.3125 Train R²=0.3638 Gap=0.0513 ✓
+    Epoch  6/20: Val R²=0.3007 Train R²=0.3754 Gap=0.0747  
+    Epoch  7/20: Val R²=0.3025 Train R²=0.3879 Gap=0.0855  
+    Epoch  8/20: Val R²=0.2904 Train R²=0.4059 Gap=0.1155  
+    Epoch  9/20: Val R²=0.2932 Train R²=0.4241 Gap=0.1309  
+    Epoch 10/20: Val R²=0.2767 Train R²=0.4660 Gap=0.1894  
+[2025-10-18 23:53:13] 
+ERROR in config 4: 'NoneType' object has no attribute 'info'
+Traceback (most recent call last):
+  File "/Users/polmolinas/Documents/nothing-to-see-here/wunderfund/exploration/tune_lstm_bruteforce_kfold.py", line 869, in main
+    kfold_result = train_model_kfold(
+                   ^^^^^^^^^^^^^^^^^^
+  File "/Users/polmolinas/Documents/nothing-to-see-here/wunderfund/exploration/tune_lstm_bruteforce_kfold.py", line 377, in train_model_kfold
+    result = train_model(
+             ^^^^^^^^^^^^
+  File "/Users/polmolinas/Documents/nothing-to-see-here/wunderfund/exploration/tune_lstm_bruteforce_kfold.py", line 317, in train_model
+    logger.info(f"    Early stopped at epoch {epoch+1}")
+    ^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'info'
+Searching:   4%|▍         | 4/100 [24:50<8:11:02, 306.90s/it] [2025-10-18 23:53:13] 
+======================================================================
+[2025-10-18 23:53:13] Config 5/100 - Starting Training:
+[2025-10-18 23:53:13]   Architecture:
+[2025-10-18 23:53:13]     Lookback: 30, Hidden: 256, Layers: 2, Dropout: 0.5
+[2025-10-18 23:53:13]     Bidirectional: False, GRU: False
+[2025-10-18 23:53:13]   Output Head:
+[2025-10-18 23:53:13]     FC Layers: 2, FC Hidden: 128, Activation: tanh
+[2025-10-18 23:53:13]     FC Dropout: 0.2, Batch Norm: True
+[2025-10-18 23:53:13]   Training:
+[2025-10-18 23:53:13]     Batch Size: 32, LR: 0.0005, Weight Decay: 0
+[2025-10-18 23:53:13]     Optimizer: adamw, Grad Clip: 1.0, LR Patience: 7
+[2025-10-18 23:53:13] 
+  Stage 1: Running 3-Fold CV on 10% sampled data...
+[2025-10-18 23:53:13]   K-Fold CV: 3 folds on 51 sequences
+    Epoch  1/20: Val R²=0.2940 Train R²=0.2586 Gap=-0.0355 ✓
+    Epoch  2/20: Val R²=0.3136 Train R²=0.3106 Gap=-0.0031 ✓
+    Epoch  3/20: Val R²=0.3210 Train R²=0.3280 Gap=0.0070 ✓
+    Epoch  4/20: Val R²=0.3212 Train R²=0.3389 Gap=0.0178 ✓
+    Epoch  5/20: Val R²=0.3305 Train R²=0.3471 Gap=0.0166 ✓
+    Epoch  6/20: Val R²=0.3247 Train R²=0.3544 Gap=0.0297  
+    Epoch  7/20: Val R²=0.3277 Train R²=0.3603 Gap=0.0325  
+    Epoch  8/20: Val R²=0.3150 Train R²=0.3682 Gap=0.0532  
+    Epoch  9/20: Val R²=0.3253 Train R²=0.3737 Gap=0.0484  
+    Epoch 10/20: Val R²=0.3243 Train R²=0.3849 Gap=0.0607  
+[2025-10-18 23:55:42] 
+ERROR in config 5: 'NoneType' object has no attribute 'info'
+Traceback (most recent call last):
+  File "/Users/polmolinas/Documents/nothing-to-see-here/wunderfund/exploration/tune_lstm_bruteforce_kfold.py", line 869, in main
+    kfold_result = train_model_kfold(
+                   ^^^^^^^^^^^^^^^^^^
+  File "/Users/polmolinas/Documents/nothing-to-see-here/wunderfund/exploration/tune_lstm_bruteforce_kfold.py", line 377, in train_model_kfold
+    result = train_model(
+             ^^^^^^^^^^^^
+  File "/Users/polmolinas/Documents/nothing-to-see-here/wunderfund/exploration/tune_lstm_bruteforce_kfold.py", line 317, in train_model
+    logger.info(f"    Early stopped at epoch {epoch+1}")
+    ^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'info'
+Searching:   5%|▌         | 5/100 [27:19<6:35:30, 249.80s/it][2025-10-18 23:55:42] 
+======================================================================
+[2025-10-18 23:55:42] Config 6/100 - Starting Training:
+[2025-10-18 23:55:42]   Architecture:
+[2025-10-18 23:55:42]     Lookback: 5, Hidden: 64, Layers: 3, Dropout: 0.2
+[2025-10-18 23:55:42]     Bidirectional: True, GRU: True
+[2025-10-18 23:55:42]   Output Head:
+[2025-10-18 23:55:42]     FC Layers: 3, FC Hidden: 128, Activation: relu
+[2025-10-18 23:55:42]     FC Dropout: 0.3, Batch Norm: False
+[2025-10-18 23:55:42]   Training:
+[2025-10-18 23:55:42]     Batch Size: 64, LR: 0.005, Weight Decay: 0.001
+[2025-10-18 23:55:42]     Optimizer: adamw, Grad Clip: 5.0, LR Patience: 7
+[2025-10-18 23:55:42] 
+  Stage 1: Running 3-Fold CV on 10% sampled data...
+[2025-10-18 23:55:42]   K-Fold CV: 3 folds on 51 sequences
+    Epoch  1/20: Val R²=0.2552 Train R²=0.2359 Gap=-0.0193 ✓
+    Epoch  2/20: Val R²=0.2695 Train R²=0.2708 Gap=0.0013 ✓
+    Epoch  3/20: Val R²=0.2549 Train R²=0.2775 Gap=0.0226  
+    Epoch  4/20: Val R²=0.2634 Train R²=0.2859 Gap=0.0225  
+    Epoch  5/20: Val R²=0.2994 Train R²=0.2877 Gap=-0.0117 ✓
+    Epoch  6/20: Val R²=0.2566 Train R²=0.2897 Gap=0.0331  
+    Epoch  7/20: Val R²=0.2768 Train R²=0.2900 Gap=0.0133  
+    Epoch  8/20: Val R²=0.2667 Train R²=0.2922 Gap=0.0255  
+    Epoch  9/20: Val R²=0.2557 Train R²=0.2924 Gap=0.0367  
+    Epoch 10/20: Val R²=0.2728 Train R²=0.2970 Gap=0.0242  
+[2025-10-18 23:58:13] 
+ERROR in config 6: 'NoneType' object has no attribute 'info'
+Traceback (most recent call last):
+  File "/Users/polmolinas/Documents/nothing-to-see-here/wunderfund/exploration/tune_lstm_bruteforce_kfold.py", line 869, in main
+    kfold_result = train_model_kfold(
+                   ^^^^^^^^^^^^^^^^^^
+  File "/Users/polmolinas/Documents/nothing-to-see-here/wunderfund/exploration/tune_lstm_bruteforce_kfold.py", line 377, in train_model_kfold
+    result = train_model(
+             ^^^^^^^^^^^^
+  File "/Users/polmolinas/Documents/nothing-to-see-here/wunderfund/exploration/tune_lstm_bruteforce_kfold.py", line 317, in train_model
+    logger.info(f"    Early stopped at epoch {epoch+1}")
+    ^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'info'
+Searching:   6%|▌         | 6/100 [29:50<5:38:52, 216.30s/it][2025-10-18 23:58:13] 
+======================================================================
+[2025-10-18 23:58:13] Config 7/100 - Starting Training:
+[2025-10-18 23:58:13]   Architecture:
+[2025-10-18 23:58:13]     Lookback: 10, Hidden: 64, Layers: 4, Dropout: 0.1
+[2025-10-18 23:58:13]     Bidirectional: False, GRU: False
+[2025-10-18 23:58:13]   Output Head:
+[2025-10-18 23:58:13]     FC Layers: 1, FC Hidden: 256, Activation: relu
+[2025-10-18 23:58:13]     FC Dropout: 0.4, Batch Norm: False
+[2025-10-18 23:58:13]   Training:
+[2025-10-18 23:58:13]     Batch Size: 256, LR: 0.002, Weight Decay: 0.01
+[2025-10-18 23:58:13]     Optimizer: adam, Grad Clip: 1.0, LR Patience: 3
+[2025-10-18 23:58:13] 
+  Stage 1: Running 3-Fold CV on 10% sampled data...
+[2025-10-18 23:58:13]   K-Fold CV: 3 folds on 51 sequences
+    Epoch  1/20: Val R²=0.0213 Train R²=0.0672 Gap=0.0459 ✓
+    Epoch  2/20: Val R²=-0.0170 Train R²=0.0121 Gap=0.0291  
+    Epoch  3/20: Val R²=-0.0173 Train R²=-0.0001 Gap=0.0172  
+    Epoch  4/20: Val R²=-0.0176 Train R²=-0.0001 Gap=0.0175  
+    Epoch  5/20: Val R²=-0.0173 Train R²=-0.0001 Gap=0.0172  
+    Epoch  6/20: Val R²=-0.0180 Train R²=-0.0001 Gap=0.0179  
+[2025-10-18 23:58:26] 
+ERROR in config 7: 'NoneType' object has no attribute 'info'
+Traceback (most recent call last):
+  File "/Users/polmolinas/Documents/nothing-to-see-here/wunderfund/exploration/tune_lstm_bruteforce_kfold.py", line 869, in main
+    kfold_result = train_model_kfold(
+                   ^^^^^^^^^^^^^^^^^^
+  File "/Users/polmolinas/Documents/nothing-to-see-here/wunderfund/exploration/tune_lstm_bruteforce_kfold.py", line 377, in train_model_kfold
+    result = train_model(
+             ^^^^^^^^^^^^
+  File "/Users/polmolinas/Documents/nothing-to-see-here/wunderfund/exploration/tune_lstm_bruteforce_kfold.py", line 317, in train_model
+    logger.info(f"    Early stopped at epoch {epoch+1}")
+    ^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'info'
+Searching:   7%|▋         | 7/100 [30:04<3:52:30, 150.01s/it][2025-10-18 23:58:26] 
+======================================================================
+[2025-10-18 23:58:26] Config 8/100 - Starting Training:
+[2025-10-18 23:58:26]   Architecture:
+[2025-10-18 23:58:26]     Lookback: 50, Hidden: 192, Layers: 3, Dropout: 0.3
+[2025-10-18 23:58:26]     Bidirectional: False, GRU: True
+[2025-10-18 23:58:26]   Output Head:
+[2025-10-18 23:58:26]     FC Layers: 2, FC Hidden: 64, Activation: tanh
+[2025-10-18 23:58:26]     FC Dropout: 0.0, Batch Norm: True
+[2025-10-18 23:58:26]   Training:
+[2025-10-18 23:58:26]     Batch Size: 64, LR: 0.005, Weight Decay: 0
+[2025-10-18 23:58:26]     Optimizer: adam, Grad Clip: 1.0, LR Patience: 5
+[2025-10-18 23:58:26] 
+  Stage 1: Running 3-Fold CV on 10% sampled data...
+[2025-10-18 23:58:26]   K-Fold CV: 3 folds on 51 sequences
+    Epoch  1/20: Val R²=0.2899 Train R²=0.2781 Gap=-0.0118 ✓
+    Epoch  2/20: Val R²=0.2856 Train R²=0.3110 Gap=0.0254  
+    Epoch  3/20: Val R²=0.2957 Train R²=0.3144 Gap=0.0187 ✓
+    Epoch  4/20: Val R²=0.2957 Train R²=0.3169 Gap=0.0213 ✓
+    Epoch  5/20: Val R²=0.2957 Train R²=0.3138 Gap=0.0181 ✓
+    Epoch  6/20: Val R²=0.2898 Train R²=0.2916 Gap=0.0019  
+    Epoch  7/20: Val R²=0.2764 Train R²=0.2935 Gap=0.0171  
+    Epoch  8/20: Val R²=0.2702 Train R²=0.2899 Gap=0.0197  
+    Epoch  9/20: Val R²=0.2693 Train R²=0.2920 Gap=0.0227  
+    Epoch 10/20: Val R²=0.2736 Train R²=0.2934 Gap=0.0198  
+[2025-10-19 00:07:48] 
+ERROR in config 8: 'NoneType' object has no attribute 'info'
+Traceback (most recent call last):
+  File "/Users/polmolinas/Documents/nothing-to-see-here/wunderfund/exploration/tune_lstm_bruteforce_kfold.py", line 869, in main
+    kfold_result = train_model_kfold(
+                   ^^^^^^^^^^^^^^^^^^
+  File "/Users/polmolinas/Documents/nothing-to-see-here/wunderfund/exploration/tune_lstm_bruteforce_kfold.py", line 377, in train_model_kfold
+    result = train_model(
+             ^^^^^^^^^^^^
+  File "/Users/polmolinas/Documents/nothing-to-see-here/wunderfund/exploration/tune_lstm_bruteforce_kfold.py", line 317, in train_model
+    logger.info(f"    Early stopped at epoch {epoch+1}")
+    ^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'info'
+Searching:   8%|▊         | 8/100 [39:26<7:11:08, 281.18s/it][2025-10-19 00:07:48] 
+======================================================================
+[2025-10-19 00:07:48] Config 9/100 - Starting Training:
+[2025-10-19 00:07:48]   Architecture:
+[2025-10-19 00:07:48]     Lookback: 15, Hidden: 64, Layers: 1, Dropout: 0.5
+[2025-10-19 00:07:48]     Bidirectional: True, GRU: True
+[2025-10-19 00:07:48]   Output Head:
+[2025-10-19 00:07:48]     FC Layers: 1, FC Hidden: 64, Activation: tanh
+[2025-10-19 00:07:48]     FC Dropout: 0.3, Batch Norm: False
+[2025-10-19 00:07:48]   Training:
+[2025-10-19 00:07:48]     Batch Size: 32, LR: 0.0005, Weight Decay: 0
+[2025-10-19 00:07:48]     Optimizer: adamw, Grad Clip: None, LR Patience: 3
+[2025-10-19 00:07:48] 
+  Stage 1: Running 3-Fold CV on 10% sampled data...
+[2025-10-19 00:07:48]   K-Fold CV: 3 folds on 51 sequences
+    Epoch  1/20: Val R²=0.3211 Train R²=0.2873 Gap=-0.0338 ✓
+    Epoch  2/20: Val R²=0.3285 Train R²=0.3288 Gap=0.0002 ✓
+    Epoch  3/20: Val R²=0.3348 Train R²=0.3410 Gap=0.0061 ✓
+    Epoch  4/20: Val R²=0.3390 Train R²=0.3475 Gap=0.0085 ✓
+    Epoch  5/20: Val R²=0.3407 Train R²=0.3531 Gap=0.0124 ✓
+    Epoch  6/20: Val R²=0.3398 Train R²=0.3570 Gap=0.0172  
+    Epoch  7/20: Val R²=0.3383 Train R²=0.3607 Gap=0.0225  
+    Epoch  8/20: Val R²=0.3435 Train R²=0.3642 Gap=0.0207 ✓
+    Epoch  9/20: Val R²=0.3331 Train R²=0.3671 Gap=0.0340  
+    Epoch 10/20: Val R²=0.3336 Train R²=0.3696 Gap=0.0360  
+    Epoch 11/20: Val R²=0.3272 Train R²=0.3720 Gap=0.0448  
+    Epoch 12/20: Val R²=0.3338 Train R²=0.3747 Gap=0.0410  
+    Epoch 13/20: Val R²=0.3351 Train R²=0.3808 Gap=0.0457  
+[2025-10-19 00:12:51] 
+ERROR in config 9: 'NoneType' object has no attribute 'info'
+Traceback (most recent call last):
+  File "/Users/polmolinas/Documents/nothing-to-see-here/wunderfund/exploration/tune_lstm_bruteforce_kfold.py", line 869, in main
+    kfold_result = train_model_kfold(
+                   ^^^^^^^^^^^^^^^^^^
+  File "/Users/polmolinas/Documents/nothing-to-see-here/wunderfund/exploration/tune_lstm_bruteforce_kfold.py", line 377, in train_model_kfold
+    result = train_model(
+             ^^^^^^^^^^^^
+  File "/Users/polmolinas/Documents/nothing-to-see-here/wunderfund/exploration/tune_lstm_bruteforce_kfold.py", line 317, in train_model
+    logger.info(f"    Early stopped at epoch {epoch+1}")
+    ^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'info'
+Searching:   9%|▉         | 9/100 [44:28<7:16:31, 287.81s/it][2025-10-19 00:12:51] 
+======================================================================
+[2025-10-19 00:12:51] Config 10/100 - Starting Training:
+[2025-10-19 00:12:51]   Architecture:
+[2025-10-19 00:12:51]     Lookback: 30, Hidden: 64, Layers: 2, Dropout: 0.4
+[2025-10-19 00:12:51]     Bidirectional: False, GRU: True
+[2025-10-19 00:12:51]   Output Head:
+[2025-10-19 00:12:51]     FC Layers: 3, FC Hidden: 256, Activation: tanh
+[2025-10-19 00:12:51]     FC Dropout: 0.2, Batch Norm: False
+[2025-10-19 00:12:51]   Training:
+[2025-10-19 00:12:51]     Batch Size: 128, LR: 0.002, Weight Decay: 0.001
+[2025-10-19 00:12:51]     Optimizer: adamw, Grad Clip: 5.0, LR Patience: 3
+[2025-10-19 00:12:51] 
+  Stage 1: Running 3-Fold CV on 10% sampled data...
+[2025-10-19 00:12:51]   K-Fold CV: 3 folds on 51 sequences
+    Epoch  1/20: Val R²=0.3223 Train R²=0.2647 Gap=-0.0576 ✓
+    Epoch  2/20: Val R²=0.3271 Train R²=0.3049 Gap=-0.0222 ✓
+    Epoch  3/20: Val R²=0.3303 Train R²=0.3184 Gap=-0.0118 ✓
+    Epoch  4/20: Val R²=0.3406 Train R²=0.3266 Gap=-0.0141 ✓
+    Epoch  5/20: Val R²=0.3425 Train R²=0.3313 Gap=-0.0112 ✓
+    Epoch  6/20: Val R²=0.3421 Train R²=0.3346 Gap=-0.0075  
+    Epoch  7/20: Val R²=0.3331 Train R²=0.3393 Gap=0.0062  
+    Epoch  8/20: Val R²=0.3317 Train R²=0.3412 Gap=0.0095  
+    Epoch  9/20: Val R²=0.3317 Train R²=0.3458 Gap=0.0141  
+    Epoch 10/20: Val R²=0.3444 Train R²=0.3593 Gap=0.0149 ✓
+    Epoch 11/20: Val R²=0.3442 Train R²=0.3629 Gap=0.0187  
+    Epoch 12/20: Val R²=0.3368 Train R²=0.3650 Gap=0.0282  
+    Epoch 13/20: Val R²=0.3367 Train R²=0.3666 Gap=0.0299  
+    Epoch 14/20: Val R²=0.3422 Train R²=0.3695 Gap=0.0273  
+    Epoch 15/20: Val R²=0.3471 Train R²=0.3781 Gap=0.0310 ✓
+    Epoch 16/20: Val R²=0.3439 Train R²=0.3800 Gap=0.0361  
+    Epoch 17/20: Val R²=0.3427 Train R²=0.3833 Gap=0.0406  
+    Epoch 18/20: Val R²=0.3375 Train R²=0.3845 Gap=0.0470  
+    Epoch 19/20: Val R²=0.3462 Train R²=0.3864 Gap=0.0402  
+    Epoch 20/20: Val R²=0.3477 Train R²=0.3904 Gap=0.0427 ✓
+[2025-10-19 00:16:57]     Fold 1/3: Val R²=0.3477 Train R²=0.3904 (246.4s)
+    Epoch  1/20: Val R²=0.2305 Train R²=0.2973 Gap=0.0668 ✓
+    Epoch  2/20: Val R²=0.2529 Train R²=0.3317 Gap=0.0788 ✓
+    Epoch  3/20: Val R²=0.2523 Train R²=0.3404 Gap=0.0881  
+    Epoch  4/20: Val R²=0.2812 Train R²=0.3470 Gap=0.0658 ✓
+    Epoch  5/20: Val R²=0.2802 Train R²=0.3507 Gap=0.0706  
+    Epoch  6/20: Val R²=0.2904 Train R²=0.3570 Gap=0.0666 ✓
+    Epoch  7/20: Val R²=0.2855 Train R²=0.3593 Gap=0.0738  
+    Epoch  8/20: Val R²=0.2792 Train R²=0.3635 Gap=0.0842  
+    Epoch  9/20: Val R²=0.2819 Train R²=0.3638 Gap=0.0819  
+    Epoch 10/20: Val R²=0.2777 Train R²=0.3659 Gap=0.0881  
+    Epoch 11/20: Val R²=0.2983 Train R²=0.3777 Gap=0.0794 ✓
+    Epoch 12/20: Val R²=0.3014 Train R²=0.3811 Gap=0.0797 ✓
+    Epoch 13/20: Val R²=0.3017 Train R²=0.3827 Gap=0.0810 ✓
+    Epoch 14/20: Val R²=0.2939 Train R²=0.3839 Gap=0.0900  
+    Epoch 15/20: Val R²=0.2967 Train R²=0.3852 Gap=0.0886  
+    Epoch 16/20: Val R²=0.2896 Train R²=0.3882 Gap=0.0986  
+    Epoch 17/20: Val R²=0.2987 Train R²=0.3905 Gap=0.0918  
+    Epoch 18/20: Val R²=0.2967 Train R²=0.3996 Gap=0.1029  
+[2025-10-19 00:20:42] 
+ERROR in config 10: 'NoneType' object has no attribute 'info'
+Traceback (most recent call last):
+  File "/Users/polmolinas/Documents/nothing-to-see-here/wunderfund/exploration/tune_lstm_bruteforce_kfold.py", line 869, in main
+    kfold_result = train_model_kfold(
+                   ^^^^^^^^^^^^^^^^^^
+  File "/Users/polmolinas/Documents/nothing-to-see-here/wunderfund/exploration/tune_lstm_bruteforce_kfold.py", line 377, in train_model_kfold
+    result = train_model(
+             ^^^^^^^^^^^^
+  File "/Users/polmolinas/Documents/nothing-to-see-here/wunderfund/exploration/tune_lstm_bruteforce_kfold.py", line 317, in train_model
+    logger.info(f"    Early stopped at epoch {epoch+1}")
+    ^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'info'
+Searching:  10%|█         | 10/100 [52:19<8:36:39, 344.44s/it][2025-10-19 00:20:42] 
+======================================================================
+[2025-10-19 00:20:42] Config 11/100 - Starting Training:
+[2025-10-19 00:20:42]   Architecture:
+[2025-10-19 00:20:42]     Lookback: 10, Hidden: 64, Layers: 1, Dropout: 0.3
+[2025-10-19 00:20:42]     Bidirectional: False, GRU: False
+[2025-10-19 00:20:42]   Output Head:
+[2025-10-19 00:20:42]     FC Layers: 3, FC Hidden: 64, Activation: relu
+[2025-10-19 00:20:42]     FC Dropout: 0.0, Batch Norm: False
+[2025-10-19 00:20:42]   Training:
+[2025-10-19 00:20:42]     Batch Size: 64, LR: 0.0001, Weight Decay: 0
+[2025-10-19 00:20:42]     Optimizer: adam, Grad Clip: 1.0, LR Patience: 5
+[2025-10-19 00:20:42] 
+  Stage 1: Running 3-Fold CV on 10% sampled data...
+[2025-10-19 00:20:42]   K-Fold CV: 3 folds on 51 sequences
+    Epoch  1/20: Val R²=0.2699 Train R²=0.1144 Gap=-0.1556 ✓
+    Epoch  2/20: Val R²=0.2952 Train R²=0.2610 Gap=-0.0342 ✓
+    Epoch  3/20: Val R²=0.3091 Train R²=0.3020 Gap=-0.0071 ✓
+    Epoch  4/20: Val R²=0.3145 Train R²=0.3172 Gap=0.0028 ✓
+    Epoch  5/20: Val R²=0.3181 Train R²=0.3243 Gap=0.0062 ✓
+    Epoch  6/20: Val R²=0.3197 Train R²=0.3297 Gap=0.0100 ✓
+    Epoch  7/20: Val R²=0.3195 Train R²=0.3329 Gap=0.0134  
+    Epoch  8/20: Val R²=0.3218 Train R²=0.3360 Gap=0.0142 ✓
+    Epoch  9/20: Val R²=0.3203 Train R²=0.3384 Gap=0.0182  
+    Epoch 10/20: Val R²=0.3219 Train R²=0.3403 Gap=0.0184 ✓
+    Epoch 11/20: Val R²=0.3255 Train R²=0.3424 Gap=0.0169 ✓
+    Epoch 12/20: Val R²=0.3215 Train R²=0.3445 Gap=0.0230  
+    Epoch 13/20: Val R²=0.3233 Train R²=0.3459 Gap=0.0225  
+    Epoch 14/20: Val R²=0.3245 Train R²=0.3476 Gap=0.0231  
+    Epoch 15/20: Val R²=0.3250 Train R²=0.3490 Gap=0.0240  
+    Epoch 16/20: Val R²=0.3238 Train R²=0.3505 Gap=0.0266  
+[2025-10-19 00:21:45] 
+ERROR in config 11: 'NoneType' object has no attribute 'info'
+Traceback (most recent call last):
+  File "/Users/polmolinas/Documents/nothing-to-see-here/wunderfund/exploration/tune_lstm_bruteforce_kfold.py", line 869, in main
+    kfold_result = train_model_kfold(
+                   ^^^^^^^^^^^^^^^^^^
+  File "/Users/polmolinas/Documents/nothing-to-see-here/wunderfund/exploration/tune_lstm_bruteforce_kfold.py", line 377, in train_model_kfold
+    result = train_model(
+             ^^^^^^^^^^^^
+  File "/Users/polmolinas/Documents/nothing-to-see-here/wunderfund/exploration/tune_lstm_bruteforce_kfold.py", line 317, in train_model
+    logger.info(f"    Early stopped at epoch {epoch+1}")
+    ^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'info'
+Searching:  11%|█         | 11/100 [53:23<6:23:16, 258.38s/it][2025-10-19 00:21:45] 
+======================================================================
+[2025-10-19 00:21:45] Config 12/100 - Starting Training:
+[2025-10-19 00:21:45]   Architecture:
+[2025-10-19 00:21:45]     Lookback: 15, Hidden: 256, Layers: 4, Dropout: 0.2
+[2025-10-19 00:21:45]     Bidirectional: False, GRU: True
+[2025-10-19 00:21:45]   Output Head:
+[2025-10-19 00:21:45]     FC Layers: 1, FC Hidden: 128, Activation: tanh
+[2025-10-19 00:21:45]     FC Dropout: 0.2, Batch Norm: False
+[2025-10-19 00:21:45]   Training:
+[2025-10-19 00:21:45]     Batch Size: 32, LR: 0.002, Weight Decay: 0.001
+[2025-10-19 00:21:45]     Optimizer: adamw, Grad Clip: 5.0, LR Patience: 10
+[2025-10-19 00:21:45] 
+  Stage 1: Running 3-Fold CV on 10% sampled data...
+[2025-10-19 00:21:45]   K-Fold CV: 3 folds on 51 sequences
+    Epoch  1/20: Val R²=0.3013 Train R²=0.2664 Gap=-0.0349 ✓
+    Epoch  2/20: Val R²=0.3065 Train R²=0.3115 Gap=0.0050 ✓
+    Epoch  3/20: Val R²=0.2956 Train R²=0.3261 Gap=0.0305  
+    Epoch  4/20: Val R²=0.2854 Train R²=0.3306 Gap=0.0452  
+    Epoch  5/20: Val R²=0.2919 Train R²=0.3354 Gap=0.0435  
+    Epoch  6/20: Val R²=0.2840 Train R²=0.3361 Gap=0.0521  
+    Epoch  7/20: Val R²=0.2975 Train R²=0.3382 Gap=0.0407  
+[2025-10-19 00:27:46] 
+ERROR in config 12: 'NoneType' object has no attribute 'info'
+Traceback (most recent call last):
+  File "/Users/polmolinas/Documents/nothing-to-see-here/wunderfund/exploration/tune_lstm_bruteforce_kfold.py", line 869, in main
+    kfold_result = train_model_kfold(
+                   ^^^^^^^^^^^^^^^^^^
+  File "/Users/polmolinas/Documents/nothing-to-see-here/wunderfund/exploration/tune_lstm_bruteforce_kfold.py", line 377, in train_model_kfold
+    result = train_model(
+             ^^^^^^^^^^^^
+  File "/Users/polmolinas/Documents/nothing-to-see-here/wunderfund/exploration/tune_lstm_bruteforce_kfold.py", line 317, in train_model
+    logger.info(f"    Early stopped at epoch {epoch+1}")
+    ^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'info'
+Searching:  12%|█▏        | 12/100 [59:24<7:04:50, 289.67s/it][2025-10-19 00:27:47] 
+======================================================================
+[2025-10-19 00:27:47] Config 13/100 - Starting Training:
+[2025-10-19 00:27:47]   Architecture:
+[2025-10-19 00:27:47]     Lookback: 50, Hidden: 32, Layers: 1, Dropout: 0.1
+[2025-10-19 00:27:47]     Bidirectional: True, GRU: True
+[2025-10-19 00:27:47]   Output Head:
+[2025-10-19 00:27:47]     FC Layers: 1, FC Hidden: 64, Activation: relu
+[2025-10-19 00:27:47]     FC Dropout: 0.2, Batch Norm: True
+[2025-10-19 00:27:47]   Training:
+[2025-10-19 00:27:47]     Batch Size: 64, LR: 0.002, Weight Decay: 0.0001
+[2025-10-19 00:27:47]     Optimizer: adamw, Grad Clip: 1.0, LR Patience: 5
+[2025-10-19 00:27:47] 
+  Stage 1: Running 3-Fold CV on 10% sampled data...
+[2025-10-19 00:27:47]   K-Fold CV: 3 folds on 51 sequences
+    Epoch  1/20: Val R²=0.3156 Train R²=0.2959 Gap=-0.0197 ✓
+    Epoch  2/20: Val R²=0.3258 Train R²=0.3387 Gap=0.0129 ✓
+    Epoch  3/20: Val R²=0.3340 Train R²=0.3489 Gap=0.0149 ✓
+    Epoch  4/20: Val R²=0.3390 Train R²=0.3547 Gap=0.0157 ✓
+    Epoch  5/20: Val R²=0.3404 Train R²=0.3600 Gap=0.0196 ✓
+    Epoch  6/20: Val R²=0.3287 Train R²=0.3627 Gap=0.0340  
+    Epoch  7/20: Val R²=0.3340 Train R²=0.3666 Gap=0.0326  
+/opt/homebrew/Cellar/python@3.12/3.12.11_1/Frameworks/Python.framework/Versions/3.12/lib/python3.12/multiprocessing/resource_tracker.py:279: UserWarning: resource_tracker: There appear to be 1 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '

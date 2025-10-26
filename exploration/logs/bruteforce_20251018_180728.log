@@ -1,0 +1,223 @@
+[2025-10-18 18:07:28] ======================================================================
+[2025-10-18 18:07:28] BRUTE FORCE HYPERPARAMETER SEARCH WITH AUTO-SUBMISSION
+[2025-10-18 18:07:28] ======================================================================
+[2025-10-18 18:07:28] Started at: 2025-10-18 18:07:28
+[2025-10-18 18:07:28] Mode: TEST
+[2025-10-18 18:07:28] Best R² to beat: 0.000010
+[2025-10-18 18:07:28] Log file: logs/bruteforce_20251018_180728.log
+[2025-10-18 18:07:28] 
+[2025-10-18 18:07:28] Device Detection:
+[2025-10-18 18:07:28]   PyTorch version: 2.9.0
+[2025-10-18 18:07:28]   Requested: mps
+[2025-10-18 18:07:28]   MPS available: ✓
+[2025-10-18 18:07:28]   CUDA available: ✗
+[2025-10-18 18:07:28]   Using: MPS
+[2025-10-18 18:07:28] 
+[2025-10-18 18:07:28] Loading data...
+[2025-10-18 18:07:28] Train: 8,000 rows, 8 sequences
+[2025-10-18 18:07:28] Val:   2,000 rows, 2 sequences
+[2025-10-18 18:07:28] Features: 32
+[2025-10-18 18:07:28] Configurations to test: 5
+[2025-10-18 18:07:28] Max epochs per config: 5
+[2025-10-18 18:07:28] 
+[2025-10-18 18:07:28] Starting brute force search...
+[2025-10-18 18:07:28] 
+[2025-10-18 18:07:28] 
+======================================================================
+[2025-10-18 18:07:28] Config 1/5 - Starting Training:
+[2025-10-18 18:07:28]   Architecture:
+[2025-10-18 18:07:28]     Lookback: 50, Hidden: 32, Layers: 1, Dropout: 0.3
+[2025-10-18 18:07:28]     Bidirectional: False, GRU: False
+[2025-10-18 18:07:28]   Output Head:
+[2025-10-18 18:07:28]     FC Layers: 1, FC Hidden: 256, Activation: relu
+[2025-10-18 18:07:28]     FC Dropout: 0.0, Batch Norm: True
+[2025-10-18 18:07:28]   Training:
+[2025-10-18 18:07:28]     Batch Size: 32, LR: 0.0001, Weight Decay: 0
+[2025-10-18 18:07:28]     Optimizer: adam, Grad Clip: 0.5, LR Patience: 3
+[2025-10-18 18:07:34]     Epoch  1/5: Val R²=-0.0255 Train R²=0.0313 Gap=0.0568 ✓
+[2025-10-18 18:07:36]     Epoch  2/5: Val R²=-0.0231 Train R²=0.1753 Gap=0.1984 ✓
+[2025-10-18 18:07:38]     Epoch  3/5: Val R²=-0.0189 Train R²=0.2499 Gap=0.2688 ✓
+[2025-10-18 18:07:39]     Epoch  4/5: Val R²=-0.0143 Train R²=0.2854 Gap=0.2996 ✓
+[2025-10-18 18:07:41]     Epoch  5/5: Val R²=-0.0096 Train R²=0.3039 Gap=0.3135 ✓
+[2025-10-18 18:07:41] 
+======================================================================
+[2025-10-18 18:07:41] Config 1/5 Complete:
+[2025-10-18 18:07:41]   Best Val R²: -0.009628 (epoch 5)
+[2025-10-18 18:07:41]   Best Global R²: 0.000010
+[2025-10-18 18:07:41]   Overfitting Gap: 0.313536
+[2025-10-18 18:07:41]   Parameters: 9,504
+[2025-10-18 18:07:41]   Training Time: 12.8s
+[2025-10-18 18:07:41]   Not better than global best (0.000010)
+[2025-10-18 18:07:41]   Results saved to models/test_bruteforce_search_results.csv
+[2025-10-18 18:07:41] 
+======================================================================
+[2025-10-18 18:07:41] Config 2/5 - Starting Training:
+[2025-10-18 18:07:41]   Architecture:
+[2025-10-18 18:07:41]     Lookback: 30, Hidden: 64, Layers: 4, Dropout: 0.2
+[2025-10-18 18:07:41]     Bidirectional: True, GRU: True
+[2025-10-18 18:07:41]   Output Head:
+[2025-10-18 18:07:41]     FC Layers: 1, FC Hidden: 64, Activation: gelu
+[2025-10-18 18:07:41]     FC Dropout: 0.4, Batch Norm: True
+[2025-10-18 18:07:41]   Training:
+[2025-10-18 18:07:41]     Batch Size: 128, LR: 0.0005, Weight Decay: 0.0001
+[2025-10-18 18:07:41]     Optimizer: adam, Grad Clip: 1.0, LR Patience: 3
+[2025-10-18 18:07:50]     Epoch  1/5: Val R²=-0.0066 Train R²=0.2181 Gap=0.2248 ✓
+[2025-10-18 18:08:00]     Epoch  2/5: Val R²=-0.0021 Train R²=0.3180 Gap=0.3201 ✓
+[2025-10-18 18:08:09]     Epoch  3/5: Val R²=0.0003 Train R²=0.3371 Gap=0.3368 ✓
+[2025-10-18 18:08:18]     Epoch  4/5: Val R²=0.0107 Train R²=0.3444 Gap=0.3337 ✓
+[2025-10-18 18:08:27]     Epoch  5/5: Val R²=0.0086 Train R²=0.3509 Gap=0.3424  
+[2025-10-18 18:08:27] 
+======================================================================
+[2025-10-18 18:08:27] Config 2/5 Complete:
+[2025-10-18 18:08:27]   Best Val R²: 0.010710 (epoch 4)
+[2025-10-18 18:08:27]   Best Global R²: 0.000010
+[2025-10-18 18:08:27]   Overfitting Gap: 0.333659
+[2025-10-18 18:08:27]   Parameters: 265,248
+[2025-10-18 18:08:27]   Training Time: 46.4s
+[2025-10-18 18:08:27] 
+🎉🎉🎉 NEW GLOBAL BEST! R² improved from 0.000010 to 0.010710
+[2025-10-18 18:08:27] 
+======================================================================
+[2025-10-18 18:08:27] 🏆 CREATING SUBMISSION - NEW BEST MODEL!
+[2025-10-18 18:08:27] ======================================================================
+[2025-10-18 18:08:27]   Val R²: 0.010710
+[2025-10-18 18:08:27]   Directory: ../submissions/bruteforce_r2_00107_20251018_180728_cfg2
+[2025-10-18 18:08:27]   Saved model: model_best.pt
+[2025-10-18 18:08:27]   Generated: solution.py
+[2025-10-18 18:08:27]   Copied: utils.py
+[2025-10-18 18:08:27]   Saved: metadata.json
+[2025-10-18 18:08:27] ======================================================================
+
+[2025-10-18 18:08:27]   Results saved to models/test_bruteforce_search_results.csv
+[2025-10-18 18:08:27] 
+======================================================================
+[2025-10-18 18:08:27] Config 3/5 - Starting Training:
+[2025-10-18 18:08:27]   Architecture:
+[2025-10-18 18:08:27]     Lookback: 20, Hidden: 32, Layers: 3, Dropout: 0.3
+[2025-10-18 18:08:27]     Bidirectional: True, GRU: False
+[2025-10-18 18:08:27]   Output Head:
+[2025-10-18 18:08:27]     FC Layers: 3, FC Hidden: 128, Activation: gelu
+[2025-10-18 18:08:27]     FC Dropout: 0.0, Batch Norm: True
+[2025-10-18 18:08:27]   Training:
+[2025-10-18 18:08:27]     Batch Size: 32, LR: 0.005, Weight Decay: 0.001
+[2025-10-18 18:08:27]     Optimizer: adam, Grad Clip: 1.0, LR Patience: 3
+[2025-10-18 18:08:35]     Epoch  1/5: Val R²=0.0042 Train R²=0.2520 Gap=0.2478 ✓
+[2025-10-18 18:08:39]     Epoch  2/5: Val R²=-0.0055 Train R²=0.2754 Gap=0.2809  
+[2025-10-18 18:08:43]     Epoch  3/5: Val R²=0.0007 Train R²=0.2859 Gap=0.2852  
+[2025-10-18 18:08:47]     Epoch  4/5: Val R²=-0.0097 Train R²=0.2889 Gap=0.2985  
+[2025-10-18 18:08:51]     Epoch  5/5: Val R²=-0.0033 Train R²=0.2899 Gap=0.2933  
+[2025-10-18 18:08:51] 
+======================================================================
+[2025-10-18 18:08:51] Config 3/5 Complete:
+[2025-10-18 18:08:51]   Best Val R²: 0.004179 (epoch 1)
+[2025-10-18 18:08:51]   Best Global R²: 0.010710
+[2025-10-18 18:08:51]   Overfitting Gap: 0.247791
+[2025-10-18 18:08:51]   Parameters: 96,544
+[2025-10-18 18:08:51]   Training Time: 23.7s
+[2025-10-18 18:08:51]   Not better than global best (0.010710)
+[2025-10-18 18:08:51]   Results saved to models/test_bruteforce_search_results.csv
+[2025-10-18 18:08:51] 
+======================================================================
+[2025-10-18 18:08:51] Config 4/5 - Starting Training:
+[2025-10-18 18:08:51]   Architecture:
+[2025-10-18 18:08:51]     Lookback: 5, Hidden: 256, Layers: 2, Dropout: 0.3
+[2025-10-18 18:08:51]     Bidirectional: False, GRU: False
+[2025-10-18 18:08:51]   Output Head:
+[2025-10-18 18:08:51]     FC Layers: 1, FC Hidden: 128, Activation: tanh
+[2025-10-18 18:08:51]     FC Dropout: 0.4, Batch Norm: True
+[2025-10-18 18:08:51]   Training:
+[2025-10-18 18:08:51]     Batch Size: 64, LR: 0.001, Weight Decay: 0.001
+[2025-10-18 18:08:51]     Optimizer: adamw, Grad Clip: 0.5, LR Patience: 3
+[2025-10-18 18:08:53]     Epoch  1/5: Val R²=-0.0029 Train R²=0.3036 Gap=0.3065 ✓
+[2025-10-18 18:08:54]     Epoch  2/5: Val R²=0.0285 Train R²=0.3469 Gap=0.3184 ✓
+[2025-10-18 18:08:55]     Epoch  3/5: Val R²=0.0320 Train R²=0.3593 Gap=0.3273 ✓
+[2025-10-18 18:08:56]     Epoch  4/5: Val R²=0.0686 Train R²=0.3693 Gap=0.3007 ✓
+[2025-10-18 18:08:57]     Epoch  5/5: Val R²=0.0673 Train R²=0.3752 Gap=0.3079  
+[2025-10-18 18:08:57] 
+======================================================================
+[2025-10-18 18:08:57] Config 4/5 Complete:
+[2025-10-18 18:08:57]   Best Val R²: 0.068577 (epoch 4)
+[2025-10-18 18:08:57]   Best Global R²: 0.010710
+[2025-10-18 18:08:57]   Overfitting Gap: 0.300714
+[2025-10-18 18:08:57]   Parameters: 831,520
+[2025-10-18 18:08:57]   Training Time: 6.2s
+[2025-10-18 18:08:57] 
+🎉🎉🎉 NEW GLOBAL BEST! R² improved from 0.010710 to 0.068577
+[2025-10-18 18:08:57] 
+======================================================================
+[2025-10-18 18:08:57] 🏆 CREATING SUBMISSION - NEW BEST MODEL!
+[2025-10-18 18:08:57] ======================================================================
+[2025-10-18 18:08:57]   Val R²: 0.068577
+[2025-10-18 18:08:57]   Directory: ../submissions/bruteforce_r2_00686_20251018_180728_cfg4
+[2025-10-18 18:08:57]   Saved model: model_best.pt
+[2025-10-18 18:08:57]   Generated: solution.py
+[2025-10-18 18:08:57]   Copied: utils.py
+[2025-10-18 18:08:57]   Saved: metadata.json
+[2025-10-18 18:08:57] ======================================================================
+
+[2025-10-18 18:08:57]   Results saved to models/test_bruteforce_search_results.csv
+[2025-10-18 18:08:57] 
+======================================================================
+[2025-10-18 18:08:57] Config 5/5 - Starting Training:
+[2025-10-18 18:08:57]   Architecture:
+[2025-10-18 18:08:57]     Lookback: 30, Hidden: 256, Layers: 2, Dropout: 0.5
+[2025-10-18 18:08:57]     Bidirectional: False, GRU: False
+[2025-10-18 18:08:57]   Output Head:
+[2025-10-18 18:08:57]     FC Layers: 2, FC Hidden: 128, Activation: tanh
+[2025-10-18 18:08:57]     FC Dropout: 0.2, Batch Norm: True
+[2025-10-18 18:08:57]   Training:
+[2025-10-18 18:08:57]     Batch Size: 32, LR: 0.0005, Weight Decay: 0
+[2025-10-18 18:08:57]     Optimizer: adamw, Grad Clip: 1.0, LR Patience: 7
+[2025-10-18 18:09:02]     Epoch  1/5: Val R²=0.0130 Train R²=0.2521 Gap=0.2391 ✓
+[2025-10-18 18:09:05]     Epoch  2/5: Val R²=0.0217 Train R²=0.3012 Gap=0.2795 ✓
+[2025-10-18 18:09:08]     Epoch  3/5: Val R²=0.0448 Train R²=0.3181 Gap=0.2733 ✓
+[2025-10-18 18:09:10]     Epoch  4/5: Val R²=0.0695 Train R²=0.3356 Gap=0.2662 ✓
+[2025-10-18 18:09:13]     Epoch  5/5: Val R²=0.0696 Train R²=0.3424 Gap=0.2728 ✓
+[2025-10-18 18:09:13] 
+======================================================================
+[2025-10-18 18:09:13] Config 5/5 Complete:
+[2025-10-18 18:09:13]   Best Val R²: 0.069648 (epoch 5)
+[2025-10-18 18:09:13]   Best Global R²: 0.068577
+[2025-10-18 18:09:13]   Overfitting Gap: 0.272782
+[2025-10-18 18:09:13]   Parameters: 860,576
+[2025-10-18 18:09:13]   Training Time: 16.3s
+[2025-10-18 18:09:13] 
+🎉🎉🎉 NEW GLOBAL BEST! R² improved from 0.068577 to 0.069648
+[2025-10-18 18:09:13] 
+======================================================================
+[2025-10-18 18:09:13] 🏆 CREATING SUBMISSION - NEW BEST MODEL!
+[2025-10-18 18:09:13] ======================================================================
+[2025-10-18 18:09:13]   Val R²: 0.069648
+[2025-10-18 18:09:13]   Directory: ../submissions/bruteforce_r2_00696_20251018_180728_cfg5
+[2025-10-18 18:09:13]   Saved model: model_best.pt
+[2025-10-18 18:09:13]   Generated: solution.py
+[2025-10-18 18:09:13]   Copied: utils.py
+[2025-10-18 18:09:13]   Saved: metadata.json
+[2025-10-18 18:09:13] ======================================================================
+
+[2025-10-18 18:09:14]   Results saved to models/test_bruteforce_search_results.csv
+[2025-10-18 18:09:14] 
+======================================================================
+[2025-10-18 18:09:14] SEARCH COMPLETE
+[2025-10-18 18:09:14] ======================================================================
+[2025-10-18 18:09:14] Total time: 1.8 minutes
+[2025-10-18 18:09:14] Successful configs: 5/5
+[2025-10-18 18:09:14] Final best R²: 0.069648
+[2025-10-18 18:09:14] Submissions created: 3
+[2025-10-18 18:09:14] Results saved: models/test_bruteforce_search_results.csv
+[2025-10-18 18:09:14] 
+[2025-10-18 18:09:14] Top 5 configurations:
+[2025-10-18 18:09:14] 
+ config_id  best_val_r2  overfitting_gap  lookback  hidden_size  num_layers  dropout  n_parameters
+         5     0.069648         0.272782        30          256           2      0.5        860576
+         4     0.068577         0.300714         5          256           2      0.3        831520
+         2     0.010710         0.333659        30           64           4      0.2        265248
+         3     0.004179         0.247791        20           32           3      0.3         96544
+         1    -0.009628         0.313536        50           32           1      0.3          9504
+[2025-10-18 18:09:14] 
+Submissions log saved: models/bruteforce_submissions_log.csv
+[2025-10-18 18:09:14] 
+Submissions created:
+[2025-10-18 18:09:14]   ../submissions/bruteforce_r2_00107_20251018_180728_cfg2 (R²=0.010710)
+[2025-10-18 18:09:14]   ../submissions/bruteforce_r2_00686_20251018_180728_cfg4 (R²=0.068577)
+[2025-10-18 18:09:14]   ../submissions/bruteforce_r2_00696_20251018_180728_cfg5 (R²=0.069648)

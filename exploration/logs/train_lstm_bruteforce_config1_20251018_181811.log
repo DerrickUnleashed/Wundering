@@ -1,0 +1,111 @@
+
+======================================================================
+LSTM TRAINING AND SUBMISSION CREATION
+======================================================================
+Configuration: config1
+Device: mps
+Max epochs: 40
+======================================================================
+
+Loading data...
+Train: 413,000 rows, 413 sequences
+Val:   104,000 rows, 104 sequences
+Features: 32
+
+======================================================================
+TRAINING MODEL
+======================================================================
+
+Configuration:
+  Architecture:
+    Lookback: 50, Hidden: 32, Layers: 1, Dropout: 0.3
+    Bidirectional: False, GRU: False
+  Output Head:
+    FC Layers: 1, FC Hidden: 256, Activation: relu
+    FC Dropout: 0.0, Batch Norm: True
+  Training:
+    Batch Size: 32, LR: 0.0001, Weight Decay: 0.0
+    Optimizer: adam, Grad Clip: 0.5, LR Patience: 3
+
+Preparing sequences (lookback=50)...
+  Train sequences: 392,350
+  Val sequences: 98,800
+
+Model parameters: 9,504
+
+Starting training...
+----------------------------------------------------------------------
+    Epoch  1/40: Val R²=0.2826 Train R²=0.2899 Gap=0.0073 ✓
+    Epoch  2/40: Val R²=0.3016 Train R²=0.3443 Gap=0.0427 ✓
+    Epoch  3/40: Val R²=0.3102 Train R²=0.3591 Gap=0.0489 ✓
+    Epoch  4/40: Val R²=0.3138 Train R²=0.3659 Gap=0.0521 ✓
+    Epoch  5/40: Val R²=0.3158 Train R²=0.3696 Gap=0.0538 ✓
+    Epoch  6/40: Val R²=0.3183 Train R²=0.3719 Gap=0.0536 ✓
+    Epoch  7/40: Val R²=0.3193 Train R²=0.3737 Gap=0.0545 ✓
+    Epoch  8/40: Val R²=0.3209 Train R²=0.3752 Gap=0.0542 ✓
+    Epoch  9/40: Val R²=0.3208 Train R²=0.3764 Gap=0.0556 
+    Epoch 10/40: Val R²=0.3217 Train R²=0.3775 Gap=0.0557 ✓
+    Epoch 11/40: Val R²=0.3230 Train R²=0.3785 Gap=0.0554 ✓
+    Epoch 12/40: Val R²=0.3238 Train R²=0.3794 Gap=0.0555 ✓
+    Epoch 13/40: Val R²=0.3248 Train R²=0.3801 Gap=0.0553 ✓
+    Epoch 14/40: Val R²=0.3252 Train R²=0.3809 Gap=0.0557 ✓
+    Epoch 15/40: Val R²=0.3257 Train R²=0.3815 Gap=0.0559 ✓
+    Epoch 16/40: Val R²=0.3267 Train R²=0.3822 Gap=0.0554 ✓
+    Epoch 17/40: Val R²=0.3274 Train R²=0.3828 Gap=0.0554 ✓
+    Epoch 18/40: Val R²=0.3266 Train R²=0.3833 Gap=0.0567 
+    Epoch 19/40: Val R²=0.3283 Train R²=0.3838 Gap=0.0555 ✓
+    Epoch 20/40: Val R²=0.3284 Train R²=0.3843 Gap=0.0559 ✓
+    Epoch 21/40: Val R²=0.3295 Train R²=0.3848 Gap=0.0553 ✓
+    Epoch 22/40: Val R²=0.3297 Train R²=0.3852 Gap=0.0555 ✓
+    Epoch 23/40: Val R²=0.3294 Train R²=0.3857 Gap=0.0563 
+    Epoch 24/40: Val R²=0.3295 Train R²=0.3860 Gap=0.0566 
+    Epoch 25/40: Val R²=0.3304 Train R²=0.3865 Gap=0.0560 ✓
+    Epoch 26/40: Val R²=0.3311 Train R²=0.3868 Gap=0.0556 ✓
+    Epoch 27/40: Val R²=0.3310 Train R²=0.3872 Gap=0.0562 
+    Epoch 28/40: Val R²=0.3309 Train R²=0.3875 Gap=0.0566 
+    Epoch 29/40: Val R²=0.3305 Train R²=0.3878 Gap=0.0573 
+    Epoch 30/40: Val R²=0.3319 Train R²=0.3881 Gap=0.0562 ✓
+    Epoch 31/40: Val R²=0.3319 Train R²=0.3885 Gap=0.0566 
+    Epoch 32/40: Val R²=0.3329 Train R²=0.3887 Gap=0.0558 ✓
+    Epoch 33/40: Val R²=0.3322 Train R²=0.3890 Gap=0.0568 
+    Epoch 34/40: Val R²=0.3322 Train R²=0.3893 Gap=0.0571 
+    Epoch 35/40: Val R²=0.3328 Train R²=0.3895 Gap=0.0567 
+    Epoch 36/40: Val R²=0.3331 Train R²=0.3898 Gap=0.0567 ✓
+    Epoch 37/40: Val R²=0.3334 Train R²=0.3900 Gap=0.0566 ✓
+    Epoch 38/40: Val R²=0.3324 Train R²=0.3903 Gap=0.0579 
+    Epoch 39/40: Val R²=0.3340 Train R²=0.3905 Gap=0.0565 ✓
+    Epoch 40/40: Val R²=0.3336 Train R²=0.3907 Gap=0.0571 
+----------------------------------------------------------------------
+
+Training Complete:
+  Best Val R²: 0.334018 (epoch 39)
+  Best Train R²: 0.390529
+  Overfitting Gap: 0.056511
+  Parameters: 9,504
+
+Total training time: 105.0 minutes
+
+======================================================================
+CREATING SUBMISSION
+======================================================================
+  Val R²: 0.334018
+  Directory: ../submissions/bruteforce_config1_r2_03340_20251018_181814
+  Saved model: model_best.pt
+  Generated: solution.py
+  Copied: utils.py
+  Saved: metadata.json
+======================================================================
+
+✅ Submission created: ../submissions/bruteforce_config1_r2_03340_20251018_181814
+
+======================================================================
+ALL DONE!
+======================================================================
+
+Submission ready at: ../submissions/bruteforce_config1_r2_03340_20251018_181814
+
+To create a zip file:
+  cd ../submissions
+  zip -r bruteforce_config1_r2_03340_20251018_181814.zip bruteforce_config1_r2_03340_20251018_181814/
+======================================================================
+

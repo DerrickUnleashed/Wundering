@@ -1,0 +1,113 @@
+[2025-10-18 23:10:21] ======================================================================
+[2025-10-18 23:10:21] K-FOLD BRUTE FORCE HYPERPARAMETER SEARCH WITH AUTO-SUBMISSION
+[2025-10-18 23:10:21] ======================================================================
+[2025-10-18 23:10:21] Started at: 2025-10-18 23:10:21
+[2025-10-18 23:10:21] Mode: TEST
+[2025-10-18 23:10:21] K-Fold Sample: 25% of data, 5 folds
+[2025-10-18 23:10:21] Best R² to beat: 0.340000
+[2025-10-18 23:10:21] Log file: logs/bruteforce_20251018_231021.log
+[2025-10-18 23:10:21] 
+[2025-10-18 23:10:21] Device Detection:
+[2025-10-18 23:10:21]   PyTorch version: 2.9.0
+[2025-10-18 23:10:21]   Requested: mps
+[2025-10-18 23:10:21]   MPS available: ✓
+[2025-10-18 23:10:21]   CUDA available: ✗
+[2025-10-18 23:10:21]   Using: MPS
+[2025-10-18 23:10:21] 
+[2025-10-18 23:10:21] Loading data...
+[2025-10-18 23:10:21] Total sequences: 8
+[2025-10-18 23:10:21] K-Fold sample: 2 sequences (25%)
+[2025-10-18 23:10:21] Full train: 6 sequences, 6,000 rows
+[2025-10-18 23:10:21] Full val: 2 sequences, 2,000 rows
+[2025-10-18 23:10:21] Features: 32
+[2025-10-18 23:10:21] Configurations to test: 5
+[2025-10-18 23:10:21] K-Fold: 5 folds, max 3 epochs
+[2025-10-18 23:10:21] Final: max 5 epochs
+[2025-10-18 23:10:21] 
+[2025-10-18 23:10:21] Starting brute force search...
+[2025-10-18 23:10:21] 
+[2025-10-18 23:10:21] 
+======================================================================
+[2025-10-18 23:10:21] Config 1/5 - Starting Training:
+[2025-10-18 23:10:21]   Architecture:
+[2025-10-18 23:10:21]     Lookback: 50, Hidden: 32, Layers: 1, Dropout: 0.3
+[2025-10-18 23:10:21]     Bidirectional: False, GRU: False
+[2025-10-18 23:10:21]   Output Head:
+[2025-10-18 23:10:21]     FC Layers: 1, FC Hidden: 256, Activation: relu
+[2025-10-18 23:10:21]     FC Dropout: 0.0, Batch Norm: True
+[2025-10-18 23:10:21]   Training:
+[2025-10-18 23:10:21]     Batch Size: 32, LR: 0.0001, Weight Decay: 0
+[2025-10-18 23:10:21]     Optimizer: adam, Grad Clip: 0.5, LR Patience: 3
+[2025-10-18 23:10:21] 
+  Stage 1: Running 5-Fold CV on 25% sampled data...
+[2025-10-18 23:10:21]   K-Fold CV: 5 folds on 2 sequences
+[2025-10-18 23:10:21] 
+ERROR in config 1: Cannot have number of splits n_splits=5 greater than the number of samples: n_samples=2.
+[2025-10-18 23:10:21] 
+======================================================================
+[2025-10-18 23:10:21] Config 2/5 - Starting Training:
+[2025-10-18 23:10:21]   Architecture:
+[2025-10-18 23:10:21]     Lookback: 30, Hidden: 64, Layers: 4, Dropout: 0.2
+[2025-10-18 23:10:21]     Bidirectional: True, GRU: True
+[2025-10-18 23:10:21]   Output Head:
+[2025-10-18 23:10:21]     FC Layers: 1, FC Hidden: 64, Activation: gelu
+[2025-10-18 23:10:21]     FC Dropout: 0.4, Batch Norm: True
+[2025-10-18 23:10:21]   Training:
+[2025-10-18 23:10:21]     Batch Size: 128, LR: 0.0005, Weight Decay: 0.0001
+[2025-10-18 23:10:21]     Optimizer: adam, Grad Clip: 1.0, LR Patience: 3
+[2025-10-18 23:10:21] 
+  Stage 1: Running 5-Fold CV on 25% sampled data...
+[2025-10-18 23:10:21]   K-Fold CV: 5 folds on 2 sequences
+[2025-10-18 23:10:21] 
+ERROR in config 2: Cannot have number of splits n_splits=5 greater than the number of samples: n_samples=2.
+[2025-10-18 23:10:21] 
+======================================================================
+[2025-10-18 23:10:21] Config 3/5 - Starting Training:
+[2025-10-18 23:10:21]   Architecture:
+[2025-10-18 23:10:21]     Lookback: 20, Hidden: 32, Layers: 3, Dropout: 0.3
+[2025-10-18 23:10:21]     Bidirectional: True, GRU: False
+[2025-10-18 23:10:21]   Output Head:
+[2025-10-18 23:10:21]     FC Layers: 3, FC Hidden: 128, Activation: gelu
+[2025-10-18 23:10:21]     FC Dropout: 0.0, Batch Norm: True
+[2025-10-18 23:10:21]   Training:
+[2025-10-18 23:10:21]     Batch Size: 32, LR: 0.005, Weight Decay: 0.001
+[2025-10-18 23:10:21]     Optimizer: adam, Grad Clip: 1.0, LR Patience: 3
+[2025-10-18 23:10:21] 
+  Stage 1: Running 5-Fold CV on 25% sampled data...
+[2025-10-18 23:10:21]   K-Fold CV: 5 folds on 2 sequences
+[2025-10-18 23:10:21] 
+ERROR in config 3: Cannot have number of splits n_splits=5 greater than the number of samples: n_samples=2.
+[2025-10-18 23:10:21] 
+======================================================================
+[2025-10-18 23:10:21] Config 4/5 - Starting Training:
+[2025-10-18 23:10:21]   Architecture:
+[2025-10-18 23:10:21]     Lookback: 5, Hidden: 256, Layers: 2, Dropout: 0.3
+[2025-10-18 23:10:21]     Bidirectional: False, GRU: False
+[2025-10-18 23:10:21]   Output Head:
+[2025-10-18 23:10:21]     FC Layers: 1, FC Hidden: 128, Activation: tanh
+[2025-10-18 23:10:21]     FC Dropout: 0.4, Batch Norm: True
+[2025-10-18 23:10:21]   Training:
+[2025-10-18 23:10:21]     Batch Size: 64, LR: 0.001, Weight Decay: 0.001
+[2025-10-18 23:10:21]     Optimizer: adamw, Grad Clip: 0.5, LR Patience: 3
+[2025-10-18 23:10:21] 
+  Stage 1: Running 5-Fold CV on 25% sampled data...
+[2025-10-18 23:10:21]   K-Fold CV: 5 folds on 2 sequences
+[2025-10-18 23:10:21] 
+ERROR in config 4: Cannot have number of splits n_splits=5 greater than the number of samples: n_samples=2.
+[2025-10-18 23:10:21] 
+======================================================================
+[2025-10-18 23:10:21] Config 5/5 - Starting Training:
+[2025-10-18 23:10:21]   Architecture:
+[2025-10-18 23:10:21]     Lookback: 30, Hidden: 256, Layers: 2, Dropout: 0.5
+[2025-10-18 23:10:21]     Bidirectional: False, GRU: False
+[2025-10-18 23:10:21]   Output Head:
+[2025-10-18 23:10:21]     FC Layers: 2, FC Hidden: 128, Activation: tanh
+[2025-10-18 23:10:21]     FC Dropout: 0.2, Batch Norm: True
+[2025-10-18 23:10:21]   Training:
+[2025-10-18 23:10:21]     Batch Size: 32, LR: 0.0005, Weight Decay: 0
+[2025-10-18 23:10:21]     Optimizer: adamw, Grad Clip: 1.0, LR Patience: 7
+[2025-10-18 23:10:21] 
+  Stage 1: Running 5-Fold CV on 25% sampled data...
+[2025-10-18 23:10:21]   K-Fold CV: 5 folds on 2 sequences
+[2025-10-18 23:10:21] 
+ERROR in config 5: Cannot have number of splits n_splits=5 greater than the number of samples: n_samples=2.

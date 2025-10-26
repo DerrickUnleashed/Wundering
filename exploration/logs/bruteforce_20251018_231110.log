@@ -1,0 +1,157 @@
+[2025-10-18 23:11:10] ======================================================================
+[2025-10-18 23:11:10] K-FOLD BRUTE FORCE HYPERPARAMETER SEARCH WITH AUTO-SUBMISSION
+[2025-10-18 23:11:10] ======================================================================
+[2025-10-18 23:11:10] Started at: 2025-10-18 23:11:10
+[2025-10-18 23:11:10] Mode: TEST
+[2025-10-18 23:11:10] Best R² to beat: 0.340000
+[2025-10-18 23:11:10] Log file: logs/bruteforce_20251018_231110.log
+[2025-10-18 23:11:10] 
+[2025-10-18 23:11:10] Device Detection:
+[2025-10-18 23:11:10]   PyTorch version: 2.9.0
+[2025-10-18 23:11:10]   Requested: mps
+[2025-10-18 23:11:10]   MPS available: ✓
+[2025-10-18 23:11:10]   CUDA available: ✗
+[2025-10-18 23:11:10]   Using: MPS
+[2025-10-18 23:11:10] 
+[2025-10-18 23:11:10] Loading data...
+[2025-10-18 23:11:10] Total sequences: 8
+[2025-10-18 23:11:10] K-Fold sample: 6 sequences (80%)
+[2025-10-18 23:11:10] Full train: 6 sequences, 6,000 rows
+[2025-10-18 23:11:10] Full val: 2 sequences, 2,000 rows
+[2025-10-18 23:11:10] Features: 32
+[2025-10-18 23:11:10] Configurations to test: 5
+[2025-10-18 23:11:10] K-Fold: 2 folds, max 3 epochs
+[2025-10-18 23:11:10] Final: max 5 epochs
+[2025-10-18 23:11:10] 
+[2025-10-18 23:11:10] Starting brute force search...
+[2025-10-18 23:11:10] 
+[2025-10-18 23:11:10] 
+======================================================================
+[2025-10-18 23:11:10] Config 1/5 - Starting Training:
+[2025-10-18 23:11:10]   Architecture:
+[2025-10-18 23:11:10]     Lookback: 50, Hidden: 32, Layers: 1, Dropout: 0.3
+[2025-10-18 23:11:10]     Bidirectional: False, GRU: False
+[2025-10-18 23:11:10]   Output Head:
+[2025-10-18 23:11:10]     FC Layers: 1, FC Hidden: 256, Activation: relu
+[2025-10-18 23:11:10]     FC Dropout: 0.0, Batch Norm: True
+[2025-10-18 23:11:10]   Training:
+[2025-10-18 23:11:10]     Batch Size: 32, LR: 0.0001, Weight Decay: 0
+[2025-10-18 23:11:10]     Optimizer: adam, Grad Clip: 0.5, LR Patience: 3
+[2025-10-18 23:11:10] 
+  Stage 1: Running 2-Fold CV on 80% sampled data...
+[2025-10-18 23:11:10]   K-Fold CV: 2 folds on 6 sequences
+[2025-10-18 23:11:15]     Fold 1/2: Val R²=-0.0529 Train R²=0.1475 (4.6s)
+[2025-10-18 23:11:17]     Fold 2/2: Val R²=-0.1018 Train R²=0.0094 (2.4s)
+[2025-10-18 23:11:17]   K-Fold Results: mean=-0.077320 ± 0.024431 (min=-0.101751, max=-0.052888)
+[2025-10-18 23:11:17] 
+======================================================================
+[2025-10-18 23:11:17] Config 1/5 - K-Fold Complete:
+[2025-10-18 23:11:17]   Mean Val R²: -0.077320 ± 0.024431
+[2025-10-18 23:11:17]   Range: [-0.101751, -0.052888]
+[2025-10-18 23:11:17]   Best Global Mean R²: 0.340000
+[2025-10-18 23:11:17] 
+ERROR in config 1: 'n_parameters'
+[2025-10-18 23:11:17] 
+======================================================================
+[2025-10-18 23:11:17] Config 2/5 - Starting Training:
+[2025-10-18 23:11:17]   Architecture:
+[2025-10-18 23:11:17]     Lookback: 30, Hidden: 64, Layers: 4, Dropout: 0.2
+[2025-10-18 23:11:17]     Bidirectional: True, GRU: True
+[2025-10-18 23:11:17]   Output Head:
+[2025-10-18 23:11:17]     FC Layers: 1, FC Hidden: 64, Activation: gelu
+[2025-10-18 23:11:17]     FC Dropout: 0.4, Batch Norm: True
+[2025-10-18 23:11:17]   Training:
+[2025-10-18 23:11:17]     Batch Size: 128, LR: 0.0005, Weight Decay: 0.0001
+[2025-10-18 23:11:17]     Optimizer: adam, Grad Clip: 1.0, LR Patience: 3
+[2025-10-18 23:11:17] 
+  Stage 1: Running 2-Fold CV on 80% sampled data...
+[2025-10-18 23:11:17]   K-Fold CV: 2 folds on 6 sequences
+[2025-10-18 23:11:31]     Fold 1/2: Val R²=0.0583 Train R²=0.3823 (14.3s)
+[2025-10-18 23:11:45]     Fold 2/2: Val R²=0.1981 Train R²=0.1589 (13.1s)
+[2025-10-18 23:11:45]   K-Fold Results: mean=0.128217 ± 0.069881 (min=0.058336, max=0.198098)
+[2025-10-18 23:11:45] 
+======================================================================
+[2025-10-18 23:11:45] Config 2/5 - K-Fold Complete:
+[2025-10-18 23:11:45]   Mean Val R²: 0.128217 ± 0.069881
+[2025-10-18 23:11:45]   Range: [0.058336, 0.198098]
+[2025-10-18 23:11:45]   Best Global Mean R²: 0.340000
+[2025-10-18 23:11:45] 
+ERROR in config 2: 'n_parameters'
+[2025-10-18 23:11:45] 
+======================================================================
+[2025-10-18 23:11:45] Config 3/5 - Starting Training:
+[2025-10-18 23:11:45]   Architecture:
+[2025-10-18 23:11:45]     Lookback: 20, Hidden: 32, Layers: 3, Dropout: 0.3
+[2025-10-18 23:11:45]     Bidirectional: True, GRU: False
+[2025-10-18 23:11:45]   Output Head:
+[2025-10-18 23:11:45]     FC Layers: 3, FC Hidden: 128, Activation: gelu
+[2025-10-18 23:11:45]     FC Dropout: 0.0, Batch Norm: True
+[2025-10-18 23:11:45]   Training:
+[2025-10-18 23:11:45]     Batch Size: 32, LR: 0.005, Weight Decay: 0.001
+[2025-10-18 23:11:45]     Optimizer: adam, Grad Clip: 1.0, LR Patience: 3
+[2025-10-18 23:11:45] 
+  Stage 1: Running 2-Fold CV on 80% sampled data...
+[2025-10-18 23:11:45]   K-Fold CV: 2 folds on 6 sequences
+[2025-10-18 23:11:51]     Fold 1/2: Val R²=0.0162 Train R²=0.3094 (6.3s)
+[2025-10-18 23:11:56]     Fold 2/2: Val R²=0.0045 Train R²=0.1377 (5.4s)
+[2025-10-18 23:11:56]   K-Fold Results: mean=0.010368 ± 0.005829 (min=0.004538, max=0.016197)
+[2025-10-18 23:11:56] 
+======================================================================
+[2025-10-18 23:11:56] Config 3/5 - K-Fold Complete:
+[2025-10-18 23:11:56]   Mean Val R²: 0.010368 ± 0.005829
+[2025-10-18 23:11:56]   Range: [0.004538, 0.016197]
+[2025-10-18 23:11:56]   Best Global Mean R²: 0.340000
+[2025-10-18 23:11:56] 
+ERROR in config 3: 'n_parameters'
+[2025-10-18 23:11:56] 
+======================================================================
+[2025-10-18 23:11:56] Config 4/5 - Starting Training:
+[2025-10-18 23:11:56]   Architecture:
+[2025-10-18 23:11:56]     Lookback: 5, Hidden: 256, Layers: 2, Dropout: 0.3
+[2025-10-18 23:11:56]     Bidirectional: False, GRU: False
+[2025-10-18 23:11:56]   Output Head:
+[2025-10-18 23:11:56]     FC Layers: 1, FC Hidden: 128, Activation: tanh
+[2025-10-18 23:11:56]     FC Dropout: 0.4, Batch Norm: True
+[2025-10-18 23:11:56]   Training:
+[2025-10-18 23:11:56]     Batch Size: 64, LR: 0.001, Weight Decay: 0.001
+[2025-10-18 23:11:56]     Optimizer: adamw, Grad Clip: 0.5, LR Patience: 3
+[2025-10-18 23:11:56] 
+  Stage 1: Running 2-Fold CV on 80% sampled data...
+[2025-10-18 23:11:56]   K-Fold CV: 2 folds on 6 sequences
+[2025-10-18 23:11:58]     Fold 1/2: Val R²=0.0471 Train R²=0.3238 (1.8s)
+[2025-10-18 23:12:00]     Fold 2/2: Val R²=0.2510 Train R²=0.1913 (1.4s)
+[2025-10-18 23:12:00]   K-Fold Results: mean=0.149044 ± 0.101922 (min=0.047121, max=0.250966)
+[2025-10-18 23:12:00] 
+======================================================================
+[2025-10-18 23:12:00] Config 4/5 - K-Fold Complete:
+[2025-10-18 23:12:00]   Mean Val R²: 0.149044 ± 0.101922
+[2025-10-18 23:12:00]   Range: [0.047121, 0.250966]
+[2025-10-18 23:12:00]   Best Global Mean R²: 0.340000
+[2025-10-18 23:12:00] 
+ERROR in config 4: 'n_parameters'
+[2025-10-18 23:12:00] 
+======================================================================
+[2025-10-18 23:12:00] Config 5/5 - Starting Training:
+[2025-10-18 23:12:00]   Architecture:
+[2025-10-18 23:12:00]     Lookback: 30, Hidden: 256, Layers: 2, Dropout: 0.5
+[2025-10-18 23:12:00]     Bidirectional: False, GRU: False
+[2025-10-18 23:12:00]   Output Head:
+[2025-10-18 23:12:00]     FC Layers: 2, FC Hidden: 128, Activation: tanh
+[2025-10-18 23:12:00]     FC Dropout: 0.2, Batch Norm: True
+[2025-10-18 23:12:00]   Training:
+[2025-10-18 23:12:00]     Batch Size: 32, LR: 0.0005, Weight Decay: 0
+[2025-10-18 23:12:00]     Optimizer: adamw, Grad Clip: 1.0, LR Patience: 7
+[2025-10-18 23:12:00] 
+  Stage 1: Running 2-Fold CV on 80% sampled data...
+[2025-10-18 23:12:00]   K-Fold CV: 2 folds on 6 sequences
+[2025-10-18 23:12:05]     Fold 1/2: Val R²=0.0555 Train R²=0.3459 (5.0s)
+[2025-10-18 23:12:09]     Fold 2/2: Val R²=0.1340 Train R²=0.1068 (4.3s)
+[2025-10-18 23:12:09]   K-Fold Results: mean=0.094762 ± 0.039278 (min=0.055484, max=0.134040)
+[2025-10-18 23:12:09] 
+======================================================================
+[2025-10-18 23:12:09] Config 5/5 - K-Fold Complete:
+[2025-10-18 23:12:09]   Mean Val R²: 0.094762 ± 0.039278
+[2025-10-18 23:12:09]   Range: [0.055484, 0.134040]
+[2025-10-18 23:12:09]   Best Global Mean R²: 0.340000
+[2025-10-18 23:12:09] 
+ERROR in config 5: 'n_parameters'
