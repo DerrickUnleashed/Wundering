@@ -653,7 +653,7 @@ def main():
     parser = argparse.ArgumentParser(description='Brute force hyperparameter search with auto-submission')
     parser.add_argument('--test', action='store_true', help='Test mode (tiny data, 3 configs)')
     parser.add_argument('--n_configs', type=int, default=100, help='Number of configurations to test (cap for exhaustive mode)')
-    parser.add_argument('--max_epochs', type=int, default=100, help='Max epochs per config')
+    parser.add_argument('--max_epochs', type=int, default=22, help='Max epochs per config')
     parser.add_argument('--patience', type=int, default=7, help='Early stopping patience')
     parser.add_argument('--device', type=str, default='auto',
                        choices=['cpu', 'mps', 'cuda', 'auto'],
@@ -741,25 +741,25 @@ def main():
     # NOTE: tune these lists to manage total number of combinations.
     search_space = {
         # Architecture
-        'lookback': [60],
+        'lookback': [50],
         'hidden_size': [192],
-        'num_layers': [3],
+        'num_layers': [2],
         'dropout': [0.3],
         'bidirectional': [True],
         'use_gru': [True],
 
         # Output head
-        'fc_num_layers': [3],
+        'fc_num_layers': [2],
         'fc_hidden_dims': [256],
-        'fc_activation': ['gelu'],
+        'fc_activation': ['relu'],
         'fc_dropout': [0.3],
         'use_batch_norm': [True],
 
         # Training
-        'batch_size': [128],
+        'batch_size': [256],
         'lr': [1e-4],
         'weight_decay': [0.01],
-        'grad_clip': [0.5],
+        'grad_clip': [1.0],
         'optimizer': ['adamw'],
         'lr_patience': [3],
     }

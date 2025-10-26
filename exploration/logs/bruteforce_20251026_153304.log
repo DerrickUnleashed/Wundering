@@ -1,0 +1,36 @@
+[2025-10-26 15:33:04] ======================================================================
+[2025-10-26 15:33:04] BRUTE FORCE HYPERPARAMETER SEARCH WITH AUTO-SUBMISSION (EXHAUSTIVE MODE)
+[2025-10-26 15:33:04] ======================================================================
+[2025-10-26 15:33:04] Started at: 2025-10-26 15:33:04
+[2025-10-26 15:33:04] Mode: FULL
+[2025-10-26 15:33:04] Best R² to beat: 0.340000
+[2025-10-26 15:33:04] Log file: logs/bruteforce_20251026_153304.log
+[2025-10-26 15:33:04] 
+[2025-10-26 15:33:04] Device Detection:
+[2025-10-26 15:33:04]   PyTorch version: 2.7.1
+[2025-10-26 15:33:04]   Requested: auto
+[2025-10-26 15:33:04]   MPS available: ✓
+[2025-10-26 15:33:04]   CUDA available: ✗
+[2025-10-26 15:33:04]   Using: MPS
+[2025-10-26 15:33:04] 
+[2025-10-26 15:33:04] Loading data...
+[2025-10-26 15:33:04] Train: 413,000 rows, 413 sequences
+[2025-10-26 15:33:04] Val:   104,000 rows, 104 sequences
+[2025-10-26 15:33:04] Features: 32
+[2025-10-26 15:33:04] 
+[2025-10-26 15:33:04] Total possible combinations (Cartesian product): 1
+[2025-10-26 15:33:04] Configurations to run (cap): 1
+[2025-10-26 15:33:04] Starting exhaustive brute force search...
+[2025-10-26 15:33:04] 
+[2025-10-26 15:33:04] 
+======================================================================
+[2025-10-26 15:33:04] Config 1/1 - Starting Training:
+[2025-10-26 15:33:04]   Architecture:
+[2025-10-26 15:33:04]     Lookback: 50, Hidden: 192, Layers: 2, Dropout: 0.3
+[2025-10-26 15:33:04]     Bidirectional: True, GRU: True
+[2025-10-26 15:33:04]   Output Head:
+[2025-10-26 15:33:04]     FC Layers: 2, FC Hidden: 256, Activation: relu
+[2025-10-26 15:33:04]     FC Dropout: 0.3, Batch Norm: True
+[2025-10-26 15:33:04]   Training:
+[2025-10-26 15:33:04]     Batch Size: 256, LR: 0.0001, Weight Decay: 0.01
+[2025-10-26 15:33:04]     Optimizer: adamw, Grad Clip: 1.0, LR Patience: 3
