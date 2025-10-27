@@ -34,3 +34,4 @@
 [2025-10-27 14:48:15]   Training:
 [2025-10-27 14:48:15]     Batch Size: 256, LR: 0.001, Weight Decay: 0.0001
 [2025-10-27 14:48:15]     Optimizer: adam, Grad Clip: 5.0, LR Patience: 3
+[2025-10-27 14:51:41]     Epoch  1/50: Val R²=0.3310 Train R²=0.3468 Gap=0.0158 ✓

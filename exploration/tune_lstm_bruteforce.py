@@ -653,7 +653,7 @@ def main():
     parser = argparse.ArgumentParser(description='Brute force hyperparameter search with auto-submission')
     parser.add_argument('--test', action='store_true', help='Test mode (tiny data, 3 configs)')
     parser.add_argument('--n_configs', type=int, default=100, help='Number of configurations to test (cap for exhaustive mode)')
-    parser.add_argument('--max_epochs', type=int, default=50, help='Max epochs per config')
+    parser.add_argument('--max_epochs', type=int, default=100, help='Max epochs per config')
     parser.add_argument('--patience', type=int, default=7, help='Early stopping patience')
     parser.add_argument('--device', type=str, default='auto',
                        choices=['cpu', 'mps', 'cuda', 'auto'],
@@ -812,8 +812,8 @@ def main():
 
         # Normalizations / sensible defaults
         # If num_layers == 1, RNN dropout argument has no effect in PyTorch; force to 0
-        if config.get('num_layers', 1) == 1:
-            config['dropout'] = 0.0
+        # if config.get('num_layers', 1) == 1:
+        #     config['dropout'] = 0.0
 
         # Ensure correct types
         config['batch_size'] = int(config['batch_size'])
