@@ -653,7 +653,7 @@ def main():
     parser = argparse.ArgumentParser(description='Brute force hyperparameter search with auto-submission')
     parser.add_argument('--test', action='store_true', help='Test mode (tiny data, 3 configs)')
     parser.add_argument('--n_configs', type=int, default=100, help='Number of configurations to test (cap for exhaustive mode)')
-    parser.add_argument('--max_epochs', type=int, default=30, help='Max epochs per config')
+    parser.add_argument('--max_epochs', type=int, default=60, help='Max epochs per config')
     parser.add_argument('--patience', type=int, default=3, help='Early stopping patience')
     parser.add_argument('--device', type=str, default='auto',
                        choices=['cpu', 'mps', 'cuda', 'auto'],
@@ -702,8 +702,8 @@ def main():
         train_df = pd.read_parquet('data/tiny_train.parquet')
         val_df = pd.read_parquet('data/tiny_val.parquet')
         # Smaller test run
-        effective_max_configs = 5
-        effective_max_epochs = 5
+        effective_max_configs = 1000
+        effective_max_epochs = 30
         output_file = 'models/test_bruteforce_search_results.csv'
     else:
         full_df = pd.read_parquet('../competition_package/datasets/train.parquet')
@@ -741,27 +741,27 @@ def main():
     # NOTE: tune these lists to manage total number of combinations.
     search_space = {
         # Architecture
-        'lookback': [80],
-        'hidden_size': [256],
-        'num_layers': [2],
-        'dropout': [0.15],
+        'lookback': [50],
+        'hidden_size': [128],
+        'num_layers': [1],
+        'dropout': [0.1],
         'bidirectional': [True],
         'use_gru': [True],
 
         # Output head
         'fc_num_layers': [2],
         'fc_hidden_dims': [256],
-        'fc_activation': ['gelu'],
-        'fc_dropout': [0.1],
+        'fc_activation': ['relu'],
+        'fc_dropout': [0.2],
         'use_batch_norm': [True],
 
         # Training
-        'batch_size': [64],
-        'lr': [5e-4],
-        'weight_decay': [0.0005],
-        'grad_clip': [1.0],
-        'optimizer': ['adamw'],
-        'lr_patience': [5],
+        'batch_size': [256],
+        'lr': [0.001],
+        'weight_decay': [0.0001],
+        'grad_clip': [5.0],
+        'optimizer': ['adam'],
+        'lr_patience': [3],
     }
 
     keys = list(search_space.keys())
