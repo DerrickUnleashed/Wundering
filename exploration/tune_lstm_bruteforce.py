@@ -710,7 +710,7 @@ def main():
         all_seqs = full_df['seq_ix'].unique()
 
         # Use 100% of data - split 80/20 train/val
-        n_train = int(0.8 * len(all_seqs))
+        n_train = int(0.9 * len(all_seqs))
         train_seqs = all_seqs[:n_train]
         val_seqs = all_seqs[n_train:]
 

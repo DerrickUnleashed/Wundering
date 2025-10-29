@@ -1,0 +1,29 @@
+{
+  "config_id": "final_retrain",
+  "timestamp": "20251028_222426",
+  "val_r2": 0.4040195345878601,
+  "train_r2": 0.4040195345878601,
+  "overfitting_gap": null,
+  "best_epoch": 57,
+  "total_epochs": 60,
+  "n_parameters": 198944,
+  "config": {
+    "lookback": 50,
+    "hidden_size": 128,
+    "num_layers": 1,
+    "dropout": 0.1,
+    "bidirectional": true,
+    "use_gru": true,
+    "fc_num_layers": 2,
+    "fc_hidden_dims": 256,
+    "fc_activation": "relu",
+    "fc_dropout": 0.2,
+    "use_batch_norm": true,
+    "batch_size": 256,
+    "lr": 0.001,
+    "weight_decay": 0.0001,
+    "grad_clip": 5.0,
+    "optimizer": "adam",
+    "lr_patience": 3
+  }
+}
