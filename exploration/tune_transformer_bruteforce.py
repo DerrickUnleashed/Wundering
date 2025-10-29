@@ -376,7 +376,7 @@ def create_submission(config, result, feature_cols, config_id, timestamp, logger
     n_features = len(feature_cols)
     lookback = config['lookback']
 
-    # Build a minimal submission script as a plain template (no f-string inner braces)
+    # Build a robust submission script template that matches the training-time model
     solution_template = '''"""
 Transformer Solution - Brute Force Search
 Config ID: __CONFIG_ID__
@@ -430,17 +430,22 @@ class FlexibleTransformer(nn.Module):
         super(FlexibleTransformer, self).__init__()
         self.input_proj = nn.Linear(input_size, d_model)
         self.pos_enc = PositionalEncoding(d_model, dropout=dropout)
-        encoder_layer = nn.TransformerEncoderLayer(d_model=d_model, nhead=nhead, dim_feedforward=dim_feedforward, dropout=dropout)
+        encoder_layer = nn.TransformerEncoderLayer(d_model=d_model, nhead=nhead, dim_feedforward=dim_feedforward, dropout=dropout, batch_first=True)
         self.transformer = nn.TransformerEncoder(encoder_layer, num_layers=num_layers)
-        # simple head: one linear layer
-        self.output_head = nn.Linear(d_model, input_size)
+        activation = nn.ReLU() if fc_activation == 'relu' else nn.GELU()
+        self.output_head = nn.Sequential(
+            nn.Linear(d_model, fc_hidden_dims),
+            nn.BatchNorm1d(fc_hidden_dims),
+            activation,
+            nn.Dropout(dropout),
+            nn.Linear(fc_hidden_dims, input_size)
+        )
 
     def forward(self, x):
         x = self.input_proj(x)
         x = self.pos_enc(x)
-        x = x.permute(1,0,2)
         out = self.transformer(x)
-        last = out[-1,:,:]
+        last = out[:, -1, :]
         return self.output_head(last)
 
 
@@ -450,8 +455,22 @@ class PredictionModel:
         self.n_features = n_features
         self.device = torch.device('cpu')
         self.model = FlexibleTransformer(input_size=n_features, d_model=__D_MODEL__, num_layers=__NUM_LAYERS__, nhead=__NHEAD__)
-        checkpoint = torch.load('__MODEL_FILENAME__', map_location=self.device)
-        self.model.load_state_dict(checkpoint['model_state_dict'])
+
+        # Allowlist common numpy globals to support torch.load() with weights_only
+        try:
+            from torch.serialization import add_safe_globals
+            import numpy as _numpy
+            add_safe_globals([_numpy.dtype, _numpy.ndarray, _numpy.generic, _numpy.core.multiarray.scalar])
+        except Exception:
+            # Ignore if torch doesn't support add_safe_globals in this environment
+            pass
+
+        # Load checkpoint explicitly using the saved key
+        checkpoint = torch.load('__MODEL_FILENAME__', map_location=self.device, weights_only=False)
+        state_key = 'model_state_dict' if 'model_state_dict' in checkpoint else ('state_dict' if 'state_dict' in checkpoint else None)
+        if state_key is None:
+            raise RuntimeError('Checkpoint does not contain model weights')
+        self.model.load_state_dict(checkpoint[state_key])
         self.model.eval()
         self.current_seq_ix = None
         self.sequence_history = []
@@ -529,7 +548,7 @@ def main():
     parser = argparse.ArgumentParser(description='Brute force hyperparameter search with Transformer backbone')
     parser.add_argument('--test', action='store_true', help='Test mode (tiny data, 3 configs)')
     parser.add_argument('--n_configs', type=int, default=100, help='Number of configurations to test (cap for exhaustive mode)')
-    parser.add_argument('--max_epochs', type=int, default=30, help='Max epochs per config')
+    parser.add_argument('--max_epochs', type=int, default=40, help='Max epochs per config')
     parser.add_argument('--patience', type=int, default=7, help='Early stopping patience')
     parser.add_argument('--device', type=str, default='auto', choices=['cpu', 'mps', 'cuda', 'auto'])
     parser.add_argument('--best_r2', type=float, default=0.34)
@@ -586,21 +605,28 @@ def main():
 
     # Simple search space (can be expanded)
     search_space = {
+        # --- Sequence window ---
         'lookback': [50],
-        'd_model': [128],
-        'nhead': [4, 8],
-        'num_transformer_layers': [2],
-        'dropout': [0.1],
-        'fc_num_layers': [2],
-        'fc_hidden_dims': [256],
-        'fc_activation': ['relu'],
-        'use_batch_norm': [True],
-        'batch_size': [256],
-        'lr': [1e-4, 1e-3],
-        'weight_decay': [0.0, 1e-4],
-        'grad_clip': [None, 0.5],
-        'optimizer': ['adam'],
-        'lr_patience': [3]
+
+        # --- Transformer backbone ---
+        'd_model': [128, 192, 256],             # model dimensionality (bigger → more capacity)
+        'nhead': [4, 8],                        # 4 works well up to d_model=256
+        'num_transformer_layers': [2, 3, 4],    # deeper = more expressive, but slower
+        'dropout': [0.1, 0.2, 0.3],             # regularization for attention + FFN
+
+        # --- Output head ---
+        'fc_num_layers': [2, 3],
+        'fc_hidden_dims': [128, 256, 512],
+        'fc_activation': ['relu', 'gelu'],      # GELU sometimes helps transformer FFNs
+        'use_batch_norm': [True, False],
+
+        # --- Training hyperparams ---
+        'batch_size': [128, 256, 512],
+        'lr': [5e-5, 1e-4, 3e-4, 1e-3],         # transformers often prefer lower LR
+        'weight_decay': [0.0, 1e-5, 1e-4],
+        'grad_clip': [None, 0.5, 1.0],
+        'optimizer': ['adam', 'adamw'],         # adamw often performs better with weight decay
+        'lr_patience': [3, 5]
     }
 
     keys = list(search_space.keys())
