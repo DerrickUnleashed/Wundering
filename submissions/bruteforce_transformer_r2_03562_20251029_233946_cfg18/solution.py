@@ -47,7 +47,8 @@ class PositionalEncoding(nn.Module):
 
 
 class FlexibleTransformer(nn.Module):
-    def __init__(self, input_size, d_model=128, num_layers=2, nhead=8, dim_feedforward=256, dropout=0.1, fc_hidden_dims=256, fc_activation='relu'):
+
+    def __init__(self, input_size, d_model=128, num_layers=2, nhead=4, dim_feedforward=256, dropout=0.1, fc_hidden_dims=256, fc_activation='relu'):
         super(FlexibleTransformer, self).__init__()
         self.input_proj = nn.Linear(input_size, d_model)
         self.pos_enc = PositionalEncoding(d_model, dropout=dropout)
@@ -74,24 +75,65 @@ class PredictionModel:
     def __init__(self, lookback=50, n_features=32):
         self.lookback = lookback
         self.n_features = n_features
+        # Use CPU device by default for deployed solutions
         self.device = torch.device('cpu')
-        self.model = FlexibleTransformer(input_size=n_features, d_model=128, num_layers=2, nhead=4)
 
-        # Allowlist common numpy globals to support torch.load() with weights_only
+        # Allowlist common numpy globals to support torch.load() in some torch versions
         try:
             from torch.serialization import add_safe_globals
             import numpy as _numpy
             add_safe_globals([_numpy.dtype, _numpy.ndarray, _numpy.generic, _numpy.core.multiarray.scalar])
         except Exception:
-            # Ignore if torch doesn't support add_safe_globals in this environment
+            # Not available on all torch builds; ignore silently
             pass
 
-        # Load checkpoint explicitly using the saved key
+        # Load checkpoint first so we can inspect the training config and instantiate
+        # the model with the exact architecture used during training (avoids size mismatches).
+        # Use weights_only=False to allow loading the full dict (config + state) on newer torch versions.
         checkpoint = torch.load('model_best.pt', map_location=self.device, weights_only=False)
-        state_key = 'model_state_dict' if 'model_state_dict' in checkpoint else ('state_dict' if 'state_dict' in checkpoint else None)
+
+        # Try to read training config from the checkpoint (saved by the training script)
+        ckpt_config = checkpoint.get('config', {}) if isinstance(checkpoint, dict) else {}
+
+        # Extract architecture hyperparameters (use sensible defaults if missing)
+        d_model = int(ckpt_config.get('d_model', 128))
+        num_layers = int(ckpt_config.get('num_transformer_layers', ckpt_config.get('num_layers', 2)))
+        nhead = int(ckpt_config.get('nhead', 4))
+        dim_feedforward = int(ckpt_config.get('dim_feedforward', 256))
+        dropout = float(ckpt_config.get('dropout', 0.1))
+        fc_hidden_dims = int(ckpt_config.get('fc_hidden_dims', ckpt_config.get('fc_hidden_dim', 256)))
+        fc_activation = ckpt_config.get('fc_activation', 'relu')
+
+        # Instantiate model with hyperparameters matching the checkpoint
+        self.model = FlexibleTransformer(
+            input_size=n_features,
+            d_model=d_model,
+            num_layers=num_layers,
+            nhead=nhead,
+            dim_feedforward=dim_feedforward,
+            dropout=dropout,
+            fc_hidden_dims=fc_hidden_dims,
+            fc_activation=fc_activation,
+        ).to(self.device)
+
+        # Determine which key contains the state dict and load it
+        state_key = None
+        if isinstance(checkpoint, dict):
+            if 'model_state_dict' in checkpoint:
+                state_key = 'model_state_dict'
+            elif 'state_dict' in checkpoint:
+                state_key = 'state_dict'
+
         if state_key is None:
             raise RuntimeError('Checkpoint does not contain model weights')
-        self.model.load_state_dict(checkpoint[state_key])
+
+        try:
+            # Strict loading ensures we catch mismatches early
+            self.model.load_state_dict(checkpoint[state_key], strict=True)
+        except Exception as e:
+            # Provide a helpful error that includes what we attempted to load
+            raise RuntimeError(f'Failed to load model state dict: {e}') from e
+
         self.model.eval()
         self.current_seq_ix = None
         self.sequence_history = []
@@ -110,3 +152,38 @@ class PredictionModel:
         with torch.no_grad():
             pred = self.model(seq_tensor)
             return pred.cpu().numpy()[0]
+
+
+if __name__ == "__main__":
+    # Test code to verify model loading and prediction
+    import numpy as np
+    from utils import DataPoint
+    
+    print("Testing Transformer prediction model...")
+    
+    # Create a test sequence
+    n_features = 32
+    lookback = 50
+    test_sequence = np.random.randn(60, n_features).astype(np.float32)
+    
+    # Initialize model
+    model = PredictionModel(lookback=lookback, n_features=n_features)
+    print("Model initialized successfully")
+    
+    # Test predictions
+    for i, state in enumerate(test_sequence):
+        data_point = DataPoint(
+            seq_ix=1,
+            step_in_seq=i,  # Add step index
+            state=state,
+            need_prediction=(i >= lookback-1)  # Start predicting after lookback steps
+        )
+        pred = model.predict(data_point)
+        
+        if pred is not None:
+            print(f"Step {i+1}: Made prediction with shape {pred.shape}")
+            # Verify prediction is finite and reasonable
+            assert np.all(np.isfinite(pred)), "Found non-finite values in prediction"
+            assert pred.shape == (n_features,), f"Wrong prediction shape: {pred.shape}"
+    
+    print("All tests passed! Model is working correctly.")
