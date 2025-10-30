@@ -230,13 +230,12 @@ class TransformerPredictor(nn.Module):
 
     def forward(self, x):
         # x: (batch, seq_len, features)
-        # Transformer expects (seq_len, batch, d_model)
-        x = self.input_proj(x)  # (batch, seq_len, d_model)
-        x = self.pos_enc(x)
-        x = x.permute(1, 0, 2)  # (seq_len, batch, d_model)
-        encoded = self.transformer(x)  # (seq_len, batch, d_model)
-        last = encoded[-1, :, :]  # (batch, d_model)
-        out = self.output_head(last)
+        x = self.input_proj(x)  # Project input to d_model dimensions
+        x = self.pos_enc(x)     # Add positional encoding
+        # Don't need permute since we use batch_first=True
+        encoded = self.transformer(x)  # Get full sequence encoding
+        last = encoded[:, -1, :]  # Get last timestep output for prediction
+        out = self.output_head(last)  # Project to output size
         return out
 
     def count_parameters(self):
@@ -376,8 +375,9 @@ def create_submission(config, result, feature_cols, config_id, timestamp, logger
     n_features = len(feature_cols)
     lookback = config['lookback']
 
-    # Build a robust submission script template that matches the training-time model
-    solution_template = '''"""
+    # Build submission script that exactly matches TransformerPredictor architecture
+    solution_template = '''#!/usr/bin/env python3
+"""
 Transformer Solution - Brute Force Search
 Config ID: __CONFIG_ID__
 Timestamp: __TIMESTAMP__
@@ -426,17 +426,29 @@ class PositionalEncoding(nn.Module):
 
 
 class FlexibleTransformer(nn.Module):
-    def __init__(self, input_size, d_model=128, num_layers=2, nhead=8, dim_feedforward=256, dropout=0.1, fc_hidden_dims=256, fc_activation='relu'):
+    def __init__(self, input_size, d_model=128, num_layers=2, nhead=4, dim_feedforward=256, 
+                 dropout=0.1, fc_hidden_dims=128, fc_activation='relu'):
         super(FlexibleTransformer, self).__init__()
+        # Input projection and positional encoding (same as TransformerPredictor)
         self.input_proj = nn.Linear(input_size, d_model)
         self.pos_enc = PositionalEncoding(d_model, dropout=dropout)
-        encoder_layer = nn.TransformerEncoderLayer(d_model=d_model, nhead=nhead, dim_feedforward=dim_feedforward, dropout=dropout, batch_first=True)
+        
+        # Transformer encoder (using batch_first=True)
+        encoder_layer = nn.TransformerEncoderLayer(
+            d_model=d_model, 
+            nhead=nhead,
+            dim_feedforward=dim_feedforward,
+            dropout=dropout,
+            batch_first=True  # For better performance
+        )
         self.transformer = nn.TransformerEncoder(encoder_layer, num_layers=num_layers)
-        activation = nn.ReLU() if fc_activation == 'relu' else nn.GELU()
+        
+        # Build output head matching TransformerPredictor architecture
+        act_fn = nn.ReLU() if fc_activation == 'relu' else nn.GELU()
         self.output_head = nn.Sequential(
             nn.Linear(d_model, fc_hidden_dims),
             nn.BatchNorm1d(fc_hidden_dims),
-            activation,
+            act_fn,
             nn.Dropout(dropout),
             nn.Linear(fc_hidden_dims, input_size)
         )
@@ -456,39 +468,50 @@ class PredictionModel:
         self.device = torch.device('cpu')
         self.model = FlexibleTransformer(input_size=n_features, d_model=__D_MODEL__, num_layers=__NUM_LAYERS__, nhead=__NHEAD__)
 
-        # Allowlist common numpy globals to support torch.load() with weights_only
-        try:
-            from torch.serialization import add_safe_globals
-            import numpy as _numpy
-            add_safe_globals([_numpy.dtype, _numpy.ndarray, _numpy.generic, _numpy.core.multiarray.scalar])
-        except Exception:
-            # Ignore if torch doesn't support add_safe_globals in this environment
-            pass
-
-        # Load checkpoint explicitly using the saved key
-        checkpoint = torch.load('__MODEL_FILENAME__', map_location=self.device, weights_only=False)
-        state_key = 'model_state_dict' if 'model_state_dict' in checkpoint else ('state_dict' if 'state_dict' in checkpoint else None)
-        if state_key is None:
-            raise RuntimeError('Checkpoint does not contain model weights')
-        self.model.load_state_dict(checkpoint[state_key])
+        # Configure the model for inference
+        self.device = torch.device('cpu')  # Force CPU for production deployments
+        self.model.to(self.device)
         self.model.eval()
-        self.current_seq_ix = None
-        self.sequence_history = []
+
+        # Load checkpoint (handle both state_dict and model_state_dict keys)
+        try:
+            checkpoint = torch.load('__MODEL_FILENAME__', map_location=self.device)
+            state_key = 'model_state_dict' if 'model_state_dict' in checkpoint else 'state_dict'
+            self.model.load_state_dict(checkpoint[state_key], strict=True)
+        except Exception as e:
+            raise RuntimeError(f'Failed to load model checkpoint: {e}') from e
+
+        # Initialize prediction state
+        self.current_seq_ix = None  # Track sequence boundaries
+        self.sequence_history = []   # Store lookback window
 
     def predict(self, data_point: DataPoint):
+        # Handle sequence boundaries
         if self.current_seq_ix != data_point.seq_ix:
             self.current_seq_ix = data_point.seq_ix
-            self.sequence_history = []
+            self.sequence_history = []  # Reset history on new sequence
+        
+        # Always store the current state
         self.sequence_history.append(data_point.state.copy())
+        
+        # Only predict when requested
         if not data_point.need_prediction:
             return None
+            
+        # Return mean of history for initial timesteps
         if len(self.sequence_history) < self.lookback:
             return np.mean(self.sequence_history, axis=0)
+            
+        # Prepare input sequence using lookback window
         sequence = np.array(self.sequence_history[-self.lookback:], dtype=np.float32)
-        seq_tensor = torch.FloatTensor(sequence).unsqueeze(0)
+        
+        # Convert to tensor and add batch dimension
+        seq_tensor = torch.FloatTensor(sequence).unsqueeze(0).to(self.device)
+        
+        # Generate prediction
         with torch.no_grad():
             pred = self.model(seq_tensor)
-            return pred.cpu().numpy()[0]
+            return pred.cpu().numpy()[0]  # Convert back to numpy array
 '''
 
     # Fill placeholders
