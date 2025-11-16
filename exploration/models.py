@@ -371,3 +371,27 @@ def create_model_from_config(config, input_size):
             fc_dropout=config['fc_dropout'],
             use_batch_norm=config['use_batch_norm']
         )
+
+config = {
+        # Config 1 from bruteforce search - achieved 0.3414 val R²
+        'lookback': 50,
+        'hidden_size': 128,
+        'num_layers': 3,
+        'dropout': 0.3,
+        'bidirectional': False,
+        'use_gru': True,
+        'fc_num_layers': 2,
+        'fc_hidden_dims': 256,
+        'fc_activation': 'relu',
+        'fc_dropout': 0.0,
+        'use_batch_norm': True,
+        'batch_size': 256,
+        'lr': 0.0001,
+        'weight_decay': 0.0,
+        'grad_clip': 0.5,
+        'optimizer': 'adam',
+        'lr_patience': 3,
+    }
+
+model = create_model_from_config(config, 32).to("mps")
+print(model)

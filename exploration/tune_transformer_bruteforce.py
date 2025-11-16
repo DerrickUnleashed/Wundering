@@ -574,7 +574,7 @@ def main():
     parser.add_argument('--max_epochs', type=int, default=40, help='Max epochs per config')
     parser.add_argument('--patience', type=int, default=7, help='Early stopping patience')
     parser.add_argument('--device', type=str, default='auto', choices=['cpu', 'mps', 'cuda', 'auto'])
-    parser.add_argument('--best_r2', type=float, default=0.34)
+    parser.add_argument('--best_r2', type=float, default=0.3560)
     parser.add_argument('--shuffle', action='store_true')
     parser.add_argument('--max_configs', type=int, default=None)
     args = parser.parse_args()

@@ -1,0 +1,160 @@
+[2025-10-30 11:26:28,269] Using device: mps
+[2025-10-30 11:26:28,270] Loading data...
+[2025-10-30 11:26:28,427] 
+=== Config 1/10: {'lookback': 20, 'batch_size': 128, 'lr': 0.001, 'weight_decay': 0.0, 'grad_clip': None, 'n_layers': 1}
+[2025-10-30 11:26:29,883] Error in config 1: The size of tensor a (20) must match the size of tensor b (128) at non-singleton dimension 1
+Traceback (most recent call last):
+  File "/Users/derricksamuel/Desktop/Projects/wudnerfund/exploration/tune_mamba2_bruteforce.py", line 594, in main
+    res = train_model(cfg, train_df, val_df, feature_cols, device, max_epochs=args.max_epochs, patience=args.patience, logger=logger)
+  File "/Users/derricksamuel/Desktop/Projects/wudnerfund/exploration/tune_mamba2_bruteforce.py", line 346, in train_model
+    train_loss, train_r2 = train_epoch(model, train_loader, criterion, optimizer, device, grad_clip=config.get('grad_clip', None))
+                           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/derricksamuel/Desktop/Projects/wudnerfund/exploration/tune_mamba2_bruteforce.py", line 284, in train_epoch
+    loss = criterion(preds, targets)
+  File "/Users/derricksamuel/.pyenv/versions/3.13.3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/Users/derricksamuel/.pyenv/versions/3.13.3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/Users/derricksamuel/.pyenv/versions/3.13.3/lib/python3.13/site-packages/torch/nn/modules/loss.py", line 610, in forward
+    return F.mse_loss(input, target, reduction=self.reduction)
+           ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/derricksamuel/.pyenv/versions/3.13.3/lib/python3.13/site-packages/torch/nn/functional.py", line 3884, in mse_loss
+    expanded_input, expanded_target = torch.broadcast_tensors(input, target)
+                                      ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/Users/derricksamuel/.pyenv/versions/3.13.3/lib/python3.13/site-packages/torch/functional.py", line 77, in broadcast_tensors
+    return _VF.broadcast_tensors(tensors)  # type: ignore[attr-defined]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+RuntimeError: The size of tensor a (20) must match the size of tensor b (128) at non-singleton dimension 1
+[2025-10-30 11:26:29,906] 
+=== Config 2/10: {'lookback': 20, 'batch_size': 128, 'lr': 0.001, 'weight_decay': 0.0, 'grad_clip': None, 'n_layers': 2}
+[2025-10-30 11:26:30,722] Error in config 2: The size of tensor a (20) must match the size of tensor b (128) at non-singleton dimension 1
+Traceback (most recent call last):
+  File "/Users/derricksamuel/Desktop/Projects/wudnerfund/exploration/tune_mamba2_bruteforce.py", line 594, in main
+    res = train_model(cfg, train_df, val_df, feature_cols, device, max_epochs=args.max_epochs, patience=args.patience, logger=logger)
+  File "/Users/derricksamuel/Desktop/Projects/wudnerfund/exploration/tune_mamba2_bruteforce.py", line 346, in train_model
+    train_loss, train_r2 = train_epoch(model, train_loader, criterion, optimizer, device, grad_clip=config.get('grad_clip', None))
+                           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/derricksamuel/Desktop/Projects/wudnerfund/exploration/tune_mamba2_bruteforce.py", line 284, in train_epoch
+    loss = criterion(preds, targets)
+  File "/Users/derricksamuel/.pyenv/versions/3.13.3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/Users/derricksamuel/.pyenv/versions/3.13.3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/Users/derricksamuel/.pyenv/versions/3.13.3/lib/python3.13/site-packages/torch/nn/modules/loss.py", line 610, in forward
+    return F.mse_loss(input, target, reduction=self.reduction)
+           ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/derricksamuel/.pyenv/versions/3.13.3/lib/python3.13/site-packages/torch/nn/functional.py", line 3884, in mse_loss
+    expanded_input, expanded_target = torch.broadcast_tensors(input, target)
+                                      ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/Users/derricksamuel/.pyenv/versions/3.13.3/lib/python3.13/site-packages/torch/functional.py", line 77, in broadcast_tensors
+    return _VF.broadcast_tensors(tensors)  # type: ignore[attr-defined]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+RuntimeError: The size of tensor a (20) must match the size of tensor b (128) at non-singleton dimension 1
+[2025-10-30 11:26:30,744] 
+=== Config 3/10: {'lookback': 20, 'batch_size': 128, 'lr': 0.001, 'weight_decay': 0.0, 'grad_clip': 1.0, 'n_layers': 1}
+[2025-10-30 11:26:31,554] Error in config 3: The size of tensor a (20) must match the size of tensor b (128) at non-singleton dimension 1
+Traceback (most recent call last):
+  File "/Users/derricksamuel/Desktop/Projects/wudnerfund/exploration/tune_mamba2_bruteforce.py", line 594, in main
+    res = train_model(cfg, train_df, val_df, feature_cols, device, max_epochs=args.max_epochs, patience=args.patience, logger=logger)
+  File "/Users/derricksamuel/Desktop/Projects/wudnerfund/exploration/tune_mamba2_bruteforce.py", line 346, in train_model
+    train_loss, train_r2 = train_epoch(model, train_loader, criterion, optimizer, device, grad_clip=config.get('grad_clip', None))
+                           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/derricksamuel/Desktop/Projects/wudnerfund/exploration/tune_mamba2_bruteforce.py", line 284, in train_epoch
+    loss = criterion(preds, targets)
+  File "/Users/derricksamuel/.pyenv/versions/3.13.3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/Users/derricksamuel/.pyenv/versions/3.13.3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/Users/derricksamuel/.pyenv/versions/3.13.3/lib/python3.13/site-packages/torch/nn/modules/loss.py", line 610, in forward
+    return F.mse_loss(input, target, reduction=self.reduction)
+           ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/derricksamuel/.pyenv/versions/3.13.3/lib/python3.13/site-packages/torch/nn/functional.py", line 3884, in mse_loss
+    expanded_input, expanded_target = torch.broadcast_tensors(input, target)
+                                      ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/Users/derricksamuel/.pyenv/versions/3.13.3/lib/python3.13/site-packages/torch/functional.py", line 77, in broadcast_tensors
+    return _VF.broadcast_tensors(tensors)  # type: ignore[attr-defined]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+RuntimeError: The size of tensor a (20) must match the size of tensor b (128) at non-singleton dimension 1
+[2025-10-30 11:26:31,575] 
+=== Config 4/10: {'lookback': 20, 'batch_size': 128, 'lr': 0.001, 'weight_decay': 0.0, 'grad_clip': 1.0, 'n_layers': 2}
+[2025-10-30 11:26:32,375] Error in config 4: The size of tensor a (20) must match the size of tensor b (128) at non-singleton dimension 1
+Traceback (most recent call last):
+  File "/Users/derricksamuel/Desktop/Projects/wudnerfund/exploration/tune_mamba2_bruteforce.py", line 594, in main
+    res = train_model(cfg, train_df, val_df, feature_cols, device, max_epochs=args.max_epochs, patience=args.patience, logger=logger)
+  File "/Users/derricksamuel/Desktop/Projects/wudnerfund/exploration/tune_mamba2_bruteforce.py", line 346, in train_model
+    train_loss, train_r2 = train_epoch(model, train_loader, criterion, optimizer, device, grad_clip=config.get('grad_clip', None))
+                           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/derricksamuel/Desktop/Projects/wudnerfund/exploration/tune_mamba2_bruteforce.py", line 284, in train_epoch
+    loss = criterion(preds, targets)
+  File "/Users/derricksamuel/.pyenv/versions/3.13.3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/Users/derricksamuel/.pyenv/versions/3.13.3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/Users/derricksamuel/.pyenv/versions/3.13.3/lib/python3.13/site-packages/torch/nn/modules/loss.py", line 610, in forward
+    return F.mse_loss(input, target, reduction=self.reduction)
+           ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/derricksamuel/.pyenv/versions/3.13.3/lib/python3.13/site-packages/torch/nn/functional.py", line 3884, in mse_loss
+    expanded_input, expanded_target = torch.broadcast_tensors(input, target)
+                                      ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/Users/derricksamuel/.pyenv/versions/3.13.3/lib/python3.13/site-packages/torch/functional.py", line 77, in broadcast_tensors
+    return _VF.broadcast_tensors(tensors)  # type: ignore[attr-defined]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+RuntimeError: The size of tensor a (20) must match the size of tensor b (128) at non-singleton dimension 1
+[2025-10-30 11:26:32,398] 
+=== Config 5/10: {'lookback': 20, 'batch_size': 128, 'lr': 0.001, 'weight_decay': 0.0001, 'grad_clip': None, 'n_layers': 1}
+[2025-10-30 11:26:33,203] Error in config 5: The size of tensor a (20) must match the size of tensor b (128) at non-singleton dimension 1
+Traceback (most recent call last):
+  File "/Users/derricksamuel/Desktop/Projects/wudnerfund/exploration/tune_mamba2_bruteforce.py", line 594, in main
+    res = train_model(cfg, train_df, val_df, feature_cols, device, max_epochs=args.max_epochs, patience=args.patience, logger=logger)
+  File "/Users/derricksamuel/Desktop/Projects/wudnerfund/exploration/tune_mamba2_bruteforce.py", line 346, in train_model
+    train_loss, train_r2 = train_epoch(model, train_loader, criterion, optimizer, device, grad_clip=config.get('grad_clip', None))
+                           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/derricksamuel/Desktop/Projects/wudnerfund/exploration/tune_mamba2_bruteforce.py", line 284, in train_epoch
+    loss = criterion(preds, targets)
+  File "/Users/derricksamuel/.pyenv/versions/3.13.3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/Users/derricksamuel/.pyenv/versions/3.13.3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/Users/derricksamuel/.pyenv/versions/3.13.3/lib/python3.13/site-packages/torch/nn/modules/loss.py", line 610, in forward
+    return F.mse_loss(input, target, reduction=self.reduction)
+           ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/derricksamuel/.pyenv/versions/3.13.3/lib/python3.13/site-packages/torch/nn/functional.py", line 3884, in mse_loss
+    expanded_input, expanded_target = torch.broadcast_tensors(input, target)
+                                      ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/Users/derricksamuel/.pyenv/versions/3.13.3/lib/python3.13/site-packages/torch/functional.py", line 77, in broadcast_tensors
+    return _VF.broadcast_tensors(tensors)  # type: ignore[attr-defined]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+RuntimeError: The size of tensor a (20) must match the size of tensor b (128) at non-singleton dimension 1
+[2025-10-30 11:26:33,225] 
+=== Config 6/10: {'lookback': 20, 'batch_size': 128, 'lr': 0.001, 'weight_decay': 0.0001, 'grad_clip': None, 'n_layers': 2}
+[2025-10-30 11:26:34,009] Error in config 6: The size of tensor a (20) must match the size of tensor b (128) at non-singleton dimension 1
+Traceback (most recent call last):
+  File "/Users/derricksamuel/Desktop/Projects/wudnerfund/exploration/tune_mamba2_bruteforce.py", line 594, in main
+    res = train_model(cfg, train_df, val_df, feature_cols, device, max_epochs=args.max_epochs, patience=args.patience, logger=logger)
+  File "/Users/derricksamuel/Desktop/Projects/wudnerfund/exploration/tune_mamba2_bruteforce.py", line 346, in train_model
+    train_loss, train_r2 = train_epoch(model, train_loader, criterion, optimizer, device, grad_clip=config.get('grad_clip', None))
+                           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/derricksamuel/Desktop/Projects/wudnerfund/exploration/tune_mamba2_bruteforce.py", line 284, in train_epoch
+    loss = criterion(preds, targets)
+  File "/Users/derricksamuel/.pyenv/versions/3.13.3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/Users/derricksamuel/.pyenv/versions/3.13.3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/Users/derricksamuel/.pyenv/versions/3.13.3/lib/python3.13/site-packages/torch/nn/modules/loss.py", line 610, in forward
+    return F.mse_loss(input, target, reduction=self.reduction)
+           ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/derricksamuel/.pyenv/versions/3.13.3/lib/python3.13/site-packages/torch/nn/functional.py", line 3884, in mse_loss
+    expanded_input, expanded_target = torch.broadcast_tensors(input, target)
+                                      ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/Users/derricksamuel/.pyenv/versions/3.13.3/lib/python3.13/site-packages/torch/functional.py", line 77, in broadcast_tensors
+    return _VF.broadcast_tensors(tensors)  # type: ignore[attr-defined]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+RuntimeError: The size of tensor a (20) must match the size of tensor b (128) at non-singleton dimension 1
+[2025-10-30 11:26:34,030] 
+=== Config 7/10: {'lookback': 20, 'batch_size': 128, 'lr': 0.001, 'weight_decay': 0.0001, 'grad_clip': 1.0, 'n_layers': 1}
