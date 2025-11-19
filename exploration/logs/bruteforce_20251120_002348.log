@@ -1,0 +1,79 @@
+[2025-11-20 00:23:48] ======================================================================
+[2025-11-20 00:23:48] BRUTE FORCE HYPERPARAMETER SEARCH (ENC-DEC LSTM)
+[2025-11-20 00:23:48] ======================================================================
+[2025-11-20 00:23:48] Started at: 2025-11-20 00:23:48
+[2025-11-20 00:23:48] Mode: FULL
+[2025-11-20 00:23:48] Best R² to beat: 0.340000
+[2025-11-20 00:23:48] Log file: logs/bruteforce_20251120_002348.log
+[2025-11-20 00:23:48] 
+[2025-11-20 00:23:48] Device Detection:
+[2025-11-20 00:23:48]   PyTorch version: 2.7.1
+[2025-11-20 00:23:48]   Requested: auto
+[2025-11-20 00:23:48]   MPS available: ✓
+[2025-11-20 00:23:48]   CUDA available: ✗
+[2025-11-20 00:23:48]   Using: MPS
+[2025-11-20 00:23:48] 
+[2025-11-20 00:23:48] Loading data...
+[2025-11-20 00:23:48] Train: 465,000 rows, 465 sequences
+[2025-11-20 00:23:48] Val:   52,000 rows, 52 sequences
+[2025-11-20 00:23:48] Features: 32
+[2025-11-20 00:23:48] 
+[2025-11-20 00:23:48] Total possible combinations (Cartesian product): 1
+[2025-11-20 00:23:48] Configurations to run (cap): 1
+[2025-11-20 00:23:48] Starting exhaustive brute force search...
+
+[2025-11-20 00:23:48] 
+======================================================================
+[2025-11-20 00:23:48] Config 1/1 - Starting Training:
+[2025-11-20 00:23:48]   Architecture:
+[2025-11-20 00:23:48]     Lookback: 50, Hidden: 128, Layers: 1, Dropout: 0.1
+[2025-11-20 00:23:48]     Bidirectional: True, GRU: True
+[2025-11-20 00:23:48]   Output Head:
+[2025-11-20 00:23:48]     FC Layers: 2, FC Hidden: 256, Activation: relu
+[2025-11-20 00:23:48]     FC Dropout: 0.2, Batch Norm: True
+[2025-11-20 00:23:48]   Training:
+[2025-11-20 00:23:48]     Batch Size: 256, LR: 0.001, Weight Decay: 0.0001
+[2025-11-20 00:23:48]     Optimizer: adam, Grad Clip: 5.0, LR Patience: 3
+[2025-11-20 00:29:03]     Epoch  1/1: Val R²=0.3430 Train R²=0.3426 Gap=-0.0004 ✓
+[2025-11-20 00:29:03] 
+======================================================================
+[2025-11-20 00:29:03] Config 1/1 Complete:
+[2025-11-20 00:29:03]   Best Val R²: 0.343029 (epoch 1)
+[2025-11-20 00:29:03]   Best Global R²: 0.340000
+[2025-11-20 00:29:03]   Overfitting Gap: -0.000394
+[2025-11-20 00:29:03]   Parameters: 538,912
+[2025-11-20 00:29:03]   Training Time: 315.3s
+[2025-11-20 00:29:03] 
+🎉🎉🎉 NEW GLOBAL BEST! R² improved from 0.340000 to 0.343029
+[2025-11-20 00:29:03] 
+======================================================================
+[2025-11-20 00:29:03] 🏆 CREATING SUBMISSION - NEW BEST MODEL!
+[2025-11-20 00:29:03] ======================================================================
+[2025-11-20 00:29:03]   Val R²: 0.343029
+[2025-11-20 00:29:03]   Directory: ../submissions/bruteforce_r2_03430_20251120_002348_cfg1
+[2025-11-20 00:29:03]   Saved model: model_best.pt
+[2025-11-20 00:29:03]   Generated: solution.py
+[2025-11-20 00:29:03]   Copied: utils.py
+[2025-11-20 00:29:03]   Saved: metadata.json
+[2025-11-20 00:29:03] ======================================================================
+
+[2025-11-20 00:29:03]   Results saved to models/bruteforce_search_results_20251120_002348.csv
+[2025-11-20 00:29:03] 
+======================================================================
+[2025-11-20 00:29:03] SEARCH COMPLETE
+[2025-11-20 00:29:03] ======================================================================
+[2025-11-20 00:29:03] Total time: 5.3 minutes
+[2025-11-20 00:29:03] Successful configs: 1/1
+[2025-11-20 00:29:03] Final best R²: 0.343029
+[2025-11-20 00:29:03] Submissions created: 1
+[2025-11-20 00:29:03] Results saved: models/bruteforce_search_results_20251120_002348.csv
+[2025-11-20 00:29:03] 
+[2025-11-20 00:29:03] Top 5 configurations:
+[2025-11-20 00:29:03] 
+ config_id  best_val_r2  overfitting_gap  lookback  hidden_size  num_layers  dropout  n_parameters
+         1     0.343029        -0.000394        50          128           1      0.1        538912
+[2025-11-20 00:29:03] 
+Submissions log saved: models/bruteforce_submissions_log.csv
+[2025-11-20 00:29:03] 
+Submissions created:
+[2025-11-20 00:29:03]   ../submissions/bruteforce_r2_03430_20251120_002348_cfg1 (R²=0.343029)

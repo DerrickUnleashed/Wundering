@@ -22,3 +22,7 @@ search_space = {
         'optimizer': ['adam', 'adamw'],
         'lr_patience': [3],
     }
+
+
+        torch.serialization.add_safe_globals([np.core.multiarray.scalar])
+        ckpt = torch.load("model_best.pt", map_location=self.device, weights_only=False)
