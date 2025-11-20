@@ -545,7 +545,7 @@ def main():
     parser.add_argument('--test', action='store_true', help='Test mode (tiny data, 3 configs)')
     parser.add_argument('--n_configs', type=int, default=100, help='Number of configurations to test (cap for exhaustive mode)')
     parser.add_argument('--max_epochs', type=int, default=100, help='Max epochs per config')
-    parser.add_argument('--patience', type=int, default=7, help='Early stopping patience')
+    parser.add_argument('--patience', type=int, default=15, help='Early stopping patience')
     parser.add_argument('--device', type=str, default='auto', choices=['cpu', 'mps', 'cuda', 'auto'], help='Device to use for training (default: auto-detect)')
     parser.add_argument('--best_r2', type=float, default=0.34, help='Starting best R² to beat (default: 0.34)')
     parser.add_argument('--shuffle', action='store_true', help='Shuffle the exhaustive config order (deterministic seed is used)')
