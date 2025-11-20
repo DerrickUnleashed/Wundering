@@ -1,0 +1,36 @@
+[2025-11-20 10:20:00] ======================================================================
+[2025-11-20 10:20:00] BRUTE FORCE HYPERPARAMETER SEARCH (ENC-DEC LSTM)
+[2025-11-20 10:20:00] ======================================================================
+[2025-11-20 10:20:00] Started at: 2025-11-20 10:20:00
+[2025-11-20 10:20:00] Mode: FULL
+[2025-11-20 10:20:00] Best R² to beat: 0.340000
+[2025-11-20 10:20:00] Log file: logs/bruteforce_20251120_102000.log
+[2025-11-20 10:20:00] 
+[2025-11-20 10:20:00] Device Detection:
+[2025-11-20 10:20:00]   PyTorch version: 2.7.1
+[2025-11-20 10:20:00]   Requested: auto
+[2025-11-20 10:20:00]   MPS available: ✓
+[2025-11-20 10:20:00]   CUDA available: ✗
+[2025-11-20 10:20:00]   Using: MPS
+[2025-11-20 10:20:00] 
+[2025-11-20 10:20:00] Loading data...
+[2025-11-20 10:20:00] Train: 413,000 rows, 413 sequences
+[2025-11-20 10:20:00] Val:   104,000 rows, 104 sequences
+[2025-11-20 10:20:00] Features: 32
+[2025-11-20 10:20:00] 
+[2025-11-20 10:20:00] Total possible combinations (Cartesian product): 36,864
+[2025-11-20 10:20:00] Configurations to run (cap): 100
+[2025-11-20 10:20:00] Starting exhaustive brute force search...
+
+[2025-11-20 10:20:00] 
+======================================================================
+[2025-11-20 10:20:00] Config 1/100 - Starting Training:
+[2025-11-20 10:20:00]   Architecture:
+[2025-11-20 10:20:00]     Lookback: 50, Hidden: 64, Layers: 1, Dropout: 0.1
+[2025-11-20 10:20:00]     Bidirectional: True, GRU: False
+[2025-11-20 10:20:00]   Output Head:
+[2025-11-20 10:20:00]     FC Layers: 2, FC Hidden: 64, Activation: relu
+[2025-11-20 10:20:00]     FC Dropout: 0.1, Batch Norm: True
+[2025-11-20 10:20:00]   Training:
+[2025-11-20 10:20:00]     Batch Size: 128, LR: 0.0001, Weight Decay: 0.0001
+[2025-11-20 10:20:00]     Optimizer: adam, Grad Clip: None, LR Patience: 3

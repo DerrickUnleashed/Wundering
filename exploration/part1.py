@@ -290,7 +290,7 @@ def train_model(config, train_df, val_df, feature_cols, device, max_epochs=20, p
         optimizer = optim.AdamW(model.parameters(), lr=config['lr'], weight_decay=config['weight_decay'])
 
     scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='max', factor=0.5, patience=config.get('lr_patience', 3))
-    criterion = nn.MSELoss()
+    criterion = nn.L1Loss()
 
     best_val_r2 = -float('inf')
     patience_counter = 0
@@ -544,8 +544,8 @@ def main():
     parser = argparse.ArgumentParser(description='Brute force hyperparameter search with auto-submission')
     parser.add_argument('--test', action='store_true', help='Test mode (tiny data, 3 configs)')
     parser.add_argument('--n_configs', type=int, default=100, help='Number of configurations to test (cap for exhaustive mode)')
-    parser.add_argument('--max_epochs', type=int, default=100, help='Max epochs per config')
-    parser.add_argument('--patience', type=int, default=15, help='Early stopping patience')
+    parser.add_argument('--max_epochs', type=int, default=30, help='Max epochs per config')
+    parser.add_argument('--patience', type=int, default=7, help='Early stopping patience')
     parser.add_argument('--device', type=str, default='auto', choices=['cpu', 'mps', 'cuda', 'auto'], help='Device to use for training (default: auto-detect)')
     parser.add_argument('--best_r2', type=float, default=0.34, help='Starting best R² to beat (default: 0.34)')
     parser.add_argument('--shuffle', action='store_true', help='Shuffle the exhaustive config order (deterministic seed is used)')
@@ -591,7 +591,7 @@ def main():
     else:
         full_df = pd.read_parquet('../competition_package/datasets/train.parquet')
         all_seqs = full_df['seq_ix'].unique()
-        n_train = int(0.9 * len(all_seqs))
+        n_train = int(0.8 * len(all_seqs))
         train_seqs = all_seqs[:n_train]
         val_seqs = all_seqs[n_train:]
         train_df = full_df[full_df['seq_ix'].isin(train_seqs)]
@@ -616,21 +616,21 @@ def main():
     # Build exhaustive search space (adjust these lists to tune search size)
     search_space = {
         'lookback': [50],
-        'hidden_size': [128],
-        'num_layers': [1],
-        'dropout': [0.1],
+        'hidden_size': [128, 192],
+        'num_layers': [1, 2],
+        'dropout': [0.1, 0.3],
         'bidirectional': [True],
-        'use_gru': [True],
-        'fc_num_layers': [2],
-        'fc_hidden_dims': [256],
-        'fc_activation': ['relu'],
-        'fc_dropout': [0.2],
-        'use_batch_norm': [True],
-        'batch_size': [256],
-        'lr': [0.001],
-        'weight_decay': [0.0001],
+        'use_gru': [False],
+        'fc_num_layers': [1, 2],
+        'fc_hidden_dims': [128, 192],
+        'fc_activation': ['relu', 'gelu'],
+        'fc_dropout': [0.1, 0.3],
+        'use_batch_norm': [True, False],
+        'batch_size': [128],
+        'lr': [1e-4, 5e-4],
+        'weight_decay': [1e-4],
         'grad_clip': [5.0],
-        'optimizer': ['adam'],
+        'optimizer': ['adam', 'adamw'],
         'lr_patience': [3],
     }
 
