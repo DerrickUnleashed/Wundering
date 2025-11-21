@@ -544,8 +544,8 @@ def main():
     parser = argparse.ArgumentParser(description='Brute force hyperparameter search with auto-submission')
     parser.add_argument('--test', action='store_true', help='Test mode (tiny data, 3 configs)')
     parser.add_argument('--n_configs', type=int, default=100, help='Number of configurations to test (cap for exhaustive mode)')
-    parser.add_argument('--max_epochs', type=int, default=30, help='Max epochs per config')
-    parser.add_argument('--patience', type=int, default=7, help='Early stopping patience')
+    parser.add_argument('--max_epochs', type=int, default=100, help='Max epochs per config')
+    parser.add_argument('--patience', type=int, default=10, help='Early stopping patience')
     parser.add_argument('--device', type=str, default='auto', choices=['cpu', 'mps', 'cuda', 'auto'], help='Device to use for training (default: auto-detect)')
     parser.add_argument('--best_r2', type=float, default=0.34, help='Starting best R² to beat (default: 0.34)')
     parser.add_argument('--shuffle', action='store_true', help='Shuffle the exhaustive config order (deterministic seed is used)')
@@ -591,7 +591,7 @@ def main():
     else:
         full_df = pd.read_parquet('../competition_package/datasets/train.parquet')
         all_seqs = full_df['seq_ix'].unique()
-        n_train = int(0.8 * len(all_seqs))
+        n_train = int(0.9 * len(all_seqs))
         train_seqs = all_seqs[:n_train]
         val_seqs = all_seqs[n_train:]
         train_df = full_df[full_df['seq_ix'].isin(train_seqs)]
@@ -615,23 +615,23 @@ def main():
 
     # Build exhaustive search space (adjust these lists to tune search size)
     search_space = {
-        'lookback': [50],
-        'hidden_size': [128, 192],
-        'num_layers': [1, 2],
-        'dropout': [0.1, 0.3],
-        'bidirectional': [True],
-        'use_gru': [False],
-        'fc_num_layers': [1, 2],
-        'fc_hidden_dims': [128, 192],
-        'fc_activation': ['relu', 'gelu'],
-        'fc_dropout': [0.1, 0.3],
-        'use_batch_norm': [True, False],
-        'batch_size': [128],
-        'lr': [1e-4, 5e-4],
-        'weight_decay': [1e-4],
-        'grad_clip': [5.0],
-        'optimizer': ['adam', 'adamw'],
-        'lr_patience': [3],
+        "lookback": [50],
+    "hidden_size": [128],
+    "num_layers": [3],
+    "dropout": [0.2],
+    "bidirectional": [True],
+    "use_gru": [True],
+    "fc_num_layers": [2],
+    "fc_hidden_dims": [128],
+    "fc_activation": ["relu"],
+    "fc_dropout": [0.1],
+    "use_batch_norm": [True],
+    "batch_size": [128],
+    "lr": [0.001],
+    "weight_decay": [0.0001],
+    "grad_clip": [5.0],
+    "optimizer": ["adam"],
+    "lr_patience": [3]
     }
 
     keys = list(search_space.keys())
