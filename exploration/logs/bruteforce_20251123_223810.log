@@ -1,0 +1,50 @@
+[2025-11-23 22:38:10] ======================================================================
+[2025-11-23 22:38:10] BRUTE FORCE HYPERPARAMETER SEARCH WITH AUTO-SUBMISSION (EXHAUSTIVE MODE)
+[2025-11-23 22:38:10] ======================================================================
+[2025-11-23 22:38:10] Started at: 2025-11-23 22:38:10
+[2025-11-23 22:38:10] Mode: FULL
+[2025-11-23 22:38:10] Best R² to beat: 0.370000
+[2025-11-23 22:38:10] Log file: logs/bruteforce_20251123_223810.log
+[2025-11-23 22:38:10] 
+[2025-11-23 22:38:10] Device Detection:
+[2025-11-23 22:38:10]   PyTorch version: 2.7.1
+[2025-11-23 22:38:10]   Requested: auto
+[2025-11-23 22:38:10]   MPS available: ✓
+[2025-11-23 22:38:10]   CUDA available: ✗
+[2025-11-23 22:38:10]   Using: MPS
+[2025-11-23 22:38:10] 
+[2025-11-23 22:38:10] Loading data...
+[2025-11-23 22:38:10] Train: 465,000 rows, 465 sequences
+[2025-11-23 22:38:10] Val:   52,000 rows, 52 sequences
+[2025-11-23 22:38:10] Features: 32
+[2025-11-23 22:38:10] 
+[2025-11-23 22:38:10] Total possible combinations (Cartesian product): 1,024
+[2025-11-23 22:38:10] Configurations to run (cap): 100
+[2025-11-23 22:38:10] Starting exhaustive brute force search...
+[2025-11-23 22:38:10] 
+[2025-11-23 22:38:10] 
+======================================================================
+[2025-11-23 22:38:10] Config 1/100 - Starting Training:
+[2025-11-23 22:38:10]   Architecture (Encoder-Decoder):
+[2025-11-23 22:38:10]     Lookback: 100, GRU: True, Bidirectional: True
+[2025-11-23 22:38:10]     Encoder: 1 layers, 128 hidden
+[2025-11-23 22:38:10]     Decoder: 1 layers, 64 hidden
+[2025-11-23 22:38:10]     Attention Dim: 64
+[2025-11-23 22:38:10]     Dropout: 0.2, DropConnect: 0.1, BatchNorm: True
+[2025-11-23 22:38:10]   Training:
+[2025-11-23 22:38:10]     Batch Size: 256, LR: 0.0005, Weight Decay: 0.0
+[2025-11-23 22:38:10]     Optimizer: adamw, Grad Clip: 1.0, LR Patience: 5
+[2025-11-23 22:38:12] 
+ERROR in config 1: 'hidden_size'
+[2025-11-23 22:38:12] 
+======================================================================
+[2025-11-23 22:38:12] Config 2/100 - Starting Training:
+[2025-11-23 22:38:12]   Architecture (Encoder-Decoder):
+[2025-11-23 22:38:12]     Lookback: 100, GRU: True, Bidirectional: True
+[2025-11-23 22:38:12]     Encoder: 1 layers, 128 hidden
+[2025-11-23 22:38:12]     Decoder: 1 layers, 64 hidden
+[2025-11-23 22:38:12]     Attention Dim: 64
+[2025-11-23 22:38:12]     Dropout: 0.2, DropConnect: 0.1, BatchNorm: True
+[2025-11-23 22:38:12]   Training:
+[2025-11-23 22:38:12]     Batch Size: 256, LR: 0.0005, Weight Decay: 0.0
+[2025-11-23 22:38:12]     Optimizer: adam, Grad Clip: 1.0, LR Patience: 5

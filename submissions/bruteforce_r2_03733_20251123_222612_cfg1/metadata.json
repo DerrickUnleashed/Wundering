@@ -1,0 +1,29 @@
+{
+  "config_id": 1,
+  "timestamp": "20251123_222612",
+  "val_r2": 0.3733150605112314,
+  "train_r2": 0.3846906740218401,
+  "overfitting_gap": 0.011375613510608673,
+  "best_epoch": 10,
+  "total_epochs": 20,
+  "n_parameters": 497952,
+  "config": {
+    "lookback": 100,
+    "encoder_hidden": 128,
+    "decoder_hidden": 64,
+    "encoder_num_layers": 1,
+    "decoder_num_layers": 1,
+    "bidirectional": true,
+    "use_gru": true,
+    "dropout": 0.2,
+    "dropconnect": 0.1,
+    "attn_dim": 64,
+    "use_batch_norm": true,
+    "batch_size": 256,
+    "lr": 0.0005,
+    "weight_decay": 0.0,
+    "grad_clip": 1.0,
+    "optimizer": "adamw",
+    "lr_patience": 5
+  }
+}

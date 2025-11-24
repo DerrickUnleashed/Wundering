@@ -1,0 +1,55 @@
+[2025-11-22 09:48:01] ======================================================================
+[2025-11-22 09:48:01] BRUTE FORCE HYPERPARAMETER SEARCH WITH BIAS CORRECTION (EXHAUSTIVE MODE)
+[2025-11-22 09:48:01] ======================================================================
+[2025-11-22 09:48:01] Started at: 2025-11-22 09:48:01
+[2025-11-22 09:48:01] Mode: FULL
+[2025-11-22 09:48:01] Best R² to beat: 0.340000
+[2025-11-22 09:48:01] Log file: logs/bruteforce_bias_20251122_094801.log
+[2025-11-22 09:48:01] 
+[2025-11-22 09:48:01] Device Detection:
+[2025-11-22 09:48:01]   PyTorch version: 2.7.1
+[2025-11-22 09:48:01]   Requested: auto
+[2025-11-22 09:48:01]   MPS available: ✓
+[2025-11-22 09:48:01]   CUDA available: ✗
+[2025-11-22 09:48:01]   Using: MPS
+[2025-11-22 09:48:01] 
+[2025-11-22 09:48:01] Loading data...
+[2025-11-22 09:48:01] Train: 465,000 rows, 465 sequences
+[2025-11-22 09:48:01] Val:   52,000 rows, 52 sequences
+[2025-11-22 09:48:01] Features: 32
+[2025-11-22 09:48:01] 
+[2025-11-22 09:48:01] Total possible combinations (Cartesian product): 1
+[2025-11-22 09:48:01] Configurations to run (cap): 1
+[2025-11-22 09:48:01] Starting exhaustive brute force search with bias correction...
+[2025-11-22 09:48:01] 
+[2025-11-22 09:48:02] 
+======================================================================
+[2025-11-22 09:48:02] Config 1/1 - Starting Training:
+[2025-11-22 09:48:02]   Architecture:
+[2025-11-22 09:48:02]     Lookback: 50, Hidden: 128, Layers: 1, Dropout: 0.1
+[2025-11-22 09:48:02]     Bidirectional: True, GRU: True
+[2025-11-22 09:48:02]   Output Head:
+[2025-11-22 09:48:02]     FC Layers: 2, FC Hidden: 256, Activation: relu
+[2025-11-22 09:48:02]     FC Dropout: 0.2, Batch Norm: True
+[2025-11-22 09:48:02]   Training:
+[2025-11-22 09:48:02]     Batch Size: 256, LR: 0.001, Weight Decay: 0.0001
+[2025-11-22 09:48:02]     Optimizer: adam, Grad Clip: 5.0, LR Patience: 3
+[2025-11-22 09:51:22]     Epoch  1/1: Val R²=0.3490 Train R²=0.3430 Gap=-0.0059 ✓
+[2025-11-22 09:51:22]     Training bias correction FFNN...
+[2025-11-22 09:52:35]       BC Epoch 1: Loss=0.597204
+[2025-11-22 09:53:46]       BC Epoch 2: Loss=0.585711
+[2025-11-22 09:54:58]       BC Epoch 3: Loss=0.584269
+[2025-11-22 09:56:11]       BC Epoch 4: Loss=0.583455
+[2025-11-22 09:57:24]       BC Epoch 5: Loss=0.582883
+[2025-11-22 09:58:36]       BC Epoch 6: Loss=0.582439
+[2025-11-22 09:59:48]       BC Epoch 7: Loss=0.582141
+[2025-11-22 10:01:00]       BC Epoch 8: Loss=0.581902
+[2025-11-22 10:02:11]       BC Epoch 9: Loss=0.581703
+[2025-11-22 10:03:23]       BC Epoch 10: Loss=0.581564
+[2025-11-22 10:04:36]       BC Epoch 11: Loss=0.581359
+[2025-11-22 10:05:48]       BC Epoch 12: Loss=0.581252
+[2025-11-22 10:06:58]       BC Epoch 13: Loss=0.581117
+[2025-11-22 10:08:04]       BC Epoch 14: Loss=0.580999
+[2025-11-22 10:09:09]       BC Epoch 15: Loss=0.580865
+[2025-11-22 10:10:17]       BC Epoch 16: Loss=0.580740
+[2025-11-22 10:11:23]       BC Epoch 17: Loss=0.580642
