@@ -653,7 +653,7 @@ def main():
     parser = argparse.ArgumentParser(description='Brute force hyperparameter search with auto-submission')
     parser.add_argument('--test', action='store_true', help='Test mode (tiny data, 3 configs)')
     parser.add_argument('--n_configs', type=int, default=100, help='Number of configurations to test (cap for exhaustive mode)')
-    parser.add_argument('--max_epochs', type=int, default=60, help='Max epochs per config')
+    parser.add_argument('--max_epochs', type=int, default=43, help='Max epochs per config')
     parser.add_argument('--patience', type=int, default=10, help='Early stopping patience')
     parser.add_argument('--device', type=str, default='auto',
                        choices=['cpu', 'mps', 'cuda', 'auto'],
@@ -741,7 +741,7 @@ def main():
     # NOTE: tune these lists to manage total number of combinations.
     search_space = {
         # Architecture
-        'lookback': [300],
+        'lookback': [200],
         'hidden_size': [128],
         'num_layers': [1],
         'dropout': [0.1],
