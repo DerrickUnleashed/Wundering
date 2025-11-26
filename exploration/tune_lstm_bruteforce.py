@@ -323,6 +323,7 @@ def train_model(config, train_df, val_df, feature_cols, device, max_epochs=20, p
 
     # Create model
     model = create_model_from_config(config, n_features).to(device)
+    print(model)
 
     # Optimizer
     if config['optimizer'] == 'adam':
@@ -653,7 +654,7 @@ def main():
     parser = argparse.ArgumentParser(description='Brute force hyperparameter search with auto-submission')
     parser.add_argument('--test', action='store_true', help='Test mode (tiny data, 3 configs)')
     parser.add_argument('--n_configs', type=int, default=100, help='Number of configurations to test (cap for exhaustive mode)')
-    parser.add_argument('--max_epochs', type=int, default=43, help='Max epochs per config')
+    parser.add_argument('--max_epochs', type=int, default=60, help='Max epochs per config')
     parser.add_argument('--patience', type=int, default=10, help='Early stopping patience')
     parser.add_argument('--device', type=str, default='auto',
                        choices=['cpu', 'mps', 'cuda', 'auto'],
@@ -740,29 +741,30 @@ def main():
     # Build exhaustive search space (Cartesian product)
     # NOTE: tune these lists to manage total number of combinations.
     search_space = {
-        # Architecture
-        'lookback': [200],
-        'hidden_size': [128],
-        'num_layers': [1],
-        'dropout': [0.1],
-        'bidirectional': [True],
-        'use_gru': [True],
+    # Architecture
+    'lookback': [100],                 # keep fixed
+    'hidden_size': [192, 256],         # LARGE boost to R²
+    'num_layers': [2, 3],              # deeper GRU improves temporal modeling
+    'dropout': [0.05, 0.1],            # lower dropout = better fitting
+    'bidirectional': [True],
+    'use_gru': [True],
 
-        # Output head
-        'fc_num_layers': [2],
-        'fc_hidden_dims': [256],
-        'fc_activation': ['relu'],
-        'fc_dropout': [0.2],
-        'use_batch_norm': [True],
+    # Output head
+    'fc_num_layers': [2, 3],           # deeper MLP = better feature mixing
+    'fc_hidden_dims': [256, 512],      # bigger head → higher R²
+    'fc_activation': ['gelu'],         # GELU improves performance over ReLU
+    'fc_dropout': [0.1],               # slightly lower dropout = better R²
+    'use_batch_norm': [True],
 
-        # Training
-        'batch_size': [256],
-        'lr': [0.001],
-        'weight_decay': [0.0001],
-        'grad_clip': [5.0],
-        'optimizer': ['adam'],
-        'lr_patience': [3],
+    # Training
+    'batch_size': [128, 256],          # smaller batch improves generalization
+    'lr': [0.001, 0.0005],             # stable training improves R²
+    'weight_decay': [0.00005, 0.0001],
+    'grad_clip': [5.0],
+    'optimizer': ['adam'],
+    'lr_patience': [3],
     }
+
 
     keys = list(search_space.keys())
     values = [search_space[k] for k in keys]
