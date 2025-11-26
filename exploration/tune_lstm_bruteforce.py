@@ -743,23 +743,23 @@ def main():
     search_space = {
     # Architecture
     'lookback': [100],                 # keep fixed
-    'hidden_size': [192, 256],         # LARGE boost to R²
-    'num_layers': [2, 3],              # deeper GRU improves temporal modeling
-    'dropout': [0.05, 0.1],            # lower dropout = better fitting
+    'hidden_size': [256],         # LARGE boost to R²
+    'num_layers': [3],              # deeper GRU improves temporal modeling
+    'dropout': [0.1],            # lower dropout = better fitting
     'bidirectional': [True],
     'use_gru': [True],
 
     # Output head
-    'fc_num_layers': [2, 3],           # deeper MLP = better feature mixing
-    'fc_hidden_dims': [256, 512],      # bigger head → higher R²
-    'fc_activation': ['gelu'],         # GELU improves performance over ReLU
-    'fc_dropout': [0.1],               # slightly lower dropout = better R²
+    'fc_num_layers': [3],           # deeper MLP = better feature mixing
+    'fc_hidden_dims': [256],      # bigger head → higher R²
+    'fc_activation': ['relu'],         # GELU improves performance over ReLU
+    'fc_dropout': [0.2],               # slightly lower dropout = better R²
     'use_batch_norm': [True],
 
     # Training
-    'batch_size': [128, 256],          # smaller batch improves generalization
-    'lr': [0.001, 0.0005],             # stable training improves R²
-    'weight_decay': [0.00005, 0.0001],
+    'batch_size': [256],          # smaller batch improves generalization
+    'lr': [0.001],             # stable training improves R²
+    'weight_decay': [0.0001],
     'grad_clip': [5.0],
     'optimizer': ['adam'],
     'lr_patience': [3],
