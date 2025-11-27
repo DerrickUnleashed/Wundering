@@ -1,67 +1,92 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import seaborn as sns
-from pandas.plotting import autocorrelation_plot
 
-df = pd.read_parquet("data/sample_full.parquet")
-
-print(df.head(4))
-
-print("Shape:", df.shape)
-print(df.head())
+df = pd.read_parquet("../competition_package/datasets/train.parquet")
 
 feature_cols = [c for c in df.columns if c not in ['seq_ix', 'step_in_seq', 'need_prediction']]
-print("Number of features:", len(feature_cols))
 
-plt.figure(figsize=(14, 6))
-sample_cols = feature_cols#[:25] if len(feature_cols) > 25 else feature_cols
-sns.boxplot(data=df[sample_cols])
-plt.xticks(rotation=90)
-plt.title("Feature Distribution (Boxplot)")
-plt.tight_layout()
-plt.savefig("visualisations/boxplot.png", dpi=300)
-plt.show()
+# ============================
+# 1. Sequence Integrity Check
+# ============================
+seq_lengths = df.groupby('seq_ix').size()
+print(seq_lengths.describe())
+print("Sequences not equal to 1000:", (seq_lengths != 1000).sum())
 
+missing_steps = df.groupby('seq_ix')['step_in_seq'].apply(
+    lambda x: set(range(1000)) - set(x)
+)
+print("Sequences with missing steps:", sum(len(v) > 0 for v in missing_steps))
 
-corr_subset = df[sample_cols].corr()
-plt.figure(figsize=(12, 10))
-sns.heatmap(corr_subset, cmap="coolwarm", center=0)
-plt.title("Correlation Heatmap (Sampled Features)")
-plt.savefig("visualisations/heatmap.png", dpi=300)
-plt.show()
+# ============================
+# 2. need_prediction pattern
+# ============================
+pred_steps = df[df["need_prediction"] == 1].step_in_seq.value_counts().sort_index()
+print(pred_steps.head(20))
 
+# ============================
+# 3. Per-feature stats
+# ============================
+desc = df[feature_cols].describe().T
+desc['missing_pct'] = df[feature_cols].isna().mean() * 100
+print(desc)
 
-first_seq = df.seq_ix.unique()[0]
-seq_df = df[df.seq_ix == first_seq]
+# ============================
+# 4. Per-feature variance
+# ============================
+variance = df[feature_cols].var().sort_values()
+print("Lowest variance features:\n", variance.head(20))
+print("Highest variance features:\n", variance.tail(20))
 
-plt.figure(figsize=(12, 5))
-plt.plot(seq_df["step_in_seq"], seq_df[feature_cols[0]])
-plt.title(f"Feature Trend Over Steps (seq_ix={first_seq})")
-plt.xlabel("step_in_seq")
-plt.ylabel(feature_cols[0])
-plt.savefig("visualisations/featuretrend.png", dpi=300)
-plt.show()
+# ============================
+# 5. Lag-1 correlation feature(t) vs feature(t+1)
+# ============================
+lag1_corr = {}
 
-warmup = df[df.step_in_seq < 100][feature_cols].mean()
-predict = df[df.step_in_seq >= 100][feature_cols].mean()
+for col in feature_cols:
+    x = df[col].values
+    lag1_corr[col] = np.corrcoef(x[:-1], x[1:])[0,1]
 
-plt.figure(figsize=(14, 5))
-plt.plot(warmup.values, label="Warm-up mean")
-plt.plot(predict.values, label="Prediction mean")
-plt.title("Warm-up vs Prediction Drift (Mean Values)")
+lag1_corr = pd.Series(lag1_corr).sort_values()
+print("Lowest lag-1 correlations:\n", lag1_corr.head(20))
+print("Highest lag-1 correlations:\n", lag1_corr.tail(20))
+
+# ============================
+# 6. Autocorrelation (ACF) for first 10 features
+# ============================
+from statsmodels.tsa.stattools import acf
+
+for col in feature_cols[:10]:
+    ac = acf(df[col].values, nlags=20, fft=True)
+    plt.plot(ac, label=col)
+
+plt.title("Autocorrelation (first 10 features)")
 plt.legend()
-plt.savefig("visualisations/drift.png", dpi=300)
+plt.savefig("visualisations/acf_first_10_features.png")
 plt.show()
 
-plt.figure(figsize=(14, 5))
-sns.heatmap(df[feature_cols].isnull(), cbar=False)
-plt.title("Missing Value Heatmap")
-plt.savefig("visualisations/missing.png", dpi=300)
+# ============================
+# 7. Correlation Matrix (first 30 features)
+# ============================
+subset = feature_cols
+corr = df[subset].corr()
+
+plt.figure(figsize=(12,10))
+plt.imshow(corr, cmap='coolwarm', vmin=-1, vmax=1)
+plt.colorbar()
+plt.title("Correlation matrix")
+plt.savefig("visualisations/corrmatrix.png")
 plt.show()
 
-plt.figure(figsize=(10, 4))
-autocorrelation_plot(seq_df[feature_cols[0]])
-plt.title("Autocorrelation of First Feature (Single Sequence)")
-plt.savefig("visualisations/autocorr.png", dpi=300)
+# ============================
+# 8. Feature drift across steps
+# ============================
+mean_by_step = df.groupby('step_in_seq')[feature_cols].mean()
+
+plt.figure(figsize=(10,5))
+plt.plot(mean_by_step.iloc[:,0].values)
+plt.title(f"Drift of Feature {feature_cols[0]} Across Steps")
+plt.xlabel("step_in_seq")
+plt.ylabel("mean")
+plt.savefig("visualisations/drift.png")
 plt.show()

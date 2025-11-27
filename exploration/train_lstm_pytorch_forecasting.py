@@ -1,4 +1,4 @@
-"""
+()"""
 Train LSTM model using pytorch-forecasting and create submission.
 
 This script leverages the pytorch-forecasting library to train a model with specified

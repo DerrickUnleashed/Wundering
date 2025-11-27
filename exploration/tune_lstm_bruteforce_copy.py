@@ -36,6 +36,8 @@ import random
 from tqdm import tqdm
 import shutil
 import logging
+from sklearn.preprocessing import StandardScaler
+import pickle
 
 # Force unbuffered output
 sys.stdout = os.fdopen(sys.stdout.fileno(), 'w', buffering=1)
@@ -46,6 +48,34 @@ sys.path.append('.')
 sys.path.append('../competition_package')
 
 from models import create_model_from_config
+
+
+def preprocess(df, scaler=None):
+    feature_cols = [c for c in df.columns if c not in ['seq_ix', 'step_in_seq', 'need_prediction']]
+
+    # --- 1. Clip extreme spikes ---
+    lower = df[feature_cols].quantile(0.005)
+    upper = df[feature_cols].quantile(0.995)
+    df[feature_cols] = df[feature_cols].clip(lower, upper, axis=1)
+
+    # --- 2. Global standard scaling ---
+    if scaler is None:
+        scaler = StandardScaler()
+        df[feature_cols] = scaler.fit_transform(df[feature_cols])
+    else:
+        df[feature_cols] = scaler.transform(df[feature_cols])
+
+    # --- 3. Smoothing noisy features ---
+    smoothed = (
+        df.groupby("seq_ix")[feature_cols]
+          .rolling(3, min_periods=1)
+          .mean()
+          .reset_index(level=0, drop=True)
+    )
+
+    df[feature_cols] = smoothed
+
+    return df, scaler
 
 
 def setup_logging(timestamp):
@@ -215,26 +245,26 @@ def sample_hyperparameters():
         'optimizer': random.choice(['adam', 'adamw']),
         'lr_patience': random.choice([3])
     }
-    # config = {
-    #     # Config 1 from bruteforce search - achieved 0.3414 val R²
-    #     'lookback': 50,
-    #     'hidden_size': 128,
-    #     'num_layers': 3,
-    #     'dropout': 0.3,
-    #     'bidirectional': False,
-    #     'use_gru': True,
-    #     'fc_num_layers': 2,
-    #     'fc_hidden_dims': 256,
-    #     'fc_activation': 'relu',
-    #     'fc_dropout': 0.0,
-    #     'use_batch_norm': True,
-    #     'batch_size': 256,
-    #     'lr': 0.0001,
-    #     'weight_decay': 0.0,
-    #     'grad_clip': 0.5,
-    #     'optimizer': 'adam',
-    #     'lr_patience': 3,
-    # }
+    config = {
+        # Config 1 from bruteforce search - achieved 0.3414 val R²
+        'lookback': 100,
+        'hidden_size': 128,
+        'num_layers': 3,
+        'dropout': 0.3,
+        'bidirectional': False,
+        'use_gru': True,
+        'fc_num_layers': 2,
+        'fc_hidden_dims': 256,
+        'fc_activation': 'relu',
+        'fc_dropout': 0.0,
+        'use_batch_norm': True,
+        'batch_size': 256,
+        'lr': 0.0001,
+        'weight_decay': 0.0,
+        'grad_clip': 0.5,
+        'optimizer': 'adam',
+        'lr_patience': 3,
+    }
 
 
     return config
@@ -246,26 +276,26 @@ def build_search_space():
     """
     search_space = {
         # Architecture
-        'lookback': [20, 30, 50],
-        'hidden_size': [64, 128, 192],
-        'num_layers': [1, 2, 4],
-        'dropout': [0.1, 0.2, 0.3],
-        'bidirectional': [False, True],
-        'use_gru': [True, False],
+        'lookback': [100],
+        'hidden_size': [128],
+        'num_layers': [1],
+        'dropout': [0.1],
+        'bidirectional': [ True],
+        'use_gru': [True],
 
         # Output head
-        'fc_num_layers': [2, 3],
-        'fc_hidden_dims': [64, 128, 256],
-        'fc_activation': ['relu', 'tanh', 'gelu'],
-        'fc_dropout': [0.0, 0.2, 0.3, 0.4],
-        'use_batch_norm': [True, False],
+        'fc_num_layers': [2],
+        'fc_hidden_dims': [256],
+        'fc_activation': ['relu'],
+        'fc_dropout': [0.2],
+        'use_batch_norm': [True],
 
         # Training
-        'batch_size': [128, 256],
-        'lr': [1e-4, 5e-4, 1e-3],
-        'weight_decay': [0.0, 1e-4, 1e-3, 1e-2],
-        'grad_clip': [None, 0.5, 1.0, 5.0],
-        'optimizer': ['adam', 'adamw'],
+        'batch_size': [256],
+        'lr': [1e-3],
+        'weight_decay': [1e-4],
+        'grad_clip': [5.0],
+        'optimizer': ['adam'],
         'lr_patience': [3],
     }
 
@@ -323,6 +353,7 @@ def train_model(config, train_df, val_df, feature_cols, device, max_epochs=20, p
 
     # Create model
     model = create_model_from_config(config, n_features).to(device)
+    print(model)
 
     # Optimizer
     if config['optimizer'] == 'adam':
@@ -434,6 +465,12 @@ def create_submission(config, result, feature_cols, config_id, timestamp, logger
     torch.save(checkpoint, model_path)
     logger.info(f"  Saved model: {model_filename}")
 
+    # Copy scaler to submission directory
+    scaler_src = Path("models/scaler.pkl")
+    scaler_dst = submission_dir / "scaler.pkl"
+    shutil.copy(scaler_src, scaler_dst)
+    logger.info(f"  Copied scaler: scaler.pkl")
+
     # Generate solution.py
     n_features = len(feature_cols)
     lookback = config['lookback']
@@ -443,7 +480,7 @@ def create_submission(config, result, feature_cols, config_id, timestamp, logger
     direction = "Bidirectional" if config['bidirectional'] else "Unidirectional"
 
     solution_code = f'''"""
-Encoder-Decoder {model_type} Solution - Brute Force Search
+{model_type} Solution - Brute Force Search
 Config ID: {config_id}
 Timestamp: {timestamp}
 
@@ -452,12 +489,11 @@ Training R²: {result['best_train_r2']:.6f}
 Overfitting gap: {result['overfitting_gap']:.6f}
 
 Architecture:
-- Encoder-Decoder {model_type} ({direction})
-- Encoder: {config.get('encoder_num_layers', 1)} layers, {config.get('encoder_hidden', 256)} hidden
-- Decoder: {config.get('decoder_num_layers', 1)} layers, {config.get('decoder_hidden', 64)} hidden
+- {model_type} ({direction})
+- {config['num_layers']} layers, {config['hidden_size']} hidden units
 - Lookback: {lookback} timesteps
-- Dropout: {config['dropout']}, DropConnect: {config.get('dropconnect', 0.1)}
-- Attention dim: {config.get('attn_dim', 'default')}
+- Dropout: {config['dropout']}
+- FC layers: {config['fc_num_layers']}, activation: {config['fc_activation']}
 - Parameters: {result['n_parameters']:,}
 
 Training:
@@ -471,158 +507,139 @@ Training:
 import numpy as np
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
-from typing import Optional
+import pickle
 from utils import DataPoint
 
 
-class DropConnectLinear(nn.Linear):
-    def __init__(self, in_features, out_features, bias=True, p: float = 0.1):
-        super().__init__(in_features, out_features, bias=bias)
-        self.p = float(p)
+class FlexibleRNN(nn.Module):
+    """Flexible RNN-based sequence predictor."""
 
-    def forward(self, input):
-        if self.training and self.p > 0.0:
-            mask = torch.bernoulli((1.0 - self.p) * torch.ones_like(self.weight)).to(self.weight.device)
-            w = self.weight * mask
-        else:
-            w = self.weight * (1.0 - self.p)
-        return F.linear(input, w, self.bias)
-
-
-class AttentionBlock(nn.Module):
-    def __init__(self, enc_dim: int, dec_dim: int, attn_dim: int):
-        super().__init__()
-        self.Wq = nn.Linear(dec_dim, attn_dim, bias=False)
-        self.Wk = nn.Linear(enc_dim, attn_dim, bias=False)
-        self.Wv = nn.Linear(enc_dim, attn_dim, bias=False)
-        self.out = nn.Linear(attn_dim, dec_dim)
-
-    def forward(self, enc_seq, dec_vec):
-        Q = self.Wq(dec_vec).unsqueeze(1)
-        K = self.Wk(enc_seq)
-        V = self.Wv(enc_seq)
-        scores = torch.softmax((Q * K).sum(-1), dim=-1).unsqueeze(-1)
-        context = (scores * V).sum(1)
-        out = self.out(context)
-        return out
-
-
-class EncoderDecoderLSTM(nn.Module):
     def __init__(
         self,
-        input_size: int,
-        encoder_hidden: int = {config.get('encoder_hidden', 256)},
-        decoder_hidden: int = {config.get('decoder_hidden', 64)},
-        encoder_num_layers: int = {config.get('encoder_num_layers', 1)},
-        decoder_num_layers: int = {config.get('decoder_num_layers', 1)},
-        bidirectional_encoder: bool = {config['bidirectional']},
-        dropout: float = {config['dropout']},
-        dropconnect_p: float = {config.get('dropconnect', 0.1)},
-        attn_dim: Optional[int] = {config.get('attn_dim')},
-        use_gru: bool = {config['use_gru']},
-        use_batch_norm: bool = {config['use_batch_norm']},
-        **kwargs, # absorb extra keys
+        input_size,
+        hidden_size={config['hidden_size']},
+        num_layers={config['num_layers']},
+        dropout={config['dropout']},
+        bidirectional={config['bidirectional']},
+        use_gru={config['use_gru']},
+        fc_num_layers={config['fc_num_layers']},
+        fc_hidden_dims={config['fc_hidden_dims']},
+        fc_activation='{config['fc_activation']}',
+        fc_dropout={config['fc_dropout']},
+        use_batch_norm={config['use_batch_norm']}
     ):
-        super().__init__()
-        self.input_size = input_size
-        self.encoder_hidden = int(encoder_hidden)
-        self.decoder_hidden = int(decoder_hidden)
-        self.bidirectional_encoder = bool(bidirectional_encoder)
-        self.encoder_num_layers = int(encoder_num_layers)
-        self.decoder_num_layers = int(decoder_num_layers)
-        self.dropout = float(dropout)
-        self.dropconnect_p = float(dropconnect_p)
-        self.use_gru = bool(use_gru)
-        self.use_batch_norm = bool(use_batch_norm)
+        super(FlexibleRNN, self).__init__()
 
-        rnn_class = nn.GRU if self.use_gru else nn.LSTM
-        self.encoder = rnn_class(
-            input_size, self.encoder_hidden, num_layers=self.encoder_num_layers,
-            batch_first=True, dropout=self.dropout if self.encoder_num_layers > 1 else 0.0,
-            bidirectional=self.bidirectional_encoder
+        # RNN layer
+        rnn_class = nn.GRU if use_gru else nn.LSTM
+        self.rnn = rnn_class(
+            input_size=input_size,
+            hidden_size=hidden_size,
+            num_layers=num_layers,
+            batch_first=True,
+            dropout=dropout if num_layers > 1 else 0,
+            bidirectional=bidirectional
         )
 
-        self.encoder_dim = self.encoder_hidden * (2 if self.bidirectional_encoder else 1)
-        mid_dim = max(self.encoder_dim, 512)
-        self.enc_fc1 = DropConnectLinear(self.encoder_dim, mid_dim, p=self.dropconnect_p)
-        self.enc_bn1 = nn.BatchNorm1d(mid_dim) if self.use_batch_norm else nn.Identity()
-        self.enc_fc2 = DropConnectLinear(mid_dim, self.encoder_dim, p=self.dropconnect_p)
-        self.enc_bn2 = nn.BatchNorm1d(self.encoder_dim) if self.use_batch_norm else nn.Identity()
-        self.enc_act = nn.ReLU()
-        self.enc_dropout = nn.Dropout(p=self.dropout)
+        # RNN output size
+        rnn_output_size = hidden_size * (2 if bidirectional else 1)
 
-        effective_attn_dim = attn_dim if attn_dim is not None else min(128, max(64, self.encoder_dim // 2))
-        self.attention = AttentionBlock(self.encoder_dim, self.decoder_hidden, effective_attn_dim)
-
-        self.decoder = rnn_class(
-            self.encoder_dim, self.decoder_hidden, num_layers=self.decoder_num_layers,
-            batch_first=True, dropout=self.dropout if self.decoder_num_layers > 1 else 0.0,
-            bidirectional=False
+        # Build output head
+        self.output_head = self._build_output_head(
+            rnn_output_size, input_size, fc_num_layers,
+            fc_hidden_dims, fc_activation, fc_dropout, use_batch_norm
         )
 
-        self.output_head = nn.Sequential(
-            nn.Linear(self.decoder_hidden, max(self.decoder_hidden, self.input_size)),
-            nn.ReLU(), nn.Dropout(p=self.dropout),
-            nn.Linear(max(self.decoder_hidden, self.input_size), self.input_size)
-        )
+    def _build_output_head(self, input_dim, output_dim, num_layers,
+                           hidden_dims, activation, dropout, use_batch_norm):
+        """Build fully connected output head."""
+        layers = []
+
+        activation_map = {{
+            'relu': nn.ReLU(),
+            'tanh': nn.Tanh(),
+            'gelu': nn.GELU(),
+            'leaky_relu': nn.LeakyReLU(0.2)
+        }}
+        act_fn = activation_map.get(activation, nn.ReLU())
+
+        if num_layers == 1:
+            layers.append(nn.Linear(input_dim, output_dim))
+        else:
+            current_dim = input_dim
+            for i in range(num_layers - 1):
+                layers.append(nn.Linear(current_dim, hidden_dims))
+                if use_batch_norm:
+                    layers.append(nn.BatchNorm1d(hidden_dims))
+                layers.append(act_fn)
+                if dropout > 0:
+                    layers.append(nn.Dropout(dropout))
+                current_dim = hidden_dims
+            layers.append(nn.Linear(current_dim, output_dim))
+
+        return nn.Sequential(*layers)
 
     def forward(self, x):
-        enc_seq, _ = self.encoder(x)
-        last_enc = enc_seq[:, -1, :]
-        z = self.enc_fc1(last_enc)
-        z = self.enc_bn1(z)
-        z = self.enc_act(z)
-        z = self.enc_dropout(z)
-        z2 = self.enc_fc2(z)
-        z2 = self.enc_bn2(z2)
-        z2 = self.enc_act(z2)
-        z2 = self.enc_dropout(z2)
-        enc_final = last_enc + z2
-        seq_len = x.size(1)
-        dec_in = enc_final.unsqueeze(1).repeat(1, seq_len, 1)
-        dec_seq, _ = self.decoder(dec_in)
-        last_dec = dec_seq[:, -1, :]
-        attn_ctx = self.attention(enc_seq, last_dec)
-        dec_fused = last_dec + attn_ctx
-        out = self.output_head(dec_fused)
-        return out
+        rnn_out, _ = self.rnn(x)
+        last_output = rnn_out[:, -1, :]
+        return self.output_head(last_output)
 
 
 class PredictionModel:
     """
-    Wrapper for Encoder-Decoder {model_type} model matching competition API.
+    Wrapper for {model_type} model matching competition API.
+
+    Maintains lookback window and predicts next state.
+    Falls back to simple average when insufficient history.
     """
 
     def __init__(self, lookback={lookback}, n_features={n_features}):
         self.lookback = lookback
         self.n_features = n_features
-        self.device = torch.device('cpu')
+        self.device = torch.device('cpu')  # Use CPU for submission
 
-        # Initialize model with all config params
-        self.model = EncoderDecoderLSTM(input_size=n_features).to(self.device)
+        # Initialize model
+        self.model = FlexibleRNN(input_size=n_features).to(self.device)
 
         # Load trained weights
         checkpoint = torch.load('{model_filename}', map_location=self.device, weights_only=False)
         self.model.load_state_dict(checkpoint['model_state_dict'])
         self.model.eval()
 
+        # Load scaler
+        with open('scaler.pkl', 'rb') as f:
+            self.scaler = pickle.load(f)
+
+        # Sequence state
         self.current_seq_ix = None
         self.sequence_history = []
 
     def predict(self, data_point: DataPoint) -> np.ndarray:
+        """
+        Generate prediction for next timestep.
+
+        Args:
+            data_point: Current observation
+
+        Returns:
+            None if prediction not needed, otherwise np.ndarray of predicted next state
+        """
+        # Reset on new sequence
         if self.current_seq_ix != data_point.seq_ix:
             self.current_seq_ix = data_point.seq_ix
             self.sequence_history = []
 
+        # Add current state to history
         self.sequence_history.append(data_point.state.copy())
 
         if not data_point.need_prediction:
             return None
 
+        # Fallback to average if not enough history
         if len(self.sequence_history) < self.lookback:
             return np.mean(self.sequence_history, axis=0)
 
+        # Use model for prediction
         sequence = np.array(
             self.sequence_history[-self.lookback:],
             dtype=np.float32
@@ -678,12 +695,12 @@ def main():
     parser = argparse.ArgumentParser(description='Brute force hyperparameter search with auto-submission')
     parser.add_argument('--test', action='store_true', help='Test mode (tiny data, 3 configs)')
     parser.add_argument('--n_configs', type=int, default=100, help='Number of configurations to test (cap for exhaustive mode)')
-    parser.add_argument('--max_epochs', type=int, default=40, help='Max epochs per config')
+    parser.add_argument('--max_epochs', type=int, default=43, help='Max epochs per config')
     parser.add_argument('--patience', type=int, default=10, help='Early stopping patience')
     parser.add_argument('--device', type=str, default='auto',
                        choices=['cpu', 'mps', 'cuda', 'auto'],
                        help='Device to use for training (default: auto-detect)')
-    parser.add_argument('--best_r2', type=float, default=0.37,
+    parser.add_argument('--best_r2', type=float, default=0.34,
                        help='Starting best R² to beat (default: 0.34)')
     parser.add_argument('--shuffle', action='store_true', help='Shuffle the exhaustive config order (deterministic seed is used)')
     parser.add_argument('--max_configs', type=int, default=None,
@@ -746,6 +763,16 @@ def main():
         effective_max_epochs = args.max_epochs
         output_file = f'models/bruteforce_search_results_{datetime.now().strftime("%Y%m%d_%H%M%S")}.csv'
 
+    # Apply preprocessing
+    logger.info("Preprocessing data...")
+    train_df, scaler = preprocess(train_df)
+    val_df, _ = preprocess(val_df, scaler=scaler)
+
+    # Save scaler
+    with open("models/scaler.pkl", "wb") as f:
+        pickle.dump(scaler, f)
+    logger.info("Saved scaler.pkl")
+
     feature_cols = [col for col in train_df.columns
                    if col not in ['seq_ix', 'step_in_seq', 'need_prediction']]
 
@@ -765,24 +792,30 @@ def main():
     # Build exhaustive search space (Cartesian product)
     # NOTE: tune these lists to manage total number of combinations.
     search_space = {
-        "lookback": [100],
-        "encoder_hidden": [128, 256],
-        "decoder_hidden": [64, 128],
-        "encoder_num_layers": [1, 2],
-        "decoder_num_layers": [1],
-        "bidirectional": [True],
-        "use_gru": [True],
-        "dropout": [0.2, 0.3],
-        "dropconnect": [0.1, 0.2],
-        "attn_dim": [64, 128],
-        "use_batch_norm": [True],
-        "batch_size": [256],
-        "lr": [0.0005, 0.001],
-        "weight_decay": [0.0, 0.0001],
-        "grad_clip": [1.0, 5.0],
-        "optimizer": ["adamw","adam"],
-        "lr_patience": [5]
+    # Architecture
+    'lookback': [100],                 # keep fixed
+    'hidden_size':[256],         # LARGE boost to R²
+    'num_layers': [1],              # deeper GRU improves temporal modeling
+    'dropout': [0.1],            # lower dropout = better fitting
+    'bidirectional': [True],
+    'use_gru': [True],
+
+    # Output head
+    'fc_num_layers': [2],           # deeper MLP = better feature mixing
+    'fc_hidden_dims': [256],      # bigger head → higher R²
+    'fc_activation': ['relu'],         # GELU improves performance over ReLU
+    'fc_dropout': [0.2],               # slightly lower dropout = better R²
+    'use_batch_norm': [True],
+
+    # Training
+    'batch_size': [256],          # smaller batch improves generalization
+    'lr': [0.001],             # stable training improves R²
+    'weight_decay': [0.0001],
+    'grad_clip': [5.0],
+    'optimizer': ['adam'],
+    'lr_patience': [3],
     }
+
 
     keys = list(search_space.keys())
     values = [search_space[k] for k in keys]
@@ -843,12 +876,14 @@ def main():
             # Print config details before training
             logger.info(f"\n{'='*70}")
             logger.info(f"Config {i}/{max_to_run} - Starting Training:")
-            logger.info(f"  Architecture (Encoder-Decoder):")
-            logger.info(f"    Lookback: {config['lookback']}, GRU: {config['use_gru']}, Bidirectional: {config['bidirectional']}")
-            logger.info(f"    Encoder: {config.get('encoder_num_layers', 1)} layers, {config.get('encoder_hidden', 256)} hidden")
-            logger.info(f"    Decoder: {config.get('decoder_num_layers', 1)} layers, {config.get('decoder_hidden', 64)} hidden")
-            logger.info(f"    Attention Dim: {config.get('attn_dim', 'default')}")
-            logger.info(f"    Dropout: {config['dropout']}, DropConnect: {config.get('dropconnect', 0.1)}, BatchNorm: {config['use_batch_norm']}")
+            logger.info(f"  Architecture:")
+            logger.info(f"    Lookback: {config['lookback']}, Hidden: {config['hidden_size']}, "
+                  f"Layers: {config['num_layers']}, Dropout: {config['dropout']}")
+            logger.info(f"    Bidirectional: {config['bidirectional']}, GRU: {config['use_gru']}")
+            logger.info(f"  Output Head:")
+            logger.info(f"    FC Layers: {config['fc_num_layers']}, FC Hidden: {config['fc_hidden_dims']}, "
+                  f"Activation: {config['fc_activation']}")
+            logger.info(f"    FC Dropout: {config['fc_dropout']}, Batch Norm: {config['use_batch_norm']}")
             logger.info(f"  Training:")
             logger.info(f"    Batch Size: {config['batch_size']}, LR: {config['lr']}, "
                   f"Weight Decay: {config['weight_decay']}")
@@ -940,8 +975,8 @@ def main():
     if not results_df.empty:
         logger.info("Top 5 configurations:")
         logger.info("\n" + results_df.head(5)[['config_id', 'best_val_r2', 'overfitting_gap',
-                                   'lookback', 'encoder_hidden', 'decoder_hidden', 'encoder_num_layers',
-                                   'dropout', 'dropconnect', 'n_parameters']].to_string(index=False))
+                                   'lookback', 'hidden_size', 'num_layers',
+                                   'dropout', 'n_parameters']].to_string(index=False))
 
     if len(submissions_log) > 0:
         logger.info(f"\nSubmissions log saved: models/bruteforce_submissions_log.csv")

@@ -743,14 +743,14 @@ def main():
     search_space = {
     # Architecture
     'lookback': [100],                 # keep fixed
-    'hidden_size': [256],         # LARGE boost to R²
-    'num_layers': [3],              # deeper GRU improves temporal modeling
+    'hidden_size': [640],         # LARGE boost to R²
+    'num_layers': [1],              # deeper GRU improves temporal modeling
     'dropout': [0.1],            # lower dropout = better fitting
     'bidirectional': [True],
     'use_gru': [True],
 
     # Output head
-    'fc_num_layers': [3],           # deeper MLP = better feature mixing
+    'fc_num_layers': [2],           # deeper MLP = better feature mixing
     'fc_hidden_dims': [256],      # bigger head → higher R²
     'fc_activation': ['relu'],         # GELU improves performance over ReLU
     'fc_dropout': [0.2],               # slightly lower dropout = better R²

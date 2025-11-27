@@ -1,0 +1,94 @@
+[2025-11-27 01:01:10] ======================================================================
+[2025-11-27 01:01:10] BRUTE FORCE HYPERPARAMETER SEARCH WITH AUTO-SUBMISSION (EXHAUSTIVE MODE)
+[2025-11-27 01:01:10] ======================================================================
+[2025-11-27 01:01:10] Started at: 2025-11-27 01:01:10
+[2025-11-27 01:01:10] Mode: FULL
+[2025-11-27 01:01:10] Best R² to beat: 0.340000
+[2025-11-27 01:01:10] Log file: logs/bruteforce_20251127_010110.log
+[2025-11-27 01:01:10] 
+[2025-11-27 01:01:10] Device Detection:
+[2025-11-27 01:01:10]   PyTorch version: 2.7.1
+[2025-11-27 01:01:10]   Requested: auto
+[2025-11-27 01:01:10]   MPS available: ✓
+[2025-11-27 01:01:10]   CUDA available: ✗
+[2025-11-27 01:01:10]   Using: MPS
+[2025-11-27 01:01:10] 
+[2025-11-27 01:01:10] Loading data...
+[2025-11-27 01:01:10] Preprocessing data...
+[2025-11-27 01:01:13] Saved scaler.pkl
+[2025-11-27 01:01:13] Train: 465,000 rows, 465 sequences
+[2025-11-27 01:01:13] Val:   52,000 rows, 52 sequences
+[2025-11-27 01:01:13] Features: 32
+[2025-11-27 01:01:13] 
+[2025-11-27 01:01:13] Total possible combinations (Cartesian product): 1
+[2025-11-27 01:01:13] Configurations to run (cap): 1
+[2025-11-27 01:01:13] Starting exhaustive brute force search...
+[2025-11-27 01:01:13] 
+[2025-11-27 01:01:13] 
+======================================================================
+[2025-11-27 01:01:13] Config 1/1 - Starting Training:
+[2025-11-27 01:01:13]   Architecture:
+[2025-11-27 01:01:13]     Lookback: 100, Hidden: 256, Layers: 1, Dropout: 0.1
+[2025-11-27 01:01:13]     Bidirectional: True, GRU: True
+[2025-11-27 01:01:13]   Output Head:
+[2025-11-27 01:01:13]     FC Layers: 2, FC Hidden: 256, Activation: relu
+[2025-11-27 01:01:13]     FC Dropout: 0.2, Batch Norm: True
+[2025-11-27 01:01:13]   Training:
+[2025-11-27 01:01:13]     Batch Size: 256, LR: 0.001, Weight Decay: 0.0001
+[2025-11-27 01:01:13]     Optimizer: adam, Grad Clip: 5.0, LR Patience: 3
+[2025-11-27 01:17:21]     Epoch  1/43: Val R²=0.8380 Train R²=0.8044 Gap=-0.0336 ✓
+[2025-11-27 01:33:55]     Epoch  2/43: Val R²=0.8460 Train R²=0.8339 Gap=-0.0121 ✓
+[2025-11-27 01:50:47]     Epoch  3/43: Val R²=0.8442 Train R²=0.8363 Gap=-0.0079  
+[2025-11-27 02:07:27]     Epoch  4/43: Val R²=0.8407 Train R²=0.8379 Gap=-0.0028  
+[2025-11-27 02:24:26]     Epoch  5/43: Val R²=0.8268 Train R²=0.8386 Gap=0.0118  
+[2025-11-27 02:41:15]     Epoch  6/43: Val R²=0.7625 Train R²=0.8389 Gap=0.0764  
+[2025-11-27 02:57:59]     Epoch  7/43: Val R²=0.7986 Train R²=0.8428 Gap=0.0441  
+[2025-11-27 03:14:37]     Epoch  8/43: Val R²=0.8449 Train R²=0.8432 Gap=-0.0018  
+[2025-11-27 03:31:19]     Epoch  9/43: Val R²=0.7834 Train R²=0.8433 Gap=0.0599  
+[2025-11-27 03:48:00]     Epoch 10/43: Val R²=0.7670 Train R²=0.8437 Gap=0.0767  
+[2025-11-27 04:04:40]     Epoch 11/43: Val R²=0.8433 Train R²=0.8457 Gap=0.0024  
+[2025-11-27 04:21:22]     Epoch 12/43: Val R²=0.8344 Train R²=0.8460 Gap=0.0116  
+[2025-11-27 04:21:22]     Early stopped at epoch 12
+[2025-11-27 04:21:22] 
+======================================================================
+[2025-11-27 04:21:22] Config 1/1 Complete:
+[2025-11-27 04:21:22]   Best Val R²: 0.846026 (epoch 2)
+[2025-11-27 04:21:22]   Best Global R²: 0.340000
+[2025-11-27 04:21:22]   Overfitting Gap: -0.012146
+[2025-11-27 04:21:22]   Parameters: 585,504
+[2025-11-27 04:21:22]   Training Time: 12009.2s
+[2025-11-27 04:21:22] 
+🎉🎉🎉 NEW GLOBAL BEST! R² improved from 0.340000 to 0.846026
+[2025-11-27 04:21:22] 
+======================================================================
+[2025-11-27 04:21:22] 🏆 CREATING SUBMISSION - NEW BEST MODEL!
+[2025-11-27 04:21:22] ======================================================================
+[2025-11-27 04:21:22]   Val R²: 0.846026
+[2025-11-27 04:21:22]   Directory: ../submissions/bruteforce_r2_08460_20251127_010110_cfg1
+[2025-11-27 04:21:22]   Saved model: model_best.pt
+[2025-11-27 04:21:22]   Copied scaler: scaler.pkl
+[2025-11-27 04:21:22]   Generated: solution.py
+[2025-11-27 04:21:22]   Copied: utils.py
+[2025-11-27 04:21:22]   Saved: metadata.json
+[2025-11-27 04:21:22] ======================================================================
+
+[2025-11-27 04:21:23]   Results saved to models/bruteforce_search_results_20251127_010110.csv
+[2025-11-27 04:21:23] 
+======================================================================
+[2025-11-27 04:21:23] SEARCH COMPLETE
+[2025-11-27 04:21:23] ======================================================================
+[2025-11-27 04:21:23] Total time: 200.2 minutes
+[2025-11-27 04:21:23] Successful configs: 1/1
+[2025-11-27 04:21:23] Final best R²: 0.846026
+[2025-11-27 04:21:23] Submissions created: 1
+[2025-11-27 04:21:23] Results saved: models/bruteforce_search_results_20251127_010110.csv
+[2025-11-27 04:21:23] 
+[2025-11-27 04:21:23] Top 5 configurations:
+[2025-11-27 04:21:23] 
+ config_id  best_val_r2  overfitting_gap  lookback  hidden_size  num_layers  dropout  n_parameters
+         1     0.846026        -0.012146       100          256           1      0.1        585504
+[2025-11-27 04:21:23] 
+Submissions log saved: models/bruteforce_submissions_log.csv
+[2025-11-27 04:21:23] 
+Submissions created:
+[2025-11-27 04:21:23]   ../submissions/bruteforce_r2_08460_20251127_010110_cfg1 (R²=0.846026)
