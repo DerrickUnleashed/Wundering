@@ -38,6 +38,8 @@ import shutil
 import logging
 from sklearn.preprocessing import StandardScaler
 import pickle
+import warnings
+warnings.filterwarnings('ignore')
 
 # Force unbuffered output
 sys.stdout = os.fdopen(sys.stdout.fileno(), 'w', buffering=1)
@@ -51,29 +53,19 @@ from models import create_model_from_config
 
 
 def preprocess(df, scaler=None):
-    feature_cols = [c for c in df.columns if c not in ['seq_ix', 'step_in_seq', 'need_prediction']]
+    feature_cols = [c for c in df.columns if c not in ['seq_ix','step_in_seq','need_prediction']]
 
-    # --- 1. Clip extreme spikes ---
+    # 1. Clip raw
     lower = df[feature_cols].quantile(0.005)
     upper = df[feature_cols].quantile(0.995)
     df[feature_cols] = df[feature_cols].clip(lower, upper, axis=1)
 
-    # --- 2. Global standard scaling ---
+    # 2. Scale globally
     if scaler is None:
         scaler = StandardScaler()
         df[feature_cols] = scaler.fit_transform(df[feature_cols])
     else:
         df[feature_cols] = scaler.transform(df[feature_cols])
-
-    # --- 3. Smoothing noisy features ---
-    smoothed = (
-        df.groupby("seq_ix")[feature_cols]
-          .rolling(3, min_periods=1)
-          .mean()
-          .reset_index(level=0, drop=True)
-    )
-
-    df[feature_cols] = smoothed
 
     return df, scaler
 
@@ -158,7 +150,7 @@ def calculate_r2(predictions, targets):
     return np.mean(r2_scores)
 
 
-def train_epoch(model, loader, criterion, optimizer, device, grad_clip=None):
+def train_epoch(model, loader, weighted_mse_loss, optimizer, device, grad_clip=None, weights=None):
     """Train for one epoch."""
     model.train()
     total_loss = 0
@@ -171,7 +163,7 @@ def train_epoch(model, loader, criterion, optimizer, device, grad_clip=None):
 
         optimizer.zero_grad()
         predictions = model(sequences)
-        loss = criterion(predictions, targets)
+        loss = weighted_mse_loss(predictions, targets, weights)
         loss.backward()
 
         # Gradient clipping
@@ -192,7 +184,7 @@ def train_epoch(model, loader, criterion, optimizer, device, grad_clip=None):
     return avg_loss, r2
 
 
-def validate(model, loader, criterion, device):
+def validate(model, loader, weighted_mse_loss, weights, device):
     """Validate model."""
     model.eval()
     total_loss = 0
@@ -205,7 +197,7 @@ def validate(model, loader, criterion, device):
             targets = targets.to(device)
 
             predictions = model(sequences)
-            loss = criterion(predictions, targets)
+            loss = weighted_mse_loss(predictions, targets, weights)
             total_loss += loss.item()
 
             all_preds.append(predictions)
@@ -344,6 +336,29 @@ def train_model(config, train_df, val_df, feature_cols, device, max_epochs=20, p
     """Train a single model configuration."""
     n_features = len(feature_cols)
 
+    # Compute weights based on lag-1 correlations
+    correlations = []
+    for col in feature_cols:
+        # Compute lag-1 correlation for each sequence and average
+        seq_corrs = []
+        for seq_ix in train_df['seq_ix'].unique():
+            seq_data = train_df[train_df['seq_ix'] == seq_ix][col].dropna()
+            if len(seq_data) > 1:
+                lag1 = seq_data.shift(1).dropna()
+                current = seq_data.iloc[1:]
+                if len(lag1) > 0:
+                    corr = np.corrcoef(lag1, current)[0, 1]
+                    if not np.isnan(corr):
+                        seq_corrs.append(corr)
+        if seq_corrs:
+            correlations.append(np.mean(seq_corrs))
+        else:
+            correlations.append(0.0)  # fallback
+
+    weights = np.array(correlations) ** 2
+    weights = weights / weights.sum() if weights.sum() > 0 else np.ones(len(weights)) / len(weights)
+    weights = torch.FloatTensor(weights).to(device)
+
     # Create datasets
     train_dataset = SequenceDataset(train_df, config['lookback'], feature_cols)
     val_dataset = SequenceDataset(val_df, config['lookback'], feature_cols)
@@ -366,7 +381,9 @@ def train_model(config, train_df, val_df, feature_cols, device, max_epochs=20, p
         optimizer, mode='max', factor=0.5, patience=config['lr_patience']
     )
 
-    criterion = nn.MSELoss()
+    # Custom weighted MSE loss
+    def weighted_mse_loss(pred, true, weights):
+        return ((pred - true) ** 2 * weights).sum()
 
     # Training loop
     best_val_r2 = -float('inf')
@@ -377,9 +394,9 @@ def train_model(config, train_df, val_df, feature_cols, device, max_epochs=20, p
 
     for epoch in range(max_epochs):
         train_loss, train_r2 = train_epoch(
-            model, train_loader, criterion, optimizer, device, config['grad_clip']
+            model, train_loader, weighted_mse_loss, optimizer, device, config['grad_clip'], weights
         )
-        val_loss, val_r2 = validate(model, val_loader, criterion, device)
+        val_loss, val_r2 = validate(model, val_loader, weighted_mse_loss, weights, device)
 
         scheduler.step(val_r2)
 
@@ -410,7 +427,7 @@ def train_model(config, train_df, val_df, feature_cols, device, max_epochs=20, p
             patience_counter += 1
 
         if patience_counter >= patience:
-            logger.info(f"    Early stopped at epoch {epoch+1}")
+            logger.info(f"    Early stopped at epoch {epoch+1}") # pyright: ignore[reportOptionalMemberAccess]
             break
 
     # Calculate overfitting gap (train - val R² at best epoch)
@@ -505,6 +522,7 @@ Training:
 """
 
 import numpy as np
+import pandas as pd
 import torch
 import torch.nn as nn
 import pickle
@@ -524,7 +542,7 @@ class FlexibleRNN(nn.Module):
         use_gru={config['use_gru']},
         fc_num_layers={config['fc_num_layers']},
         fc_hidden_dims={config['fc_hidden_dims']},
-        fc_activation='{config['fc_activation']}',
+        fc_activation="{config['fc_activation']}",
         fc_dropout={config['fc_dropout']},
         use_batch_norm={config['use_batch_norm']}
     ):
@@ -606,9 +624,12 @@ class PredictionModel:
         self.model.load_state_dict(checkpoint['model_state_dict'])
         self.model.eval()
 
-        # Load scaler
-        with open('scaler.pkl', 'rb') as f:
-            self.scaler = pickle.load(f)
+        # Load preprocessing
+        with open('preprocessing.pkl', 'rb') as f:
+            preprocessing = pickle.load(f)
+        self.scaler = preprocessing['scaler']
+        self.lower = preprocessing['lower']
+        self.upper = preprocessing['upper']
 
         # Sequence state
         self.current_seq_ix = None
@@ -644,6 +665,13 @@ class PredictionModel:
             self.sequence_history[-self.lookback:],
             dtype=np.float32
         )
+
+        # Apply preprocessing to sequence
+        feature_cols = [i for i in range(sequence.shape[1])]  # Assuming all columns are features
+        sequence_df = pd.DataFrame(sequence, columns=feature_cols)
+        sequence_df = sequence_df.clip(self.lower, self.upper, axis=1)
+        sequence = self.scaler.transform(sequence_df.values)
+
         sequence_tensor = torch.FloatTensor(sequence).unsqueeze(0).to(self.device)
 
         with torch.no_grad():
@@ -695,7 +723,7 @@ def main():
     parser = argparse.ArgumentParser(description='Brute force hyperparameter search with auto-submission')
     parser.add_argument('--test', action='store_true', help='Test mode (tiny data, 3 configs)')
     parser.add_argument('--n_configs', type=int, default=100, help='Number of configurations to test (cap for exhaustive mode)')
-    parser.add_argument('--max_epochs', type=int, default=43, help='Max epochs per config')
+    parser.add_argument('--max_epochs', type=int, default=100, help='Max epochs per config')
     parser.add_argument('--patience', type=int, default=10, help='Early stopping patience')
     parser.add_argument('--device', type=str, default='auto',
                        choices=['cpu', 'mps', 'cuda', 'auto'],
@@ -763,12 +791,28 @@ def main():
         effective_max_epochs = args.max_epochs
         output_file = f'models/bruteforce_search_results_{datetime.now().strftime("%Y%m%d_%H%M%S")}.csv'
 
+    # Compute preprocessing parameters from training data
+    feature_cols = [col for col in train_df.columns
+                   if col not in ['seq_ix', 'step_in_seq', 'need_prediction']]
+    lower = train_df[feature_cols].quantile(0.005)
+    upper = train_df[feature_cols].quantile(0.995)
+
     # Apply preprocessing
     logger.info("Preprocessing data...")
     train_df, scaler = preprocess(train_df)
     val_df, _ = preprocess(val_df, scaler=scaler)
 
-    # Save scaler
+    # Save preprocessing
+    preprocessing = {
+        'scaler': scaler,
+        'lower': lower,
+        'upper': upper
+    }
+    with open("models/preprocessing.pkl", "wb") as f:
+        pickle.dump(preprocessing, f)
+    logger.info("Saved preprocessing.pkl")
+
+    # Save scaler (for backward compatibility)
     with open("models/scaler.pkl", "wb") as f:
         pickle.dump(scaler, f)
     logger.info("Saved scaler.pkl")
@@ -809,7 +853,7 @@ def main():
 
     # Training
     'batch_size': [256],          # smaller batch improves generalization
-    'lr': [0.001],             # stable training improves R²
+    'lr': [0.0001],             # stable training improves R²
     'weight_decay': [0.0001],
     'grad_clip': [5.0],
     'optimizer': ['adam'],

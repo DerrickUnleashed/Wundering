@@ -1,0 +1,50 @@
+[2025-11-27 17:18:17] ======================================================================
+[2025-11-27 17:18:17] BRUTE FORCE HYPERPARAMETER SEARCH WITH AUTO-SUBMISSION (EXHAUSTIVE MODE)
+[2025-11-27 17:18:17] ======================================================================
+[2025-11-27 17:18:17] Started at: 2025-11-27 17:18:17
+[2025-11-27 17:18:17] Mode: FULL
+[2025-11-27 17:18:17] Best R² to beat: 0.340000
+[2025-11-27 17:18:17] Log file: logs/bruteforce_20251127_171817.log
+[2025-11-27 17:18:17] 
+[2025-11-27 17:18:17] Device Detection:
+[2025-11-27 17:18:17]   PyTorch version: 2.7.1
+[2025-11-27 17:18:17]   Requested: auto
+[2025-11-27 17:18:17]   MPS available: ✓
+[2025-11-27 17:18:17]   CUDA available: ✗
+[2025-11-27 17:18:17]   Using: MPS
+[2025-11-27 17:18:17] 
+[2025-11-27 17:18:17] Loading data...
+[2025-11-27 17:18:17] Preprocessing data...
+[2025-11-27 17:18:19] Saved scaler.pkl
+[2025-11-27 17:18:19] Train: 465,000 rows, 465 sequences
+[2025-11-27 17:18:19] Val:   52,000 rows, 52 sequences
+[2025-11-27 17:18:19] Features: 32
+[2025-11-27 17:18:19] 
+[2025-11-27 17:18:19] Total possible combinations (Cartesian product): 1
+[2025-11-27 17:18:19] Configurations to run (cap): 1
+[2025-11-27 17:18:19] Starting exhaustive brute force search...
+[2025-11-27 17:18:19] 
+[2025-11-27 17:18:19] 
+======================================================================
+[2025-11-27 17:18:19] Config 1/1 - Starting Training:
+[2025-11-27 17:18:19]   Architecture:
+[2025-11-27 17:18:19]     Lookback: 100, Hidden: 256, Layers: 1, Dropout: 0.1
+[2025-11-27 17:18:19]     Bidirectional: True, GRU: True
+[2025-11-27 17:18:19]   Output Head:
+[2025-11-27 17:18:19]     FC Layers: 2, FC Hidden: 256, Activation: relu
+[2025-11-27 17:18:19]     FC Dropout: 0.2, Batch Norm: True
+[2025-11-27 17:18:19]   Training:
+[2025-11-27 17:18:19]     Batch Size: 256, LR: 0.001, Weight Decay: 0.0001
+[2025-11-27 17:18:19]     Optimizer: adam, Grad Clip: 5.0, LR Patience: 3
+[2025-11-27 17:18:39] 
+ERROR in config 1: name 'criterion' is not defined
+[2025-11-27 17:18:39] 
+======================================================================
+[2025-11-27 17:18:39] SEARCH COMPLETE
+[2025-11-27 17:18:39] ======================================================================
+[2025-11-27 17:18:39] Total time: 0.3 minutes
+[2025-11-27 17:18:39] Successful configs: 0/1
+[2025-11-27 17:18:39] Final best R²: 0.340000
+[2025-11-27 17:18:39] Submissions created: 0
+[2025-11-27 17:18:39] Results saved: models/bruteforce_search_results_20251127_171817.csv
+[2025-11-27 17:18:39] 

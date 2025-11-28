@@ -1,0 +1,29 @@
+{
+  "config_id": 1,
+  "timestamp": "20251127_170417",
+  "val_r2": 0.37592170014977455,
+  "train_r2": 0.4013449661433697,
+  "overfitting_gap": 0.025423265993595123,
+  "best_epoch": 50,
+  "total_epochs": 60,
+  "n_parameters": 852512,
+  "config": {
+    "lookback": 100,
+    "hidden_size": 320,
+    "num_layers": 1,
+    "dropout": 0.1,
+    "bidirectional": true,
+    "use_gru": true,
+    "fc_num_layers": 2,
+    "fc_hidden_dims": 256,
+    "fc_activation": "relu",
+    "fc_dropout": 0.2,
+    "use_batch_norm": true,
+    "batch_size": 256,
+    "lr": 0.001,
+    "weight_decay": 0.0001,
+    "grad_clip": 5.0,
+    "optimizer": "adam",
+    "lr_patience": 3
+  }
+}
