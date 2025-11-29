@@ -1,8 +1,112 @@
-# Brute Force Hyperparameter Search for LSTM Models
+# Wunderfund: Market State Forecasting Competition
+
+## Project Aim
+
+**Predict the next market state from a sequence of prior states.** This machine learning competition tackles the daily challenge faced by quantitative traders and financial analysts: forecasting market dynamics using historical sequence data.
+
+The goal is to develop advanced neural network models that can accurately predict multi-dimensional market states, capturing complex temporal dependencies and feature interactions in financial time series data.
 
 ## Overview
 
 This repository contains a comprehensive brute force hyperparameter search script (`exploration/tune_lstm_bruteforce.py`) designed for tuning LSTM/GRU models with automatic submission generation. The script performs exhaustive search over a predefined hyperparameter space, evaluates models on validation data, and automatically creates competition submissions when new best validation R² scores are achieved.
+
+## Quick Start
+
+### Installation
+```bash
+# Clone the repository
+git clone https://github.com/DerrickUnleashed/Wundering
+cd wunderfund
+
+# Install dependencies
+pip install -r requirements.txt
+ 
+### Basic Training
+```bash
+# Run hyperparameter search in test mode
+python exploration/tune_lstm_bruteforce.py --test
+
+# Full production run
+python exploration/tune_lstm_bruteforce.py
+```
+
+### Data Preparation
+```bash
+# Data is provided in competition_package/datasets/
+# Tiny datasets for testing: exploration/data/tiny_*.parquet
+# Full datasets: competition_package/datasets/train.parquet
+```
+
+## Submission
+
+### Creating Submissions
+The hyperparameter search automatically generates submissions when new best R² scores are achieved:
+
+```bash
+# Submissions are created in submissions/ directory
+# Each submission includes:
+# - solution.py (competition-ready code)
+# - model_best.pt (trained weights)
+# - metadata.json (configuration details)
+# - utils.py (utility functions)
+```
+
+### Submission Structure
+```
+submissions/bruteforce_r2_03752_20251121_222738_cfg1/
+├── solution.py
+├── model_best.pt
+├── metadata.json
+└── utils.py
+```
+
+## Leaderboard
+
+Track your progress and compare with other participants:
+
+- **Primary Metric**: Validation R² score across all features
+- **Secondary Metrics**: Training R², overfitting gap, model parameters
+- **Real-time Updates**: Automatic submission when beating personal best
+- **Historical Tracking**: All submissions logged with timestamps
+
+Current top submissions:
+- R² 0.03782 (27 Nov 2025)
+- R² 0.03767 (26 Nov 2025)
+- R² 0.03752 (Multiple entries)
+
+## Documentation
+
+### Key Files
+- `competition_package/README.md` - Competition rules and data format
+- `exploration/README.md` - Exploration and baseline solutions
+- `exploration/models.py` - Neural network architectures
+- `exploration/tune_lstm_bruteforce.py` - Main hyperparameter search script
+
+### Data Format
+- **Features**: Multi-dimensional time series (32+ features)
+- **Sequences**: Indexed by `seq_ix` and `step_in_seq`
+- **Target**: Next timestep prediction for all features
+- **Format**: Parquet files with sequence grouping
+
+## Discord
+
+Join our community for discussions, tips, and collaboration:
+
+- **Server**: [Wunderfund Discord](https://discord.gg/wunderfund)
+- **Channels**:
+  - `#general` - General discussion
+  - `#technical-help` - Model architecture and training questions
+  - `#leaderboard` - Share your results and strategies
+  - `#data-discussion` - Data analysis and feature engineering
+  - `#random` - Off-topic conversations
+
+## Competition Details
+
+- **Problem Type**: Multi-feature time series forecasting
+- **Evaluation**: R² score across all prediction targets
+- **Data**: Proprietary market state sequences
+- **Timeline**: Ongoing competition with regular leaderboards
+- **Prizes**: Recognition and potential industry opportunities
 
 ## Features
 
