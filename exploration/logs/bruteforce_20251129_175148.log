@@ -1,0 +1,40 @@
+[2025-11-29 17:51:48] ======================================================================
+[2025-11-29 17:51:48] BRUTE FORCE HYPERPARAMETER SEARCH WITH AUTO-SUBMISSION (EXHAUSTIVE MODE)
+[2025-11-29 17:51:48] ======================================================================
+[2025-11-29 17:51:48] Started at: 2025-11-29 17:51:48
+[2025-11-29 17:51:48] Mode: FULL
+[2025-11-29 17:51:48] Best R² to beat: 0.340000
+[2025-11-29 17:51:48] Log file: logs/bruteforce_20251129_175148.log
+[2025-11-29 17:51:48] 
+[2025-11-29 17:51:48] Device Detection:
+[2025-11-29 17:51:48]   PyTorch version: 2.7.1
+[2025-11-29 17:51:48]   Requested: auto
+[2025-11-29 17:51:48]   MPS available: ✓
+[2025-11-29 17:51:48]   CUDA available: ✗
+[2025-11-29 17:51:48]   Using: MPS
+[2025-11-29 17:51:48] 
+[2025-11-29 17:51:48] Loading data...
+[2025-11-29 17:51:49] Train: 465,000 rows, 465 sequences
+[2025-11-29 17:51:49] Val:   52,000 rows, 52 sequences
+[2025-11-29 17:51:49] Features: 32
+[2025-11-29 17:51:49] 
+[2025-11-29 17:51:49] Total possible combinations (Cartesian product): 1
+[2025-11-29 17:51:49] Configurations to run (cap): 1
+[2025-11-29 17:51:49] Starting exhaustive brute force search...
+[2025-11-29 17:51:49] 
+[2025-11-29 17:51:49] 
+======================================================================
+[2025-11-29 17:51:49] Config 1/1 - Starting Training:
+[2025-11-29 17:51:49]   Architecture:
+[2025-11-29 17:51:49]     Lookback: 100, Hidden: 256, Layers: 2, Dropout: 0.1
+[2025-11-29 17:51:49]     Bidirectional: True, GRU: True
+[2025-11-29 17:51:49]   Output Head:
+[2025-11-29 17:51:49]     FC Layers: 3, FC Hidden: 640, Activation: relu
+[2025-11-29 17:51:49]     FC Dropout: 0.2, Batch Norm: True
+[2025-11-29 17:51:49]   Training:
+[2025-11-29 17:51:49]     Batch Size: 256, LR: 0.001, Weight Decay: 0.0001
+[2025-11-29 17:51:49]     Optimizer: adam, Grad Clip: 5.0, LR Patience: 3
+[2025-11-29 18:08:51]     Epoch  1/100: Val R²=0.3433 Train R²=0.3402 Gap=-0.0031 ✓
+[2025-11-29 18:26:57]     Epoch  2/100: Val R²=0.3467 Train R²=0.3610 Gap=0.0143 ✓
+[2025-11-29 18:45:07]     Epoch  3/100: Val R²=0.3525 Train R²=0.3657 Gap=0.0131 ✓
+[2025-11-29 19:00:10]     Epoch  4/100: Val R²=0.3539 Train R²=0.3682 Gap=0.0143 ✓
