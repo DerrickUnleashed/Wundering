@@ -60,23 +60,6 @@ submissions/bruteforce_r2_03752_20251121_222738_cfg1/
 ├── metadata.json
 └── utils.py
 ```
-
-## Leaderboard
-
-Track your progress and compare with other participants:
-
-- **Primary Metric**: Validation R² score across all features
-- **Secondary Metrics**: Training R², overfitting gap, model parameters
-- **Real-time Updates**: Automatic submission when beating personal best
-- **Historical Tracking**: All submissions logged with timestamps
-
-Current top submissions:
-- R² 0.03782 (27 Nov 2025)
-- R² 0.03767 (26 Nov 2025)
-- R² 0.03752 (Multiple entries)
-
-## Documentation
-
 ### Key Files
 - `competition_package/README.md` - Competition rules and data format
 - `exploration/README.md` - Exploration and baseline solutions
@@ -88,18 +71,6 @@ Current top submissions:
 - **Sequences**: Indexed by `seq_ix` and `step_in_seq`
 - **Target**: Next timestep prediction for all features
 - **Format**: Parquet files with sequence grouping
-
-## Discord
-
-Join our community for discussions, tips, and collaboration:
-
-- **Server**: [Wunderfund Discord](https://discord.gg/wunderfund)
-- **Channels**:
-  - `#general` - General discussion
-  - `#technical-help` - Model architecture and training questions
-  - `#leaderboard` - Share your results and strategies
-  - `#data-discussion` - Data analysis and feature engineering
-  - `#random` - Off-topic conversations
 
 ## Competition Details
 
@@ -269,14 +240,6 @@ Advanced encoder-decoder architecture with attention and advanced regularization
 
 ## Usage
 
-### Prerequisites
-
-- Python 3.7+
-- PyTorch with CUDA/MPS support (optional)
-- Required packages: numpy, pandas, scikit-learn, tqdm, torch
-
-### Basic Usage
-
 #### Test Mode (Recommended for initial testing)
 ```bash
 python3 exploration/tune_lstm_bruteforce.py --test
@@ -331,30 +294,6 @@ Each generated submission includes:
 - Sequence indexing via `seq_ix` and `step_in_seq` columns
 - Target features for prediction
 
-## Performance Monitoring
-
-The script provides real-time monitoring of:
-- Per-epoch training/validation R² scores
-- Overfitting gaps (train - val R²)
-- Global best R² tracking
-- Training time per configuration
-- Model parameter counts
-
-## Best Practices
-
-1. **Start with Test Mode**: Always validate with `--test` before full runs
-2. **Monitor Resources**: Large search spaces can be computationally intensive
-3. **Review Logs**: Check log files for detailed training progress and errors
-4. **Backup Results**: Important submissions are automatically saved
-5. **Hardware Selection**: Use `--device cuda` for GPU acceleration when available
-
-## Troubleshooting
-
-- **Memory Issues**: Reduce batch size or hidden dimensions
-- **Slow Training**: Consider GPU acceleration or smaller search spaces
-- **No Improvements**: Adjust hyperparameter ranges or increase search space
-- **Data Loading Errors**: Verify dataset paths and formats
-
 ## Dependencies
 
 Core requirements:
@@ -371,15 +310,3 @@ Optional (for full functionality):
 torchvision  # For CUDA support
 torchaudio   # For MPS support
 ```
-
-## Contributing
-
-When modifying the search space or model architecture:
-1. Update hyperparameter ranges in `build_search_space()`
-2. Test changes in `--test` mode first
-3. Validate submission generation
-4. Update this README with any new features
-
-## License
-
-This project is part of the Wunderfund competition framework. See competition package for licensing details.
