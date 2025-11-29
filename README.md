@@ -20,7 +20,8 @@ cd wunderfund
 
 # Install dependencies
 pip install -r requirements.txt
- 
+```
+
 ### Basic Training
 ```bash
 # Run hyperparameter search in test mode
