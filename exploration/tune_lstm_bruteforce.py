@@ -750,7 +750,7 @@ def main():
     'use_gru': [True],
 
     # Output head
-    'fc_num_layers': [4],           # deeper MLP = better feature mixing
+    'fc_num_layers': [2],           # deeper MLP = better feature mixing
     'fc_hidden_dims': [1024],      # bigger head → higher R²
     'fc_activation': ['relu'],         # GELU improves performance over ReLU
     'fc_dropout': [0.2],               # slightly lower dropout = better R²
