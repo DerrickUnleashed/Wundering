@@ -750,14 +750,14 @@ def main():
     'use_gru': [True],
 
     # Output head
-    'fc_num_layers': [2],           # deeper MLP = better feature mixing
-    'fc_hidden_dims': [1024],      # bigger head → higher R²
+    'fc_num_layers': [3],           # deeper MLP = better feature mixing
+    'fc_hidden_dims': [640],      # bigger head → higher R²
     'fc_activation': ['relu'],         # GELU improves performance over ReLU
     'fc_dropout': [0.2],               # slightly lower dropout = better R²
     'use_batch_norm': [True],
 
     # Training
-    'batch_size': [256],          # smaller batch improves generalization
+    'batch_size': [128],          # smaller batch improves generalization
     'lr': [0.001],             # stable training improves R²
     'weight_decay': [0.0001],
     'grad_clip': [5.0],
